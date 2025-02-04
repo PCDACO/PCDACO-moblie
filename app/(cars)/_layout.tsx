@@ -14,6 +14,15 @@ const CarLayout = () => {
           headerTitleStyle: { fontWeight: 'bold' },
         }}
       />
+      <Stack.Screen
+        name="request/[id]"
+        options={{
+          headerShown: true,
+          headerTitle: `Chi tiết yêu cầu đặt xe`,
+          headerTitleAlign: 'center',
+          headerTitleStyle: { fontWeight: 'bold' },
+        }}
+      />
     </Stack>
   );
 };

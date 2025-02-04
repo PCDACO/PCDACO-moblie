@@ -10,10 +10,17 @@ import {
   Text,
 } from 'react-native';
 
-const SwiperImage = () => {
+import { cn } from '~/lib/utils';
+
+interface SwiperImageProps {
+  className?: string;
+}
+
+const SwiperImage: React.FC<SwiperImageProps> = ({ className }) => {
   const flatlistRef = useRef<FlatList<any>>(null);
 
   const screenWidth = Dimensions.get('window').width;
+
   const [activeIndex, setActiveIndex] = useState<number>(1);
   const [items, setItems] = useState<
     {
@@ -113,7 +120,7 @@ const SwiperImage = () => {
         })}
         onViewableItemsChanged={onViewableItemsChanged}
       />
-      <View className="absolute right-5 top-4">{renderImageSubset()}</View>
+      <View className={cn('absolute right-5 top-4', className)}>{renderImageSubset()}</View>
     </View>
   );
 };

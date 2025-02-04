@@ -1,8 +1,11 @@
 import {
+  MessageCircle,
   Bell,
   Bluetooth,
+  Clock,
   Video,
   Camera,
+  Calendar,
   AlertCircle,
   Sun,
   Circle,
@@ -47,12 +50,14 @@ import {
 
 import { iconWithClassName } from './iconWithClassName';
 
+iconWithClassName(MessageCircle);
 iconWithClassName(Bell);
 iconWithClassName(Bluetooth);
 iconWithClassName(Video);
 iconWithClassName(Camera);
 iconWithClassName(AlertCircle);
 iconWithClassName(Sun);
+iconWithClassName(Calendar);
 iconWithClassName(Circle);
 iconWithClassName(Monitor);
 iconWithClassName(Activity);
@@ -91,6 +96,7 @@ iconWithClassName(Briefcase);
 iconWithClassName(Cog);
 iconWithClassName(Shell);
 iconWithClassName(Map);
+iconWithClassName(Clock);
 
 export {
   Map,
@@ -98,6 +104,7 @@ export {
   Bluetooth,
   Video,
   Camera,
+  Calendar,
   AlertCircle,
   Sun,
   Circle,
@@ -137,4 +144,6 @@ export {
   Briefcase,
   Cog,
   Shell,
+  Clock,
+  MessageCircle,
 };

@@ -27,3 +27,9 @@ export function formatDateToString(date: Date, format: DateFormat): string {
       return '';
   }
 }
+
+export function countDaysBetweenDates(startDate: Date, endDate: Date): number {
+  const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+  const diffInTime = endDate.getTime() - startDate.getTime();
+  return Math.round(diffInTime / oneDay);
+}

@@ -16,7 +16,7 @@ interface CarItemProps {
 const CarItem: React.FC<CarItemProps> = ({ car }) => {
   return (
     <Card className="flex-row items-center gap-4">
-      <Image source={{ uri: 'https://via.placeholder.com/80' }} className="size-20 rounded-xl" />
+      <Image source={require('~/assets/placeholder.png')} className="size-20 rounded-xl" />
       <View className="gap-2">
         <Text>{car.title}</Text>
         <Text className={car.available ? 'text-gray-500' : 'text-red-500'}>

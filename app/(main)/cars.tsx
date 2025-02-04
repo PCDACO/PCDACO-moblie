@@ -8,7 +8,7 @@ const CarsScreen = () => {
   const cars = [
     {
       id: '1',
-      image: 'https://via.placeholder.com/80',
+      image: require('~/assets/placeholder.png'),
       totalImages: 5,
       name: 'Honda Civic 2024',
       fuelType: 'Xăng',
@@ -21,7 +21,7 @@ const CarsScreen = () => {
     },
     {
       id: '2',
-      image: 'https://via.placeholder.com/80',
+      image: require('~/assets/placeholder.png'),
       totalImages: 5,
       name: 'BMW X5',
       fuelType: 'Xăng',
@@ -34,7 +34,7 @@ const CarsScreen = () => {
     },
     {
       id: '3',
-      image: 'https://via.placeholder.com/80',
+      image: require('~/assets/placeholder.png'),
       totalImages: 5,
       name: 'BMW X5',
       fuelType: 'Xăng',
@@ -47,7 +47,7 @@ const CarsScreen = () => {
     },
     {
       id: '4',
-      image: 'https://via.placeholder.com/80',
+      image: require('~/assets/placeholder.png'),
       totalImages: 5,
       name: 'BMW X5',
       fuelType: 'Xăng',

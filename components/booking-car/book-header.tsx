@@ -11,10 +11,7 @@ interface BookHeaderProps {
 const BookHeader: React.FC<BookHeaderProps> = ({ userName, location, time, status }) => {
   return (
     <View className="flex-row items-center ">
-      <Image
-        source={{ uri: 'https://via.placeholder.com/50' }}
-        className="mr-3 h-12 w-12 rounded-full"
-      />
+      <Image source={require('~/assets/placeholder.png')} className="mr-3 h-12 w-12 rounded-full" />
       <View className="flex-1">
         <Text className="text-base font-semibold">{userName}</Text>
         <Text className="text-xs text-muted-foreground">

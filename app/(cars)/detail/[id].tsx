@@ -1,21 +1,19 @@
 // import { useLocalSearchParams } from 'expo-router';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
-import Box from '~/components/box';
 
+import CharacteristicDetail from '~/components/car-detail/characteristic-detail';
 import ContentDetail from '~/components/car-detail/content-detail';
 import HeaderDetail from '~/components/car-detail/header-detail';
 import RelatedDocument from '~/components/car-detail/related-document';
-import StatusDetail from '~/components/car-detail/status-detail';
 import SwiperImage from '~/components/swiper-image';
 import Title from '~/components/typography/title';
 import { Button } from '~/components/ui/button';
 
 const CarDetailScreen = () => {
   const { id, name } = useLocalSearchParams();
-
-  console.log('Car detail screen', id, name);
+  const router = useRouter();
 
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
@@ -29,6 +27,7 @@ const CarDetailScreen = () => {
               location="Sedan 2025s"
               city="Thành phố Hồ Chí Minh"
             />
+            <CharacteristicDetail />
 
             <ContentDetail />
           </View>
@@ -43,7 +42,12 @@ const CarDetailScreen = () => {
         <Button variant="secondary" className="w-full flex-1">
           <Text className="text-lg font-semibold">Chỉnh sửa</Text>
         </Button>
-        <Button className="w-full flex-1">
+        <Button
+          className="w-full flex-1"
+          onPress={() => {
+            router.navigate(`/(cars)/request/${id}`);
+            router.setParams({ id, name });
+          }}>
           <Text className="text-lg font-semibold text-background">Xem các yêu cầu</Text>
         </Button>
       </View>

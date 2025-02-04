@@ -29,10 +29,7 @@ const CarCard: React.FC<CarCardProps> = ({ car }) => {
     <Pressable
       onPress={() => {
         router.navigate(`/(cars)/detail/${car.id}`);
-        router.setParams({
-          id: car.id,
-          name: car.name,
-        });
+        router.setParams({ name: car.name, id: car.id });
       }}>
       <View className="gap-4 rounded-xl bg-white px-4 py-4 shadow-md">
         <CarInfo name={car.name} statusBooking={car.statusBooking} />
