@@ -1,7 +1,7 @@
 // import { useLocalSearchParams } from 'expo-router';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
-import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 import CharacteristicDetail from '~/components/car-detail/characteristic-detail';
 import ContentDetail from '~/components/car-detail/content-detail';
@@ -16,8 +16,8 @@ const CarDetailScreen = () => {
   const router = useRouter();
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-      <ScrollView>
+    <>
+      <ScrollView nestedScrollEnabled>
         <View className="flex-1 bg-muted ">
           <SwiperImage />
           <View className="gap-2 ">
@@ -51,7 +51,7 @@ const CarDetailScreen = () => {
           <Text className="text-lg font-semibold text-background">Xem các yêu cầu</Text>
         </Button>
       </View>
-    </KeyboardAvoidingView>
+    </>
   );
 };
 

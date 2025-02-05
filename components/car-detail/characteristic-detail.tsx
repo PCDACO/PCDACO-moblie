@@ -30,6 +30,7 @@ const CharacteristicDetail: FunctionComponent = () => {
         keyExtractor={(_, index) => index.toString()}
         ItemSeparatorComponent={() => <View className="h-4" />}
         numColumns={2}
+        scrollEnabled={false}
       />
     </View>
   );

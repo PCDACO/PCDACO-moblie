@@ -1,4 +1,6 @@
 import {
+  Mail,
+  Phone,
   MessageCircle,
   Bell,
   Bluetooth,
@@ -50,6 +52,8 @@ import {
 
 import { iconWithClassName } from './iconWithClassName';
 
+iconWithClassName(Mail);
+iconWithClassName(Phone);
 iconWithClassName(MessageCircle);
 iconWithClassName(Bell);
 iconWithClassName(Bluetooth);
@@ -146,4 +150,6 @@ export {
   Shell,
   Clock,
   MessageCircle,
+  Phone,
+  Mail,
 };

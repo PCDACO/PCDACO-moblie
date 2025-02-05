@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, Text, View } from 'react-native';
 
 import FeatureItem from './features-item';
+import StatusDetail from './status-detail';
 import Title from '../typography/title';
 
 import {
@@ -20,7 +21,6 @@ import {
   List,
   Shield,
 } from '~/lib/icons/icon';
-import StatusDetail from './status-detail';
 
 const ContentDetail = () => {
   const features = [
@@ -73,6 +73,7 @@ const ContentDetail = () => {
           keyExtractor={(_, index) => index.toString()}
           ItemSeparatorComponent={() => <View className="h-4" />}
           numColumns={2}
+          scrollEnabled={false}
         />
       </View>
       <View className="gap-4">

@@ -9,7 +9,7 @@ import { Calendar, Clock, MapPin, MessageCircle } from '~/lib/icons/icon';
 
 const CommunitationCar: FunctionComponent = () => {
   return (
-    <View className="gap-6 p-4 ">
+    <View className="gap-6 bg-background p-4">
       <Title title="Thông tin đặt xe" />
       <View className="gap-2">
         <View className="w-full flex-row justify-between gap-4">

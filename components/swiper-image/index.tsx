@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
-  Dimensions,
   View,
   FlatList,
   Pressable,
@@ -19,7 +18,8 @@ interface SwiperImageProps {
 const SwiperImage: React.FC<SwiperImageProps> = ({ className }) => {
   const flatlistRef = useRef<FlatList<any>>(null);
 
-  const screenWidth = Dimensions.get('window').width;
+  // const screenWidth = Dimensions.get('window').width;
+  const [viewWidth, setViewWidth] = useState<number>(0);
 
   const [activeIndex, setActiveIndex] = useState<number>(1);
   const [items, setItems] = useState<
@@ -67,7 +67,7 @@ const SwiperImage: React.FC<SwiperImageProps> = ({ className }) => {
   }) => {
     return (
       <Pressable key={index} onPress={() => slideClicked(item)}>
-        <View className={` h-60 p-2 shadow-md `} style={{ width: screenWidth }}>
+        <View className={` h-60 p-2 shadow-md `} style={{ width: viewWidth }}>
           <Image source={item.image} className="size-full rounded-xl object-cover shadow-lg" />
         </View>
       </Pressable>
@@ -107,7 +107,7 @@ const SwiperImage: React.FC<SwiperImageProps> = ({ className }) => {
   }, []);
 
   return (
-    <View className="h-60">
+    <View className="h-60" onLayout={(event) => setViewWidth(event.nativeEvent.layout.width)}>
       <FlatList
         data={items}
         ref={flatlistRef}
