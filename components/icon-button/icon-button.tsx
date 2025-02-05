@@ -11,12 +11,24 @@ type ButtonIconProps = PressableProps & {
   iconSize?: number;
   iconColor?: string;
   className?: string;
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 };
 
 const ButtonIcon = forwardRef<View, ButtonIconProps>(
-  ({ icon: Icon, label, iconSize = 24, iconColor = 'black', className, ...props }, ref) => {
+  (
+    {
+      icon: Icon,
+      variant = 'default',
+      label,
+      iconSize = 24,
+      iconColor = 'black',
+      className,
+      ...props
+    },
+    ref
+  ) => {
     return (
-      <Button ref={ref} className={cn(className)} {...props}>
+      <Button ref={ref} className={cn(className)} {...props} variant={variant}>
         <Icon size={iconSize} color={iconColor} />
         {label && (
           <Text

@@ -11,6 +11,9 @@ interface TitleWithIconProps {
   iconColor?: string;
   weight?: 'bold' | 'normal';
   iconSize?: number;
+
+  titleClassName?: string;
+  iconClassName?: string;
 }
 
 const TitleWithIcon: React.FC<TitleWithIconProps> = ({
@@ -20,11 +23,16 @@ const TitleWithIcon: React.FC<TitleWithIconProps> = ({
   iconColor = 'black',
   weight = 'normal',
   iconSize = 20,
+
+  titleClassName,
+  iconClassName,
 }) => {
   return (
     <View className={cn('flex-row items-center gap-2', className)}>
-      <Icon size={iconSize} color={iconColor} />
-      <Text className={weight === 'bold' ? 'text-lg font-bold' : 'text-lg'}>{title}</Text>
+      <Icon size={iconSize} color={iconColor} className={cn(iconClassName)} />
+      <Text className={cn(weight === 'bold' ? 'text-lg font-bold' : 'text-lg', titleClassName)}>
+        {title}
+      </Text>
     </View>
   );
 };

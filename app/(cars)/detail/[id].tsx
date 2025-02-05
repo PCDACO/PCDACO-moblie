@@ -45,7 +45,7 @@ const CarDetailScreen = () => {
         <Button
           className="w-full flex-1"
           onPress={() => {
-            router.navigate(`/(cars)/request/${id}`);
+            router.navigate(`/(cars)/request/book-list`);
             router.setParams({ id, name });
           }}>
           <Text className="text-lg font-semibold text-background">Xem các yêu cầu</Text>

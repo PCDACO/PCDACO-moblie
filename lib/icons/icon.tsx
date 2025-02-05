@@ -15,6 +15,7 @@ import {
   Activity,
   AlertTriangle,
   Usb,
+  LayoutList,
   List,
   Home,
   Car,
@@ -26,6 +27,7 @@ import {
   ArrowRightLeft,
   ArrowLeftRight,
   Star,
+  Columns3,
   KeyRound,
   DollarSign,
   ArrowLeft,
@@ -52,6 +54,8 @@ import {
 
 import { iconWithClassName } from './iconWithClassName';
 
+iconWithClassName(LayoutList);
+iconWithClassName(Columns3);
 iconWithClassName(Mail);
 iconWithClassName(Phone);
 iconWithClassName(MessageCircle);
@@ -152,4 +156,6 @@ export {
   MessageCircle,
   Phone,
   Mail,
+  LayoutList,
+  Columns3,
 };
