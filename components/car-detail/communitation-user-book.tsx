@@ -1,15 +1,15 @@
+import { useRouter } from 'expo-router';
 import React, { FunctionComponent } from 'react';
 import { View } from 'react-native';
 
 import Title from '../typography/title';
-import TitleWithIcon from '../typography/title-with-icon';
 import UserCard from '../user-card';
 import VehicleInfo from './vehicle-info';
 import { Textarea } from '../ui/textarea';
-
-import { Phone, Mail } from '~/lib/icons/icon';
+import ContentInfoUser from '../user-card/content-info-user';
 
 const CommunitationUserBook: FunctionComponent = () => {
+  const router = useRouter();
   return (
     <View className="gap-4 bg-background p-4">
       <Title title="Liên hệ người đặt" />
@@ -19,10 +19,10 @@ const CommunitationUserBook: FunctionComponent = () => {
           title="Đã thuê 25 lần"
           avatar={require('~/assets/placeholder.png')}
           subtitle="Chọn xe chuẩn, hành trình trọn vẹn"
+          onPress={() => router.navigate('/(user)/user-info')}
         />
       </View>
-      <TitleWithIcon title="0998 xxx xxx" icon={Phone} />
-      <TitleWithIcon title="chaunhattruong4747@gmail.com" icon={Mail} />
+      <ContentInfoUser phone="0123456789" email="chaunhattruong4747@gmail.com" />
       <VehicleInfo
         licenseBack={require('~/assets/placeholder.png')}
         licenseFront={require('~/assets/placeholder.png')}

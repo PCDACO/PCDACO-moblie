@@ -1,4 +1,6 @@
 import {
+  StarIcon,
+  FlagIcon,
   Mail,
   Phone,
   MessageCircle,
@@ -54,6 +56,7 @@ import {
 
 import { iconWithClassName } from './iconWithClassName';
 
+iconWithClassName(StarIcon);
 iconWithClassName(LayoutList);
 iconWithClassName(Columns3);
 iconWithClassName(Mail);
@@ -105,6 +108,7 @@ iconWithClassName(Cog);
 iconWithClassName(Shell);
 iconWithClassName(Map);
 iconWithClassName(Clock);
+iconWithClassName(FlagIcon);
 
 export {
   Map,
@@ -158,4 +162,6 @@ export {
   Mail,
   LayoutList,
   Columns3,
+  StarIcon,
+  FlagIcon,
 };

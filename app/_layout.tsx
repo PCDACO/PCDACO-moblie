@@ -7,6 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Platform } from 'react-native';
 
+import { AuthProvider } from '~/components/auth-provider';
 import { NAV_THEME } from '~/constants/color.constants';
 import { useColorScheme } from '~/hooks/useColorScheme';
 
@@ -41,7 +42,6 @@ export default function RootLayout() {
     }
 
     if (Platform.OS === 'web') {
-      // Adds the background color to the html element to prevent white background on overscroll.
       document.documentElement.classList.add('bg-background');
     }
     setIsColorSchemeLoaded(true);
@@ -53,30 +53,42 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-        <Stack
-          screenOptions={{
-            contentStyle: {
-              backgroundColor: '#F0F0F0',
-            },
-          }}>
-          <Stack.Screen
-            name="(main)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(cars)"
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+          <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+          <Stack
+            screenOptions={{
+              contentStyle: {
+                backgroundColor: '#F0F0F0',
+              },
+            }}>
+            <Stack.Screen
+              name="(main)"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="(cars)"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="(user)/user-info"
+              options={{
+                headerShown: true,
+                headerTitle: 'Thông tin người thuê xe',
+                headerTitleAlign: 'center',
+              }}
+            />
+            <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)/register" options={{ headerShown: false }} />
+          </Stack>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </AuthProvider>
   );
 }
 

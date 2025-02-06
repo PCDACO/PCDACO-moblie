@@ -10,7 +10,11 @@ interface BoxProps {
 
 const Box: React.FC<BoxProps> = ({ children, className }) => {
   return (
-    <View className={cn('gap-8 border border-gray-400 bg-background p-4', className)}>
+    <View
+      className={cn(
+        'gap-8 rounded-lg border border-muted-foreground bg-background p-4',
+        className
+      )}>
       {children}
     </View>
   );

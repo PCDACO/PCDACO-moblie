@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, Text, View } from 'react-native';
+import { GestureResponderEvent, Image, Pressable, Text, View } from 'react-native';
 
 import Title from '../typography/title';
 
@@ -9,9 +9,17 @@ interface UserCardProps {
   title?: string;
   subtitle?: React.ReactNode;
   size?: 'sm' | 'md' | 'lg';
+  onPress?: (e: GestureResponderEvent) => void;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ avatar, name, title, subtitle, size = 'sm' }) => {
+const UserCard: React.FC<UserCardProps> = ({
+  avatar,
+  name,
+  title,
+  subtitle,
+  size = 'sm',
+  onPress,
+}) => {
   const sizeMap = (size: 'sm' | 'lg' | 'md') => {
     switch (size) {
       case 'sm':
@@ -46,21 +54,24 @@ const UserCard: React.FC<UserCardProps> = ({ avatar, name, title, subtitle, size
   };
 
   return (
-    <View className="flex-row items-center gap-4 rounded-2xl bg-background px-6 py-4">
-      <Image
-        source={require('~/assets/placeholder.png')}
-        className={`rounded-full border object-cover ${sizeMap(size)}`}
-      />
-      <View>
-        <Title className={sizeName(size)} title={name} />
-        <Text className={`${sizeTitle(size)} text-muted-foreground`}>{title}</Text>
-        {typeof subtitle === 'string' ? (
-          <Text className="text-base text-muted-foreground">{subtitle}</Text>
-        ) : (
-          subtitle
-        )}
+    <Pressable onPress={onPress}>
+      <View className="flex-row items-center gap-4 rounded-2xl bg-background px-6 py-4">
+        <Image
+          source={require('~/assets/placeholder.png')}
+          className={`rounded-full border object-cover ${sizeMap(size)}`}
+        />
+        <View>
+          <Title className={sizeName(size)} title={name} />
+          {title && <Text className={`${sizeTitle(size)} text-muted-foreground`}>{title}</Text>}
+          {subtitle &&
+            (typeof subtitle === 'string' ? (
+              <Text className="text-base text-muted-foreground">{subtitle}</Text>
+            ) : (
+              subtitle
+            ))}
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
