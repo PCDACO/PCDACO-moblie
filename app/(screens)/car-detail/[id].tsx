@@ -44,7 +44,7 @@ const CarDetailScreen = () => {
           className="w-full flex-1"
           onPress={() => {
             router.push({
-              pathname: '/screen/booking-list/booking-list',
+              pathname: '/(screens)/booking-list/booking-list',
               params: { id, name },
             });
           }}>

@@ -8,7 +8,7 @@ const BookFooter = () => {
       className="rounded-md bg-blue-500 py-3"
       onPress={() => {
         router.push({
-          pathname: '/screen/booking-list/booking-list',
+          pathname: '/(screens)/booking-list/booking-list',
         });
       }}>
       <Text className="text-center text-base font-semibold text-white">Xem chi tiết</Text>

@@ -7,13 +7,12 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Platform } from 'react-native';
 
-import { AuthProvider } from '~/components/auth-provider';
 import { NAV_THEME } from '~/constants/color.constants';
 import { useColorScheme } from '~/hooks/useColorScheme';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(main)',
+  initialRouteName: 'main',
 };
 
 const LIGHT_THEME: Theme = {
@@ -61,11 +60,11 @@ export default function RootLayout() {
             contentStyle: {
               backgroundColor: '#F0F0F0',
             },
-            headerShown: false,
+            headerShown: true,
           }}>
-          <Stack.Screen name="auth" options={{ headerShown: false }} />
-          <Stack.Screen name="main" options={{ headerShown: false }} />
-          <Stack.Screen name="screens" />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="(main)" options={{ headerShown: false }} />
+          <Stack.Screen name="(screens)" options={{ headerShown: false }} />
         </Stack>
       </ThemeProvider>
     </QueryClientProvider>

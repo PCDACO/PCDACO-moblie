@@ -79,7 +79,7 @@ const BookVertical = () => {
           className="w-fit"
           onPress={() => {
             router.push({
-              pathname: '/screen/request-car/[id]',
+              pathname: '/(screens)/request-car/[id]',
               params: { id: '1' },
             });
           }}>

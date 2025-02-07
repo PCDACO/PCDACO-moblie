@@ -29,7 +29,7 @@ const CarCard: React.FC<CarCardProps> = ({ car }) => {
     <Pressable
       onPress={() => {
         router.push({
-          pathname: '/screen/car-detail/[id]',
+          pathname: '/(screens)/car-detail/[id]',
           params: { id: car.id, name: car.name },
         });
       }}>
