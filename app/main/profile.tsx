@@ -14,7 +14,11 @@ const ProfileScreen = () => {
       <StatsCard />
       <MenuList />
       <View className="px-4">
-        <Button className="w-full flex-row items-center justify-center rounded-lg border border-destructive bg-background px-4 py-3">
+        <Button
+          className="w-full flex-row items-center justify-center rounded-lg border border-destructive bg-background px-4 py-3"
+          onPress={async () => {
+            // await logout();
+          }}>
           <LogOut color="red" size={20} />
           <Text className="ml-2 text-base text-destructive">Đăng xuất</Text>
         </Button>

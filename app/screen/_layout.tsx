@@ -1,24 +1,26 @@
-import { Stack, useLocalSearchParams } from 'expo-router';
-import React from 'react';
+import { Stack } from 'expo-router';
+import React, { FunctionComponent } from 'react';
 import { Text, View } from 'react-native';
 
 import Title from '~/components/typography/title';
 
-const CarLayout = () => {
-  const { name } = useLocalSearchParams();
+const ScreenLayout: FunctionComponent = () => {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerShown: true,
+      }}>
       <Stack.Screen
-        name="detail/[id]"
+        name="car-detail/[id]"
         options={{
           headerShown: true,
-          headerTitle: `${name}`,
+          headerTitle: `Chi tiết xe`,
           headerTitleAlign: 'center',
           headerTitleStyle: { fontWeight: 'bold' },
         }}
       />
       <Stack.Screen
-        name="request/[id]"
+        name="request-car/[id]"
         options={{
           headerShown: true,
           headerTitle: `Chi tiết yêu cầu đặt xe`,
@@ -27,14 +29,14 @@ const CarLayout = () => {
         }}
       />
       <Stack.Screen
-        name="request/book-list"
+        name="booking-list/booking-list"
         options={{
           headerShown: true,
           headerTitleAlign: 'center',
           headerTitle: () => {
             return (
-              <View className="items-center justify-center gap-1 py-2">
-                <Title title="Yêu cầu đặt xe" />
+              <View className="items-center justify-center  py-2">
+                <Title title="Yêu cầu đặt xe" size="xl" />
                 <Text className="font-semibold">BookList</Text>
               </View>
             );
@@ -46,4 +48,4 @@ const CarLayout = () => {
   );
 };
 
-export default CarLayout;
+export default ScreenLayout;

@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
 
@@ -17,7 +17,6 @@ import {
 import { Calendar, DollarSign, MapPin } from '~/lib/icons/icon';
 
 const BookVertical = () => {
-  const router = useRouter();
   return (
     <View className="gap-4 rounded-xl bg-background pb-4">
       <View className="flex-row items-center justify-between ">
@@ -79,7 +78,10 @@ const BookVertical = () => {
         <Button
           className="w-fit"
           onPress={() => {
-            router.navigate(`/(cars)/request/1`);
+            router.push({
+              pathname: '/screen/request-car/[id]',
+              params: { id: '1' },
+            });
           }}>
           <Text className=" font-semibold text-background">Xem chi tiết</Text>
         </Button>

@@ -1,19 +1,21 @@
-export interface RegisterRequest {
+export type RegisterRequest = {
   name: string;
   email: string;
   password: string;
   address: string;
   dateOfBirth: Date;
   phone: string;
-  roleName: string;
-}
+  roleName: Role;
+};
 
 export interface Token {
   accessToken: string;
   refreshToken: string;
 }
 
-export interface LoginRequest {
+export type LoginRequest = {
   email: string;
   password: string;
-}
+};
+
+export type PayloadAuth = RegisterRequest | LoginRequest;

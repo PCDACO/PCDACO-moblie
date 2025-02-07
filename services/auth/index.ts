@@ -1,5 +1,6 @@
 import axiosInstance from '~/configs/axios';
-import { RegisterRequest, Token } from '~/constants/models/auth';
+import { LoginRequest, RegisterRequest, Token } from '~/constants/models/auth';
+import { storage } from '~/lib/storage';
 
 export const AuthService = {
   register: async (req: RegisterRequest): Promise<RootResponse<Token>> => {
@@ -13,14 +14,53 @@ export const AuthService = {
     return response;
   },
 
-  login: async (req: { email: string; password: string }): Promise<RootResponse<Token>> => {
+  login: async (data: LoginRequest): Promise<RootResponse<Token>> => {
+    console.log('Sending login request:', data);
     const response = await axiosInstance
-      .post('/api/users/login', req)
+      .post('/api/users/login', data)
       .then((res) => res.data)
       .catch((err) => {
         throw err.response.data;
       });
 
     return response;
+  },
+
+  getRole: async (): Promise<RootResponse<{ role: Role }>> => {
+    const response = await axiosInstance
+      .get('/api/users/role')
+      .then((res) => res.data)
+      .catch((err) => {
+        throw err.response.data;
+      });
+
+    return response;
+  },
+
+  refreshToken: async (refreshToken: string): Promise<RootResponse<Token>> => {
+    const response = await axiosInstance
+      .post('/api/auth/refresh-token', { refreshToken })
+      .then((res) => res.data)
+      .catch((err) => {
+        throw err.response.data;
+      });
+
+    return response;
+  },
+
+  validationToken: async (): Promise<RootResponse<null>> => {
+    const response = await axiosInstance
+      .get('/api/auth/validation-token')
+      .then((res) => res.data)
+      .catch((err) => {
+        throw err.response.data;
+      });
+
+    return response;
+  },
+
+  logout: async () => {
+    await storage.removeItem('accessToken');
+    await storage.removeItem('refreshToken');
   },
 };

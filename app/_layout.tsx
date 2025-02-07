@@ -53,42 +53,22 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-          <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-          <Stack
-            screenOptions={{
-              contentStyle: {
-                backgroundColor: '#F0F0F0',
-              },
-            }}>
-            <Stack.Screen
-              name="(main)"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="(cars)"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="(user)/user-info"
-              options={{
-                headerShown: true,
-                headerTitle: 'Thông tin người thuê xe',
-                headerTitleAlign: 'center',
-              }}
-            />
-            <Stack.Screen name="(auth)/login" options={{ headerShown: false }} />
-            <Stack.Screen name="(auth)/register" options={{ headerShown: false }} />
-          </Stack>
-        </ThemeProvider>
-      </QueryClientProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+        <Stack
+          screenOptions={{
+            contentStyle: {
+              backgroundColor: '#F0F0F0',
+            },
+            headerShown: false,
+          }}>
+          <Stack.Screen name="auth" options={{ headerShown: false }} />
+          <Stack.Screen name="main" options={{ headerShown: false }} />
+          <Stack.Screen name="screens" />
+        </Stack>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 

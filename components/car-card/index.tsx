@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 import React from 'react';
 import { Pressable, View } from 'react-native';
 
@@ -24,12 +24,14 @@ interface CarCardProps {
 
 const CarCard: React.FC<CarCardProps> = ({ car }) => {
   // const navigation = useNavigation();
-  const router = useRouter();
+  // const router = useRouter();
   return (
     <Pressable
       onPress={() => {
-        router.navigate(`/(cars)/detail/${car.id}`);
-        router.setParams({ name: car.name, id: car.id });
+        router.push({
+          pathname: '/screen/car-detail/[id]',
+          params: { id: car.id, name: car.name },
+        });
       }}>
       <View className="gap-4 rounded-xl bg-white px-4 py-4 shadow-md">
         <CarInfo name={car.name} statusBooking={car.statusBooking} />

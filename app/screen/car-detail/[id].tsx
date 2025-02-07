@@ -1,5 +1,4 @@
-// import { useLocalSearchParams } from 'expo-router';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, router } from 'expo-router';
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
@@ -13,7 +12,6 @@ import { Button } from '~/components/ui/button';
 
 const CarDetailScreen = () => {
   const { id, name } = useLocalSearchParams();
-  const router = useRouter();
 
   return (
     <>
@@ -45,8 +43,10 @@ const CarDetailScreen = () => {
         <Button
           className="w-full flex-1"
           onPress={() => {
-            router.navigate(`/(cars)/request/book-list`);
-            router.setParams({ id, name });
+            router.push({
+              pathname: '/screen/booking-list/booking-list',
+              params: { id, name },
+            });
           }}>
           <Text className="text-lg font-semibold text-background">Xem các yêu cầu</Text>
         </Button>

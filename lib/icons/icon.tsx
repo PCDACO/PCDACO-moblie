@@ -1,4 +1,5 @@
 import {
+  Lock,
   StarIcon,
   FlagIcon,
   Mail,
@@ -109,6 +110,8 @@ iconWithClassName(Shell);
 iconWithClassName(Map);
 iconWithClassName(Clock);
 iconWithClassName(FlagIcon);
+iconWithClassName(StarIcon);
+iconWithClassName(Lock);
 
 export {
   Map,
@@ -164,4 +167,5 @@ export {
   Columns3,
   StarIcon,
   FlagIcon,
+  Lock,
 };

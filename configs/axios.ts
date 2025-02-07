@@ -1,6 +1,10 @@
 import axios from 'axios';
 
 import { storage } from '~/lib/storage';
+import { AuthService } from '~/services/auth';
+
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
 
 const getAPIUrl = () => {
   const url = process.env.EXPO_PUBLIC_API_URL || '';
@@ -21,11 +25,39 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = storage.getItem('token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+  async (config) => {
+    config.cancelToken = source.token;
+    const accessToken = await storage.getItem('accessToken');
+    const refreshToken = await storage.getItem('refreshToken');
+
+    if (
+      accessToken &&
+      refreshToken &&
+      typeof accessToken === 'string' &&
+      typeof refreshToken === 'string'
+    ) {
+      const validatie = await AuthService.validationToken()
+        .then((data) => data)
+        .catch((error) => error);
+
+      if (validatie.status === 401) {
+        console.log('Refreshing new token...');
+
+        const response = await AuthService.refreshToken(refreshToken)
+          .then((data) => data.value)
+          .catch((error) => error);
+
+        await storage.setItem('accessToken', response.accessToken);
+        await storage.setItem('refreshToken', response.refreshToken);
+
+        config.headers.Authorization = `Bearer ${response.accessToken}`;
+      } else {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+    } else {
+      console.warn('Invalid or missing token!');
     }
+
     return config;
   },
   (error) => {

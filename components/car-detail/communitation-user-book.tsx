@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router';
 import React, { FunctionComponent } from 'react';
 import { View } from 'react-native';
 
@@ -9,7 +8,6 @@ import { Textarea } from '../ui/textarea';
 import ContentInfoUser from '../user-card/content-info-user';
 
 const CommunitationUserBook: FunctionComponent = () => {
-  const router = useRouter();
   return (
     <View className="gap-4 bg-background p-4">
       <Title title="Liên hệ người đặt" />
@@ -19,7 +17,7 @@ const CommunitationUserBook: FunctionComponent = () => {
           title="Đã thuê 25 lần"
           avatar={require('~/assets/placeholder.png')}
           subtitle="Chọn xe chuẩn, hành trình trọn vẹn"
-          onPress={() => router.navigate('/(user)/user-info')}
+          // onPress={() => router.navigate('/(user)/user-info')}
         />
       </View>
       <ContentInfoUser phone="0123456789" email="chaunhattruong4747@gmail.com" />

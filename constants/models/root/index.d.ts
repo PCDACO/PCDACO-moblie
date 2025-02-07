@@ -11,4 +11,6 @@ declare global {
     isSuccess: boolean;
     message: string;
   };
+
+  type Size = 'sm' | 'md' | 'lg' | 'xl';
 }

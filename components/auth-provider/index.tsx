@@ -1,49 +1,45 @@
 import { useRouter } from 'expo-router';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 import { storage } from '~/lib/storage';
 
 interface AuthContextType {
-  token: string | null;
-  login: (token: string) => void;
-  logout: () => void;
+  isAuthenticated: boolean;
+  checkAuthStatus: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const savedToken = await storage.getItem('token'); // Load token from storage
-      if (savedToken) {
-        setToken(savedToken);
+  const checkAuthStatus = async () => {
+    try {
+      const token = await storage.getItem('accessToken');
+      if (token) {
+        // Validate token if needed or fetch user info
+        setIsAuthenticated(true);
       } else {
-        router.replace('/(auth)/login'); // Redirect to login if no token
+        setIsAuthenticated(false);
+        router.replace('/(auth)/login');
       }
-    };
+    } catch (error) {
+      console.log('Error checking authentication status: ', error);
 
-    checkAuth();
-  }, []);
-
-  const login = async (newToken: string) => {
-    setToken(newToken);
-    await storage.setItem('authToken', newToken);
-    router.replace('/(main)'); // Redirect to main screen after login
+      setIsAuthenticated(false);
+      router.replace('/(auth)/login');
+    }
   };
 
-  const logout = async () => {
-    setToken(null);
-    await storage.removeItem('authToken');
-    router.replace('/(auth)/login'); // Redirect to login after logout
-  };
-
-  return <AuthContext.Provider value={{ token, login, logout }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, checkAuthStatus }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-export const useAuth = () => {
+export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) throw new Error('useAuth must be used within an AuthProvider');
   return context;
