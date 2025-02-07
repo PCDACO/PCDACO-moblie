@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import React, { FunctionComponent } from 'react';
 import { Controller } from 'react-hook-form';
 import { Text, TextInput, View } from 'react-native';
@@ -11,20 +12,19 @@ const LoginScreen: FunctionComponent = () => {
   const { form, onSubmit, isLoading } = useAuthForm({ type: 'login' });
 
   return (
-    <SafeAreaView className="flex-1 justify-center bg-white px-6">
+    <SafeAreaView className="flex-1 justify-center bg-background px-6">
       <Text className="mb-2 text-center text-2xl font-bold">Đăng nhập</Text>
-
       <View className="mb-4">
         <Text className="text-sm font-medium">Email*</Text>
-        <View className="mt-1 flex-row items-center rounded-lg border border-gray-300 px-3 py-2">
-          <Mail size={18} className="text-gray-400" />
+        <View className="mt-1 flex-row items-center rounded-lg border border-muted-foreground px-3 py-2">
+          <Mail size={18} className="text-muted-foreground" />
           <Controller
             control={form.control}
             name="email"
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 placeholder="Nhập email..."
-                className="ml-2 flex-1 text-gray-700"
+                className="ml-2 flex-1 text-foreground"
                 value={value}
                 onChangeText={onChange}
                 onBlur={onBlur}
@@ -33,21 +33,21 @@ const LoginScreen: FunctionComponent = () => {
           />
         </View>
         {form.formState.errors.email && (
-          <Text className="text-xs text-red-500">{form.formState.errors.email.message}</Text>
+          <Text className="text-xs text-destructive">{form.formState.errors.email.message}</Text>
         )}
       </View>
 
       <View className="mb-4">
         <Text className="text-sm font-medium">Mật khẩu*</Text>
-        <View className="mt-1 flex-row items-center rounded-lg border border-gray-300 px-3 py-2">
-          <Lock size={18} className="text-gray-400" />
+        <View className="mt-1 flex-row items-center rounded-lg border border-muted-foreground px-3 py-2">
+          <Lock size={18} className="text-muted-foreground" />
           <Controller
             control={form.control}
             name="password"
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
                 placeholder="Nhập mật khẩu..."
-                className="ml-2 flex-1 text-gray-700"
+                className="ml-2 flex-1 text-foreground"
                 secureTextEntry
                 value={value}
                 onChangeText={onChange}
@@ -57,18 +57,29 @@ const LoginScreen: FunctionComponent = () => {
           />
         </View>
         {form.formState.errors.password && (
-          <Text className="text-xs text-red-500">{form.formState.errors.password.message}</Text>
+          <Text className="text-xs text-destructive">{form.formState.errors.password.message}</Text>
         )}
       </View>
 
-      <Button
-        className="w-full rounded-lg bg-blue-500 py-3"
-        onPress={onSubmit}
-        disabled={isLoading}>
-        <Text className="text-center font-semibold text-white">
+      <Button className="w-full rounded-lg bg-primary py-3" onPress={onSubmit} disabled={isLoading}>
+        <Text className="text-center font-semibold text-background">
           {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
         </Text>
       </Button>
+      <View>
+        <Text className="mt-4 text-center text-muted-foreground">
+          Bạn chưa có tài khoản?{' '}
+          <Text
+            onPress={() =>
+              router.push({
+                pathname: '/(auth)/register',
+              })
+            }
+            className="font-semibold text-primary">
+            Đăng ký ngay
+          </Text>
+        </Text>
+      </View>
     </SafeAreaView>
   );
 };

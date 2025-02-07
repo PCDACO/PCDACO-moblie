@@ -1,9 +1,11 @@
 import {
+  User,
   Lock,
   StarIcon,
   FlagIcon,
   Mail,
   Phone,
+  PhoneCall,
   MessageCircle,
   Bell,
   Bluetooth,
@@ -57,6 +59,7 @@ import {
 
 import { iconWithClassName } from './iconWithClassName';
 
+iconWithClassName(User);
 iconWithClassName(StarIcon);
 iconWithClassName(LayoutList);
 iconWithClassName(Columns3);
@@ -112,6 +115,7 @@ iconWithClassName(Clock);
 iconWithClassName(FlagIcon);
 iconWithClassName(StarIcon);
 iconWithClassName(Lock);
+iconWithClassName(PhoneCall);
 
 export {
   Map,
@@ -168,4 +172,6 @@ export {
   StarIcon,
   FlagIcon,
   Lock,
+  User,
+  PhoneCall,
 };

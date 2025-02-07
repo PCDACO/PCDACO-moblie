@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
 import {
+  AuthPayloads,
   LoginPayload,
   RegisterPayload,
   loginSchema,
@@ -16,7 +17,7 @@ type UseAuthFormProps = {
 export const useAuthForm = ({ type }: UseAuthFormProps) => {
   const { loginMutation, registerMutation } = useAuth();
 
-  const form = useForm<LoginPayload | RegisterPayload>({
+  const form = useForm<AuthPayloads>({
     resolver: zodResolver(type === 'login' ? loginSchema : registerSchema),
     defaultValues:
       type === 'login'

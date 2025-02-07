@@ -54,10 +54,11 @@ axiosInstance.interceptors.request.use(
       } else {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
-    } else {
-      console.warn('Invalid or missing token!');
     }
 
+    // else {
+    //   console.warn('Invalid or missing token!');
+    // }
     return config;
   },
   (error) => {
@@ -69,10 +70,13 @@ axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
+  async (error) => {
     if (error.response && error.response.status === 401) {
-      console.error('Unauthorized, logging out...');
+      // source.cancel('Request canceled due to invalid token.');
+      await storage.removeItem('accessToken');
+      await storage.removeItem('refreshToken');
     }
+
     return Promise.reject(error);
   }
 );

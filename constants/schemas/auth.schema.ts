@@ -24,3 +24,5 @@ export const registerSchema = z.object({
 
 export type LoginPayload = z.infer<typeof loginSchema>;
 export type RegisterPayload = z.infer<typeof registerSchema>;
+
+export type AuthPayloads = LoginPayload & Partial<RegisterPayload>;

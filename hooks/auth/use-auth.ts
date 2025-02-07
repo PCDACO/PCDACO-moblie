@@ -32,10 +32,12 @@ export const useAuth = () => {
   const registerMutation = useMutation({
     mutationKey: [QueryKey.REGISTER],
     mutationFn: (payload: RegisterRequest) => AuthService.register(payload),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       console.log('data register', data);
+      await storage.setItem('accessToken', data.value.accessToken);
+      await storage.setItem('refreshToken', data.value.refreshToken);
       // Redirect to login after successful registration
-      // router.replace('/(main)');
+      router.replace('/(main)');
     },
     onError: (error) => {
       console.error(error);

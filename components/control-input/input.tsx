@@ -1,28 +1,47 @@
 import { LucideIcon } from 'lucide-react-native';
 import React from 'react';
-import { Text, TextInput, TextInputProps, View } from 'react-native';
+import { Controller, Control } from 'react-hook-form';
+import { View, TextInput, Text, TextInputProps } from 'react-native';
 
 interface InputProps extends TextInputProps {
-  label?: string;
+  control: Control<any>;
+  name: string;
+  icon: LucideIcon;
   placeholder?: string;
-  icon?: LucideIcon;
-  required?: boolean;
+  error?: string;
+  label?: string;
 }
 
-const Input: React.FC<InputProps> = (props) => {
-  const { label, placeholder, icon: Icon, required } = props;
-
+const Input: React.FC<InputProps> = ({
+  label,
+  control,
+  name,
+  icon: Icon,
+  placeholder,
+  error,
+  ...rest
+}) => {
   return (
     <View>
-      <Text className="text-sm font-medium">
-        {label}
-        {required && <Text className="text-destructive">*</Text>}
-      </Text>
-      <View className="mt-1 flex-row items-center rounded-lg border border-gray-300 px-3 py-1">
-        {Icon && <Icon size={18} className="text-muted-foreground" />}
-        {/* <Controller /> */}
-        <TextInput placeholder={placeholder} className="ml-2 flex-1 text-foreground" {...props} />
+      {label && <Text className="text-sm font-medium">{label}</Text>}
+      <View className="mt-1 flex-row items-center rounded-lg border border-muted-foreground px-3 py-2">
+        <Icon size={18} className="text-muted-foreground" />
+        <Controller
+          control={control}
+          name={name}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              placeholder={placeholder}
+              className="ml-2 flex-1 text-foreground"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              {...rest}
+            />
+          )}
+        />
       </View>
+      {error && <Text className="text-xs text-destructive">{error}</Text>}
     </View>
   );
 };

@@ -58,9 +58,4 @@ export const AuthService = {
 
     return response;
   },
-
-  logout: async () => {
-    await storage.removeItem('accessToken');
-    await storage.removeItem('refreshToken');
-  },
 };

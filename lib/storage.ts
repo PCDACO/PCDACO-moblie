@@ -12,7 +12,8 @@ export const storage = {
   getItem: async (key: string): Promise<string | null> => {
     try {
       const value = await AsyncStorage.getItem(key);
-      return value ? JSON.parse(value) : null;
+      if (!value) return null;
+      return typeof value === 'string' ? value : JSON.parse(value);
     } catch (error) {
       console.error('Error getting item from AsyncStorage', error);
       return null;
