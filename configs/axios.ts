@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { router } from 'expo-router';
 
 import { storage } from '~/lib/storage';
 import { AuthService } from '~/services/auth';
@@ -36,21 +37,24 @@ axiosInstance.interceptors.request.use(
       typeof accessToken === 'string' &&
       typeof refreshToken === 'string'
     ) {
-      const validatie = await AuthService.validationToken()
+      const validate = await AuthService.validationToken()
         .then((data) => data)
         .catch((error) => error);
 
-      if (validatie.status === 401) {
+      if (validate.status === 401) {
         console.log('Refreshing new token...');
-
         const response = await AuthService.refreshToken(refreshToken)
           .then((data) => data.value)
           .catch((error) => error);
 
-        await storage.setItem('accessToken', response.accessToken);
-        await storage.setItem('refreshToken', response.refreshToken);
+        if (response.status === 401) {
+          router.replace('/(auth)/login');
+        } else {
+          await storage.setItem('accessToken', response.accessToken);
+          await storage.setItem('refreshToken', response.refreshToken);
 
-        config.headers.Authorization = `Bearer ${response.accessToken}`;
+          config.headers.Authorization = `Bearer ${response.accessToken}`;
+        }
       } else {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }

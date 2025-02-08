@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '~/components/ui/button';
 import { useAuthForm } from '~/hooks/auth/use-auth-form';
-import { Lock, Mail } from '~/lib/icons/icon';
+import { Lock, Phone } from '~/lib/icons/icon';
 
 const LoginScreen: FunctionComponent = () => {
   const { form, onSubmit, isLoading } = useAuthForm({ type: 'login' });
@@ -17,13 +17,13 @@ const LoginScreen: FunctionComponent = () => {
       <View className="mb-4">
         <Text className="text-sm font-medium">Email*</Text>
         <View className="mt-1 flex-row items-center rounded-lg border border-muted-foreground px-3 py-2">
-          <Mail size={18} className="text-muted-foreground" />
+          <Phone size={18} className="text-muted-foreground" />
           <Controller
             control={form.control}
-            name="email"
+            name="phone"
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                placeholder="Nhập email..."
+                placeholder="Nhập số điện thoại..."
                 className="ml-2 flex-1 text-foreground"
                 value={value}
                 onChangeText={onChange}
@@ -32,8 +32,8 @@ const LoginScreen: FunctionComponent = () => {
             )}
           />
         </View>
-        {form.formState.errors.email && (
-          <Text className="text-xs text-destructive">{form.formState.errors.email.message}</Text>
+        {form.formState.errors.phone && (
+          <Text className="text-xs text-destructive">{form.formState.errors.phone.message}</Text>
         )}
       </View>
 

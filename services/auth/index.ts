@@ -1,6 +1,5 @@
 import axiosInstance from '~/configs/axios';
 import { LoginRequest, RegisterRequest, Token } from '~/constants/models/auth';
-import { storage } from '~/lib/storage';
 
 export const AuthService = {
   register: async (req: RegisterRequest): Promise<RootResponse<Token>> => {
@@ -15,7 +14,7 @@ export const AuthService = {
   },
 
   login: async (data: LoginRequest): Promise<RootResponse<Token>> => {
-    console.log('Sending login request:', data);
+    // console.log('Sending login request:', data);
     const response = await axiosInstance
       .post('/api/users/login', data)
       .then((res) => res.data)

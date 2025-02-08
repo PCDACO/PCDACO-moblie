@@ -44,6 +44,18 @@ const ScreenLayout: FunctionComponent = () => {
           contentStyle: { backgroundColor: '#F0F0F0' },
         }}
       />
+      <Stack.Screen
+        name="edit-car/[id]"
+        options={() => {
+          return {
+            headerShown: true,
+            headerTitle: `Chỉnh sửa thông tin xe `,
+            headerTitleAlign: 'center',
+            headerTitleStyle: { fontWeight: 'bold' },
+            contentStyle: { backgroundColor: '#F0F0F0' },
+          };
+        }}
+      />
     </Stack>
   );
 };

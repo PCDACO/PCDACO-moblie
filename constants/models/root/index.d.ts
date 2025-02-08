@@ -4,6 +4,12 @@ declare global {
   type RootRequest = {
     index: number;
     size: number;
+    keyword: string;
+  };
+
+  type ListPagination = {
+    limit: number;
+    lastId: number;
   };
 
   type RootResponse<T> = {
@@ -13,4 +19,12 @@ declare global {
   };
 
   type Size = 'sm' | 'md' | 'lg' | 'xl';
+
+  type Pagination<T> = {
+    items: T[];
+    totalItems: number;
+    pageNumber: number;
+    pageSize: number;
+    hasNext: boolean;
+  };
 }

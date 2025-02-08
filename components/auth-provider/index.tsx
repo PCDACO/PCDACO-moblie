@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { jwtDecode } from 'jwt-decode';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import { storage } from '~/lib/storage';
@@ -17,7 +18,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const checkToken = async () => {
       try {
         const storedToken = await storage.getItem('accessToken');
+
         if (storedToken) {
+          const user = jwtDecode(storedToken);
+          console.log('user', user);
+
           setIsLogged(true);
         } else {
           router.replace('/(auth)/login');

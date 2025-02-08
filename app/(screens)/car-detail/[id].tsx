@@ -37,7 +37,12 @@ const CarDetailScreen = () => {
         <View className="h-20 bg-gray-50" />
       </ScrollView>
       <View className="flex-row gap-8 p-4 ">
-        <Button variant="secondary" className="w-full flex-1">
+        <Button
+          onPress={() => {
+            router.push(`/(screens)/car-form/screen?id=${id}`);
+          }}
+          variant="secondary"
+          className="w-full flex-1">
           <Text className="text-lg font-semibold">Chỉnh sửa</Text>
         </Button>
         <Button

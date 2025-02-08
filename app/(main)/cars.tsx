@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import React from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
 
@@ -70,7 +71,11 @@ const CarsScreen = () => {
         </View>
       </ScrollView>
 
-      <TouchableOpacity className="absolute bottom-4 right-4 rounded-full bg-blue-500 p-4">
+      <TouchableOpacity
+        onPress={() => {
+          router.push('/(screens)/car-form/screen');
+        }}
+        className="absolute bottom-4 right-4 rounded-full bg-primary p-4">
         <Plus className="text-background" size={16} />
       </TouchableOpacity>
     </View>

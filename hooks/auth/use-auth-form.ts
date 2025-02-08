@@ -21,7 +21,7 @@ export const useAuthForm = ({ type }: UseAuthFormProps) => {
     resolver: zodResolver(type === 'login' ? loginSchema : registerSchema),
     defaultValues:
       type === 'login'
-        ? { email: '', password: '' }
+        ? { phone: '', password: '' }
         : {
             name: '',
             email: '',
