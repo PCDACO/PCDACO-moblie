@@ -1,4 +1,5 @@
 import {
+  CircleX,
   User,
   Lock,
   StarIcon,
@@ -59,6 +60,7 @@ import {
 
 import { iconWithClassName } from './iconWithClassName';
 
+iconWithClassName(CircleX);
 iconWithClassName(User);
 iconWithClassName(StarIcon);
 iconWithClassName(LayoutList);
@@ -174,4 +176,5 @@ export {
   Lock,
   User,
   PhoneCall,
+  CircleX,
 };

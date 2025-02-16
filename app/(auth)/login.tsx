@@ -7,15 +7,24 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '~/components/ui/button';
 import { useAuthForm } from '~/hooks/auth/use-auth-form';
 import { Lock, Phone } from '~/lib/icons/icon';
+// import { storage } from '~/lib/storage';
 
 const LoginScreen: FunctionComponent = () => {
   const { form, onSubmit, isLoading } = useAuthForm({ type: 'login' });
+  // React.useEffect(() => {
+  //   const checkAuth = async () => {
+  //     const token = await storage.removeItem('accessToken');
+  //     console.log('token', token);
+  //   };
+
+  //   checkAuth();
+  // }, []);
 
   return (
     <SafeAreaView className="flex-1 justify-center bg-background px-6">
       <Text className="mb-2 text-center text-2xl font-bold">Đăng nhập</Text>
       <View className="mb-4">
-        <Text className="text-sm font-medium">Email*</Text>
+        <Text className="text-sm font-medium">Số điện thoại*</Text>
         <View className="mt-1 flex-row items-center rounded-lg border border-muted-foreground px-3 py-2">
           <Phone size={18} className="text-muted-foreground" />
           <Controller
@@ -23,6 +32,7 @@ const LoginScreen: FunctionComponent = () => {
             name="phone"
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
+                keyboardType="phone-pad"
                 placeholder="Nhập số điện thoại..."
                 className="ml-2 flex-1 text-foreground"
                 value={value}

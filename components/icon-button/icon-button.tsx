@@ -6,7 +6,7 @@ import { Button } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 
 type ButtonIconProps = PressableProps & {
-  icon: LucideIcon;
+  icon?: LucideIcon;
   label?: string;
   iconSize?: number;
   iconColor?: string;
@@ -31,7 +31,7 @@ const ButtonIcon = forwardRef<View, ButtonIconProps>(
   ) => {
     return (
       <Button ref={ref} className={cn('flex-row ', className)} {...props} variant={variant}>
-        <Icon size={iconSize} color={iconColor} fill={fill} />
+        {Icon && <Icon size={iconSize} color={iconColor} fill={fill} />}
         {label && (
           <Text
             style={{

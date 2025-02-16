@@ -3,8 +3,10 @@ import { LoginRequest, RegisterRequest, Token } from '~/constants/models/auth';
 
 export const AuthService = {
   register: async (req: RegisterRequest): Promise<RootResponse<Token>> => {
+    // console.log('Sending register request:', req);
+
     const response = await axiosInstance
-      .post('/api/users/signup', req)
+      .post('/api/auth/signup', req)
       .then((res) => res.data)
       .catch((err) => {
         throw err.response.data;
@@ -16,12 +18,11 @@ export const AuthService = {
   login: async (data: LoginRequest): Promise<RootResponse<Token>> => {
     // console.log('Sending login request:', data);
     const response = await axiosInstance
-      .post('/api/users/login', data)
+      .post('/api/auth/login', data)
       .then((res) => res.data)
       .catch((err) => {
         throw err.response.data;
       });
-
     return response;
   },
 
@@ -37,24 +38,37 @@ export const AuthService = {
   },
 
   refreshToken: async (refreshToken: string): Promise<RootResponse<Token>> => {
-    const response = await axiosInstance
-      .post('/api/auth/refresh-token', { refreshToken })
-      .then((res) => res.data)
-      .catch((err) => {
-        throw err.response.data;
-      });
+    try {
+      const response = await axiosInstance.post('/api/auth/refresh-token', { refreshToken });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+    // const response = await axiosInstance
+    //   .post('/api/auth/refresh-token', { refreshToken })
+    //   .then((res) => res.data)
+    //   .catch((err) => {
+    //     throw err.response.data;
+    //   });
 
-    return response;
+    // return response;
   },
 
   validationToken: async (): Promise<RootResponse<null>> => {
-    const response = await axiosInstance
-      .get('/api/auth/validation-token')
-      .then((res) => res.data)
-      .catch((err) => {
-        throw err.response.data;
-      });
+    try {
+      const response = await axiosInstance.post('/api/auth/validate-token');
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
 
-    return response;
+    // const response = await axiosInstance
+    //   .get('/api/auth/validate-token')
+    //   .then((res) => res.data)
+    //   .catch((err) => {
+    //     throw err.response.data;
+    //   });
+
+    // return response;
   },
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FlatList, View } from 'react-native';
 
 import BookingItem from '~/components/booking-car/booking-item';
@@ -7,7 +7,6 @@ import ButtonIcon from '~/components/icon-button/icon-button';
 import { Columns3, LayoutList } from '~/lib/icons/icon';
 
 const BookScreen = () => {
-  const [activeLayout, setActiveLayout] = useState<'row' | 'column'>('column');
   const bookingList = [
     {
       userName: 'Nguyễn Văn A',

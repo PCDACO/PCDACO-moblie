@@ -12,8 +12,11 @@ export const storage = {
   getItem: async (key: string): Promise<string | null> => {
     try {
       const value = await AsyncStorage.getItem(key);
-      if (!value) return null;
-      return typeof value === 'string' ? value : JSON.parse(value);
+      if (typeof value === 'string') {
+        return value;
+      } else {
+        return value != null ? JSON.parse(value) : null;
+      }
     } catch (error) {
       console.error('Error getting item from AsyncStorage', error);
       return null;
@@ -27,4 +30,15 @@ export const storage = {
       console.error('Error removing item from AsyncStorage', error);
     }
   },
+};
+
+export const checkAsyncStorageAvailable = async () => {
+  try {
+    await AsyncStorage.setItem('@test_key', 'test_value');
+    const value = await AsyncStorage.getItem('@test_key');
+    console.log('AsyncStorage is available:', value);
+    await AsyncStorage.removeItem('@test_key');
+  } catch (error) {
+    console.error('AsyncStorage is not available:', error);
+  }
 };

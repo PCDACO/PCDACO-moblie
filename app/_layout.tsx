@@ -6,15 +6,15 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Platform } from 'react-native';
-import { AuthProvider } from '~/components/auth-provider';
+import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown';
 
+import { AuthProvider } from '~/components/auth-provider';
 import { NAV_THEME } from '~/constants/color.constants';
 import { useColorScheme } from '~/hooks/useColorScheme';
 
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'main',
-};
+// export const unstable_settings = {
+//   initialRouteName: '(main)',
+// };
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -53,24 +53,27 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <AutocompleteDropdownContextProvider>
         <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
           <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-          <Stack
-            screenOptions={{
-              contentStyle: {
-                backgroundColor: '#F0F0F0',
-              },
-              headerShown: true,
-            }}>
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            <Stack.Screen name="(main)" options={{ headerShown: false }} />
-            <Stack.Screen name="(screens)" options={{ headerShown: false }} />
-          </Stack>
+          <AuthProvider>
+            <Stack
+              initialRouteName="(main)"
+              screenOptions={{
+                contentStyle: {
+                  backgroundColor: '#F0F0F0',
+                },
+                headerShown: true,
+              }}>
+              <Stack.Screen name="(main)" options={{ headerShown: false }} />
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+              <Stack.Screen name="(screens)" options={{ headerShown: false }} />
+            </Stack>
+          </AuthProvider>
         </ThemeProvider>
-      </QueryClientProvider>
-    </AuthProvider>
+      </AutocompleteDropdownContextProvider>
+    </QueryClientProvider>
   );
 }
 

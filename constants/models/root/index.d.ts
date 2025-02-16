@@ -1,15 +1,27 @@
 export {};
 
 declare global {
+  type RootBankResponse<T> = {
+    data: T;
+    msg: string;
+    code: number;
+    success: boolean;
+  };
+
   type RootRequest = {
     index: number;
     size: number;
-    keyword: string;
+    keyword?: string;
   };
 
-  type ListPagination = {
+  type ListPaginationRequest = {
     limit: number;
     lastId: number;
+  };
+
+  type Role = {
+    DRIVER: 'Driver';
+    OWNER: 'Owner';
   };
 
   type RootResponse<T> = {

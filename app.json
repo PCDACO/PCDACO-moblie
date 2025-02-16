@@ -4,6 +4,7 @@
     "slug": "PCDACO-moblie",
     "version": "1.0.0",
     "scheme": "PCDACO-moblie",
+    "newArchEnabled": true,
     "web": {
       "bundler": "metro",
       "output": "static",

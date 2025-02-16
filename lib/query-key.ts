@@ -2,8 +2,15 @@ export const QueryKey = {
   // Auth
   REGISTER: 'register',
   LOGIN: 'login',
+  REFRESH_TOKEN: 'refresh_token',
 
   GETROLE: 'role',
+
+  // Bank
+  // get
+  BANK_LIST: 'bank_list',
+  // post
+  BANK_ACCOUNT_NAME: 'bank_account_name',
 
   // Book
   // get

@@ -2,14 +2,14 @@ import { LogOut } from 'lucide-react-native';
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { useAuthContext } from '~/components/auth-provider';
 import BaseInfoUser from '~/components/personal-profile/base-info-user';
 import MenuList from '~/components/personal-profile/menu-list';
 import StatsCard from '~/components/personal-profile/stats-card';
 import { Button } from '~/components/ui/button';
+import { useAuthStore } from '~/stores/use-auth-store';
 
 const ProfileScreen = () => {
-  const { logout } = useAuthContext();
+  const { logout } = useAuthStore();
   return (
     <View className="gap-4 ">
       <BaseInfoUser />
