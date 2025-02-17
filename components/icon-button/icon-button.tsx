@@ -32,16 +32,7 @@ const ButtonIcon = forwardRef<View, ButtonIconProps>(
     return (
       <Button ref={ref} className={cn('flex-row ', className)} {...props} variant={variant}>
         {Icon && <Icon size={iconSize} color={iconColor} fill={fill} />}
-        {label && (
-          <Text
-            style={{
-              marginLeft: 8,
-              color: 'white',
-              fontSize: 16,
-            }}>
-            {label}
-          </Text>
-        )}
+        {label && <Text className="ml-2 text-background">{label}</Text>}
       </Button>
     );
   }

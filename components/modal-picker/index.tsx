@@ -6,6 +6,7 @@ import ButtonIcon from '../icon-button/icon-button';
 import { Button } from '../ui/button';
 
 import { CircleX } from '~/lib/icons/icon';
+import { cn } from '~/lib/utils';
 
 interface ModelPickerProps {
   label?: string;
@@ -14,6 +15,8 @@ interface ModelPickerProps {
   title?: string;
   onPress?: () => void;
   submitText?: string;
+  className?: string;
+  variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
 }
 
 interface HeaderModelProps {
@@ -40,13 +43,16 @@ const ModelPicker: React.FC<ModelPickerProps> = ({
   title,
   onPress,
   submitText,
+  className,
+  variant = 'default',
 }) => {
   const [isModelPickerVisible, setIsModelPickerVisible] = React.useState(false);
   return (
-    <View>
+    <View className={cn(className)}>
       <ButtonIcon
         icon={icon}
         label={label}
+        variant={variant}
         onPress={() => {
           setIsModelPickerVisible(true);
         }}

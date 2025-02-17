@@ -1,50 +1,77 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { View, Image, TouchableOpacity, Text } from 'react-native';
+import { View, Image, TouchableOpacity, Text, FlatList, Alert } from 'react-native';
 
-import { Camera } from '~/lib/icons/icon';
+import { CircleX, Camera } from '~/lib/icons/icon';
 
 interface ImagePickerProps {
-  onImagePicked?: (imageUri: string) => void;
+  onImagesPicked?: (imageUris: string[]) => void;
+  maxImages?: number;
 }
 
-const CustomImagePicker: React.FC<ImagePickerProps> = ({ onImagePicked }) => {
-  const [imageUri, setImageUri] = useState<string | null>(null);
+const CustomImagePicker: React.FC<ImagePickerProps> = ({ onImagesPicked, maxImages = 5 }) => {
+  const [imageUris, setImageUris] = useState<string[]>([]);
 
-  const pickImage = async () => {
+  const pickImages = async () => {
+    if (imageUris.length >= maxImages) return;
+
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      alert('Permission to access media library is required!');
+      Alert.alert('Quyền truy cập bị từ chối', 'Bạn cần cấp quyền để chọn ảnh.');
       return;
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      allowsMultipleSelection: true,
+      selectionLimit: maxImages - imageUris.length,
       quality: 1,
     });
 
     if (!result.canceled) {
-      setImageUri(result.assets[0].uri);
-      onImagePicked?.(result.assets[0].uri);
+      const newUris = result.assets.map((asset) => asset.uri);
+      const updatedUris = [...imageUris, ...newUris].slice(0, maxImages);
+      setImageUris(updatedUris);
+      onImagesPicked?.(updatedUris);
     }
   };
 
-  return (
-    <View className="items-center">
-      <TouchableOpacity
-        className="w-full items-center justify-center rounded-lg border border-dashed border-muted-foreground bg-background/60 p-10 "
-        onPress={pickImage}>
-        <Camera className="text-muted-foreground" size={40} />
-        <Text className="text-lg font-medium text-muted-foreground">Hình nền </Text>
-      </TouchableOpacity>
+  const removeImage = (uri: string) => {
+    const updatedUris = imageUris.filter((imageUri) => imageUri !== uri);
+    setImageUris(updatedUris);
+    onImagesPicked?.(updatedUris);
+  };
 
-      {imageUri && (
-        <Image
-          source={{ uri: imageUri }}
-          className="mt-4 h-40 w-40 rounded-lg"
-          resizeMode="cover"
-        />
+  return (
+    <View className="items-center gap-4">
+      {/* Danh sách ảnh */}
+      <FlatList
+        data={imageUris}
+        numColumns={3}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View className="relative m-2">
+            <Image source={{ uri: item }} className="size-28 rounded-lg" resizeMode="cover" />
+            <TouchableOpacity
+              className="absolute right-2 top-2 rounded-full  p-1"
+              onPress={() => removeImage(item)}>
+              <CircleX className="rounded-full bg-background text-destructive" size={18} />
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+
+      {/* Ẩn nút chọn ảnh khi đủ giới hạn */}
+      {imageUris.length < maxImages && (
+        <TouchableOpacity
+          className="w-full items-center justify-center rounded-lg border border-dashed border-gray-400 bg-gray-100 p-6"
+          onPress={pickImages}>
+          <Camera className="text-gray-500" size={40} />
+
+          <Text className="text-xl font-medium text-gray-500">Chọn hình ảnh</Text>
+          {/* Hiển thị số ảnh đã chọn */}
+          <Text className="text-sm text-gray-500">{`Đã chọn ${imageUris.length}/${maxImages} ảnh`}</Text>
+        </TouchableOpacity>
       )}
     </View>
   );

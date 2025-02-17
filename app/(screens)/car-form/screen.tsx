@@ -1,37 +1,16 @@
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { FunctionComponent, useEffect } from 'react';
-import { View } from 'react-native';
-import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
+import { Text, View } from 'react-native';
 
-import CustomImagePicker from '~/components/image-picker';
-import FieldLayout from '~/components/layout/field-layout';
-import { Input } from '~/components/ui/input';
-import { Textarea } from '~/components/ui/textarea';
-import { useModelQuery } from '~/hooks/models/use-model';
+import BasicInfoCar from '~/components/car-form/basic-info-car';
+import SecondInfoCar from '~/components/car-form/second-info-car';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 
 const CarFormScreen: FunctionComponent = () => {
   const { id } = useLocalSearchParams();
   const navigation = useNavigation();
-  const [value, setValue] = React.useState<string>('');
-  const { modelListQuery } = useModelQuery({
-    params: {
-      index: 1,
-      size: 100,
-    },
-  });
-  // const { listAmenitiesQuery } = useAmenities({
-  //   params: {
-  //     index: 1,
-  //     size: 100,
-  //   },
-  // });
 
-  const data = React.useMemo(() => {
-    return modelListQuery.data.value.items.map((item) => ({
-      id: item.id,
-      title: item.name,
-    }));
-  }, [modelListQuery.data.value.items]);
+  const [activeTabs, setActiveTabs] = React.useState<string>('general');
 
   useEffect(() => {
     navigation.setOptions({
@@ -43,36 +22,32 @@ const CarFormScreen: FunctionComponent = () => {
   }, [id, navigation]);
 
   return (
-    <View className="px-4 py-8">
-      <FieldLayout label="Hình ảnh">
-        <CustomImagePicker />
-      </FieldLayout>
-      <FieldLayout label="Tên xe">
-        <AutocompleteDropdown
-          containerStyle={{ width: '100%' }}
-          clearOnFocus={false}
-          closeOnBlur
-          closeOnSubmit={false}
-          initialValue={{ id: '2' }}
-          onChangeText={(text) => {
-            setValue(text);
-          }}
-          // onSelectItem={(select) => {
-          //   setValue(select?.id || null);
-          // }}a
-          dataSet={data}
-        />
-      </FieldLayout>
-
-      <FieldLayout label="Biển số xe">
-        <Input placeholder="Nhập biển số xe" />
-      </FieldLayout>
-      <FieldLayout label="Màu sắc">
-        <Input placeholder="Chi tiết màu sắc" />
-      </FieldLayout>
-      <FieldLayout label="Mô tả">
-        <Textarea placeholder="Nhập mô tả" numberOfLines={6} />
-      </FieldLayout>
+    <View className=" py-2">
+      <Tabs
+        value={activeTabs}
+        onValueChange={(value) => setActiveTabs(value)}
+        className="mx-auto w-full flex-col gap-2">
+        <TabsList className="w-full flex-row">
+          <TabsTrigger value="general" className="flex-1">
+            <Text>Tổng quan</Text>
+          </TabsTrigger>
+          <TabsTrigger value="info" className="flex-1">
+            <Text>Chi tiết</Text>
+          </TabsTrigger>
+          <TabsTrigger value="license" className="flex-1">
+            <Text>Giấy tờ</Text>
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="general" className="size-full bg-background px-4 py-4">
+          <BasicInfoCar />
+        </TabsContent>
+        <TabsContent value="info" className="size-full bg-background px-4 py-4">
+          <SecondInfoCar />
+        </TabsContent>
+        <TabsContent value="license" className="size-full bg-background px-4 py-4">
+          <Text>giấy tờ Content</Text>
+        </TabsContent>
+      </Tabs>
     </View>
   );
 };
