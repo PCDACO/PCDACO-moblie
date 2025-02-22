@@ -7,18 +7,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '~/components/ui/button';
 import { useAuthForm } from '~/hooks/auth/use-auth-form';
 import { Lock, Phone } from '~/lib/icons/icon';
-// import { storage } from '~/lib/storage';
 
 const LoginScreen: FunctionComponent = () => {
   const { form, onSubmit, isLoading } = useAuthForm({ type: 'login' });
-  // React.useEffect(() => {
-  //   const checkAuth = async () => {
-  //     const token = await storage.removeItem('accessToken');
-  //     console.log('token', token);
-  //   };
-
-  //   checkAuth();
-  // }, []);
 
   return (
     <SafeAreaView className="flex-1 justify-center bg-background px-6">

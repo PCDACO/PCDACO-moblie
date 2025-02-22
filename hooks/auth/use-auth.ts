@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
+import { ToastAndroid } from 'react-native';
 
 import { LoginRequest, RegisterRequest } from '~/constants/models/auth';
 import { QueryKey } from '~/lib/query-key';
@@ -20,38 +21,37 @@ export const useAuth = () => {
 
   // post, update, delete
   const loginMutation = useMutation({
-    mutationKey: [QueryKey.LOGIN],
-    mutationFn: (payload: LoginRequest) => AuthService.login(payload),
+    mutationKey: ['login'],
+    mutationFn: async (payload: LoginRequest) => await AuthService.login(payload),
     onSuccess: async (data) => {
       await setTokens(data.value.accessToken, data.value.refreshToken);
-      // Redirect to main screen after successful login
+      ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
       router.replace('/(main)');
     },
     onError: (error) => {
-      console.error(error);
+      ToastAndroid.show(`${error}`, ToastAndroid.SHORT);
     },
   });
 
   const registerMutation = useMutation({
-    mutationKey: [QueryKey.REGISTER],
-    mutationFn: (payload: RegisterRequest) => AuthService.register(payload),
+    mutationKey: ['register'],
+    mutationFn: async (payload: RegisterRequest) => await AuthService.register(payload),
     onSuccess: async (data) => {
-      setTokens(data.value.accessToken, data.value.refreshToken);
-      // Redirect to login after successful registration
+      await setTokens(data.value.accessToken, data.value.refreshToken);
+      ToastAndroid.show(`${data.message}`, ToastAndroid.SHORT);
       router.replace('/(main)');
     },
     onError: (error) => {
-      console.error(error);
+      ToastAndroid.show(`${error}`, ToastAndroid.BOTTOM);
     },
   });
 
   const refreshTokenMutation = useMutation({
-    mutationKey: [QueryKey.REFRESH_TOKEN],
+    mutationKey: ['refreshToken'],
     mutationFn: async (refrechToken: string) => await AuthService.refreshToken(refrechToken),
     onSuccess: async (data) => {
-      console.log('data refresh token', data);
-      await storage.setItem('accessToken', data.value.accessToken);
-      await storage.setItem('refreshToken', data.value.refreshToken);
+      await setTokens(data.value.accessToken, data.value.refreshToken);
+      // ToastAndroid.show('Làm mới token thành công', ToastAndroid.SHORT);
     },
     onError: (error) => {
       console.error(error);

@@ -14,10 +14,9 @@ export const useFuelQuery = ({ params }: UseFuelProps) => {
 
   const listFuelQuery = useQuery({
     queryKey: [QueryKey.FUEL_LIST, params],
-    queryFn: () => {
-      console.log('get list fuel');
-      FuelService.listFuel(params);
-    },
+    queryFn: () => FuelService.listFuel(params),
+    enabled: !!params,
+    retry: 1,
   });
 
   return { listFuelQuery };

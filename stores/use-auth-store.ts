@@ -52,6 +52,8 @@ export const useAuthStore = create<AuthState>()(
             .catch((error) => {
               return error;
             });
+          console.log('validate', validate);
+
           if (validate.status === 401) {
             const response = await AuthService.refreshToken(refreshToken)
               .then((data) => data)

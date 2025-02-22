@@ -56,6 +56,7 @@ import {
   Cog,
   Shell,
   Map,
+  CirclePlus,
 } from 'lucide-react-native';
 
 import { iconWithClassName } from './iconWithClassName';
@@ -118,6 +119,7 @@ iconWithClassName(FlagIcon);
 iconWithClassName(StarIcon);
 iconWithClassName(Lock);
 iconWithClassName(PhoneCall);
+iconWithClassName(CirclePlus);
 
 export {
   Map,
@@ -177,4 +179,5 @@ export {
   User,
   PhoneCall,
   CircleX,
+  CirclePlus,
 };

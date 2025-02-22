@@ -1,65 +1,111 @@
-import React, { FunctionComponent } from 'react';
-import { View } from 'react-native';
-import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
+import React from 'react';
+import { Controller } from 'react-hook-form';
+import { View, Text } from 'react-native';
 
 import CustomImagePicker from '../image-picker';
+import { ModelCarPicker } from './model-car-picker';
 import FieldLayout from '../layout/field-layout';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 
-import { useModelQuery } from '~/hooks/models/use-model';
+import { useCarForm } from '~/hooks/car/use-car-form';
 
-const BasicInfoCar: FunctionComponent = () => {
-  const [value, setValue] = React.useState<string>('');
-  const { modelListQuery } = useModelQuery({
-    params: {
-      index: 1,
-      size: 100,
-    },
-  });
+interface BasicInfoCarProps {
+  form: ReturnType<typeof useCarForm>['form'];
+}
 
-  const data = React.useMemo(() => {
-    return modelListQuery.data.value.items.map((item) => ({
-      id: item.id,
-      title: item.name,
-    }));
-  }, [modelListQuery.data.value.items]);
-
+const BasicInfoCar: React.FC<BasicInfoCarProps> = ({ form }) => {
   return (
-    <View className=" gap-4">
+    <View className="mb-10 gap-4">
       <FieldLayout label="Hình ảnh">
         <CustomImagePicker maxImages={6} />
       </FieldLayout>
       <FieldLayout label="Tên xe">
-        <AutocompleteDropdown
-          containerStyle={{ width: '100%' }}
-          clearOnFocus={false}
-          closeOnBlur
-          closeOnSubmit={false}
-          initialValue={{ id: '2' }}
-          onChangeText={(text) => {
-            setValue(text);
-          }}
-          // onSelectItem={(select) => {
-          //   setValue(select?.id || null);
-          // }}a
-          dataSet={data}
+        <Controller
+          control={form.control}
+          name="modelId"
+          render={({ field }) => <ModelCarPicker field={field} />}
         />
+        {form.formState.errors.modelId && (
+          <Text className="text-xs text-destructive">{form.formState.errors.modelId.message}</Text>
+        )}
       </FieldLayout>
-
-      <View className="flex-row gap-4">
-        <FieldLayout label="Biển số xe" className="flex-1">
-          <Input placeholder="Nhập biển số xe" />
-        </FieldLayout>
-        <FieldLayout label="Số lượng ghế" className="flex-1">
-          <Input placeholder="Nhập biển số xe" />
-        </FieldLayout>
-      </View>
+      <FieldLayout label="Biển số xe">
+        <Controller
+          control={form.control}
+          name="licensePlate"
+          render={({ field }) => (
+            <Input
+              {...field}
+              placeholder="Nhập biển số xe"
+              value={field.value?.toUpperCase()}
+              onChangeText={field.onChange}
+            />
+          )}
+        />
+        {form.formState.errors.licensePlate && (
+          <Text className="text-xs text-destructive">
+            {form.formState.errors.licensePlate.message}
+          </Text>
+        )}
+      </FieldLayout>
       <FieldLayout label="Màu sắc">
-        <Input placeholder="Chi tiết màu sắc" />
+        <Controller
+          control={form.control}
+          name="color"
+          render={({ field }) => (
+            <Input
+              {...field}
+              placeholder="Nhập màu sắc"
+              onChangeText={field.onChange}
+              value={field.value}
+            />
+          )}
+        />
+        {form.formState.errors.color && (
+          <Text className="text-xs text-destructive">{form.formState.errors.color.message}</Text>
+        )}
+      </FieldLayout>
+      <FieldLayout label="Giá thuê 1 ngày" required>
+        <Controller
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <Input
+              {...field}
+              placeholder="Nhập giá thuê"
+              value={field.value?.toString()}
+              onChangeText={(text) => {
+                field.onChange(Number(text));
+              }}
+              keyboardType="numeric"
+            />
+          )}
+        />
+        {form.formState.errors.price && (
+          <Text className="text-xs text-destructive">{form.formState.errors.price.message}</Text>
+        )}
       </FieldLayout>
       <FieldLayout label="Mô tả">
-        <Textarea placeholder="Nhập mô tả" numberOfLines={6} />
+        <Controller
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <Textarea
+              // {...field}
+              placeholder="Nhập mô tả"
+              numberOfLines={6}
+              value={field.value}
+              onChangeText={field.onChange}
+              onBlur={field.onBlur}
+            />
+          )}
+        />
+        {form.formState.errors.description && (
+          <Text className="text-xs text-destructive">
+            {form.formState.errors.description.message}
+          </Text>
+        )}
       </FieldLayout>
     </View>
   );

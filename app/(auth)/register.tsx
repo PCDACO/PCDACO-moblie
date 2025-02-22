@@ -3,8 +3,8 @@ import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import { Text, TextInput, View, Platform, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { FormKeyboardAvoiding } from '~/components/layout/form-keyboard-avoiding';
 import { Button } from '~/components/ui/button';
 import { useAuthForm } from '~/hooks/auth/use-auth-form';
 import { Lock, Mail, Calendar, User, PhoneCall, MapPin } from '~/lib/icons/icon';
@@ -15,9 +15,8 @@ const RegisterScreen = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   return (
-    <SafeAreaView className="flex-1 justify-center bg-background px-6">
+    <FormKeyboardAvoiding className="flex-1 justify-center bg-background px-6">
       <Text className="mb-2 text-center text-2xl font-bold">Đăng ký</Text>
-
       {/* Name Field */}
       <View className="mb-4">
         <Text className="text-sm font-medium">Họ và tên*</Text>
@@ -162,7 +161,7 @@ const RegisterScreen = () => {
             value={new Date()}
             mode="date"
             display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-            onChange={(event, date) => {
+            onChange={(_, date) => {
               setShowDatePicker(false);
               if (date) form.setValue('dateOfBirth', date);
             }}
@@ -185,7 +184,7 @@ const RegisterScreen = () => {
           </Text>
         </Text>
       </View>
-    </SafeAreaView>
+    </FormKeyboardAvoiding>
   );
 };
 

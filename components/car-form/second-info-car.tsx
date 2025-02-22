@@ -1,15 +1,23 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import ModelPicker from '../modal-picker';
+import { View } from 'react-native';
+
+import AmenitiesList from './amenities-list';
+import ModalCharactersic from './modal-charactersic';
 import FieldLayout from '../layout/field-layout';
+import { useCarForm } from '~/hooks/car/use-car-form';
 
-import { PlusCircle } from '~/lib/icons/icon';
+interface SecondInfoCarProps {
+  form: ReturnType<typeof useCarForm>['form'];
+}
 
-const SecondInfoCar = () => {
+const SecondInfoCar: React.FC<SecondInfoCarProps> = ({ form }) => {
   return (
-    <View>
-      <FieldLayout label="Tiện ích xe">
-        <ModelPicker icon={PlusCircle} variant="ghost" title="Tiện ích xe" label="Lựa chọn" />
+    <View className="gap-4">
+      <FieldLayout label="Các đặc điểm xe">
+        <ModalCharactersic form={form} />
+      </FieldLayout>
+      <FieldLayout label="Các tiện ích khác">
+        <AmenitiesList form={form} />
       </FieldLayout>
     </View>
   );

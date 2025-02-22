@@ -11,64 +11,65 @@ import {
 export const CarService = {
   get: {
     list: async (request?: CarParams): Promise<RootResponse<Pagination<CarResponse>>> => {
-      const response = await axiosInstance
-        .get<RootResponse<Pagination<CarResponse>>>(`/api/cars`, { params: request })
-        .then((res) => res.data)
-        .catch((error) => {
-          throw new Error(error);
-        });
-
-      return response;
+      try {
+        const response = await axiosInstance.get<RootResponse<Pagination<CarResponse>>>(
+          `/api/cars`,
+          { params: request }
+        );
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
     },
 
     detail: async (id: string): Promise<RootResponse<CarDetailResponse>> => {
-      const response = await axiosInstance
-        .get<RootResponse<CarPayload>>(`/api/car/${id}`)
-        .then((res) => res.data)
-        .catch((error) => {
-          throw new Error(error);
-        });
-
-      return response;
+      try {
+        const response = await axiosInstance.get<RootResponse<CarDetailResponse>>(
+          `/api/cars/${id}`
+        );
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
     },
   },
 
   post: {
     car: async (payload: CarPayload): Promise<RootResponse<{ id: string }>> => {
-      const response = await axiosInstance
-        .post(`/api/cars`, payload)
-        .then((res) => res.data)
-        .catch((error) => {
-          throw new Error(error);
-        });
-
-      return response;
+      try {
+        const response = await axiosInstance.post<RootResponse<{ id: string }>>(
+          `/api/cars`,
+          payload
+        );
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
     },
   },
 
   put: {
     car: async (id: string, payload: CarPayload): Promise<RootResponse<{ id: string }>> => {
-      const response = await axiosInstance
-        .put(`/api/cars/${id}`, payload)
-        .then((res) => res.data)
-        .catch((error) => {
-          throw new Error(error);
-        });
-
-      return response;
+      try {
+        const response = await axiosInstance.put<RootResponse<{ id: string }>>(
+          `/api/cars/${id}`,
+          payload
+        );
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
     },
   },
 
   delete: {
     car: async (id: string): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .delete(`/api/cars/${id}`)
-        .then((res) => res.data)
-        .catch((error) => {
-          throw new Error(error);
-        });
-
-      return response;
+      try {
+        const response = await axiosInstance.delete<RootResponse<null>>(`/api/cars/${id}`);
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
     },
   },
 
@@ -83,29 +84,34 @@ export const CarService = {
         formData.append('images', car);
       });
 
-      const response = await axiosInstance
-        .patch(`/api/cars/${carId}/images`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then((res) => res.data)
-        .catch((error) => {
-          throw new Error(error);
-        });
+      try {
+        const response = await axiosInstance
+          .patch(`/api/cars/${carId}/images`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then((res) => res.data)
+          .catch((error) => {
+            throw new Error(error);
+          });
 
-      return response;
+        return response;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
     },
 
     carAmenities: async (id: string, payload: CarAmenitiesPayload): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .patch(`/api/cars/${id}/amenities`, payload)
-        .then((res) => res.data)
-        .catch((error) => {
-          throw new Error(error);
-        });
-
-      return response;
+      try {
+        const response = await axiosInstance.patch<RootResponse<null>>(
+          `/api/cars/${id}/amenities`,
+          payload
+        );
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
     },
   },
 };

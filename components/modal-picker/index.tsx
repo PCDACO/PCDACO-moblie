@@ -1,6 +1,6 @@
 import { LucideIcon } from 'lucide-react-native';
 import React from 'react';
-import { Modal, Text, View } from 'react-native';
+import { Modal, StyleProp, Text, View, ViewStyle } from 'react-native';
 
 import ButtonIcon from '../icon-button/icon-button';
 import { Button } from '../ui/button';
@@ -9,14 +9,16 @@ import { CircleX } from '~/lib/icons/icon';
 import { cn } from '~/lib/utils';
 
 interface ModelPickerProps {
-  label?: string;
+  label?: string | React.ReactNode;
   icon?: LucideIcon;
   children?: React.ReactNode;
   title?: string;
+  fill?: string;
   onPress?: () => void;
   submitText?: string;
   className?: string;
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+  style?: StyleProp<ViewStyle>;
 }
 
 interface HeaderModelProps {
@@ -44,6 +46,8 @@ const ModelPicker: React.FC<ModelPickerProps> = ({
   onPress,
   submitText,
   className,
+  fill,
+  style,
   variant = 'default',
 }) => {
   const [isModelPickerVisible, setIsModelPickerVisible] = React.useState(false);
@@ -53,6 +57,8 @@ const ModelPicker: React.FC<ModelPickerProps> = ({
         icon={icon}
         label={label}
         variant={variant}
+        style={style}
+        fill={fill}
         onPress={() => {
           setIsModelPickerVisible(true);
         }}

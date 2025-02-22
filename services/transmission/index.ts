@@ -3,10 +3,10 @@ import { TransmissionResponse } from '~/constants/models/transmission';
 
 export const TransmissionService = {
   listTransmissions: async (
-    request: RootRequest
+    request?: RootRequest
   ): Promise<RootResponse<Pagination<TransmissionResponse>>> => {
     const response = await axiosInstance
-      .get<RootResponse<Pagination<TransmissionResponse>>>(`/api/transmissions`, {
+      .get<RootResponse<Pagination<TransmissionResponse>>>(`/api/transmission-types`, {
         params: request,
       })
       .then((res) => res.data)

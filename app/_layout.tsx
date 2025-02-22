@@ -1,6 +1,7 @@
 import '../global.css';
 
 import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
+import { PortalHost } from '@rn-primitives/portal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -9,6 +10,7 @@ import { Platform } from 'react-native';
 import { AutocompleteDropdownContextProvider } from 'react-native-autocomplete-dropdown';
 
 import { AuthProvider } from '~/components/auth-provider';
+import { ProtectedRoute } from '~/components/protect-route';
 import { NAV_THEME } from '~/constants/color.constants';
 import { useColorScheme } from '~/hooks/useColorScheme';
 
@@ -64,12 +66,15 @@ export default function RootLayout() {
                 contentStyle: {
                   backgroundColor: '#F0F0F0',
                 },
-                headerShown: true,
+                headerShown: false,
               }}>
               <Stack.Screen name="(main)" options={{ headerShown: false }} />
+              {/* <ProtectedRoute> */}
               <Stack.Screen name="(auth)" options={{ headerShown: false }} />
               <Stack.Screen name="(screens)" options={{ headerShown: false }} />
+              {/* </ProtectedRoute> */}
             </Stack>
+            <PortalHost />
           </AuthProvider>
         </ThemeProvider>
       </AutocompleteDropdownContextProvider>

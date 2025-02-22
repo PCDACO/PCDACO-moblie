@@ -1,24 +1,18 @@
 export interface CarPayload {
-  amenityIds: string[];
-  modelId: string;
-  transmissionTypeId: string; // Loại hộp số
-  fuelTypeId: string; // Loại nhiên liệu
-  licensePlate: string; // Biển số xe
-  color: string;
-  seat: number; // Số chỗ ngồi
-  description: string;
-  fuelConsumption: number; // Lượng nhiên liệu tiêu thụ
-  requiresCollateral: boolean; // Yêu cầu tài sản đảm bảo
-  pricePerHour: number;
-  pricePerDay: number;
-  latitude: number;
-  address: string;
-  longtitude: number;
+  amenityIds?: string[]; //done
+  modelId?: string; //done
+  transmissionTypeId?: string;
+  fuelTypeId?: string; //done
+  licensePlate?: string; //done
+  color?: string; //done
+  seat?: number; //done
+  description?: string; //done
+  fuelConsumption?: number; //done
+  requiresCollateral?: boolean;
+  price?: number; //done
 }
 
 export interface CarParams extends ListPaginationRequest {
-  latitude?: number;
-  longtitude?: number;
   radius?: number;
   model?: string;
   amenities?: string[];

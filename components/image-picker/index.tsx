@@ -48,7 +48,8 @@ const CustomImagePicker: React.FC<ImagePickerProps> = ({ onImagesPicked, maxImag
       <FlatList
         data={imageUris}
         numColumns={3}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(_, index) => index.toString()}
+        scrollEnabled={false}
         renderItem={({ item }) => (
           <View className="relative m-2">
             <Image source={{ uri: item }} className="size-28 rounded-lg" resizeMode="cover" />
@@ -64,13 +65,13 @@ const CustomImagePicker: React.FC<ImagePickerProps> = ({ onImagesPicked, maxImag
       {/* Ẩn nút chọn ảnh khi đủ giới hạn */}
       {imageUris.length < maxImages && (
         <TouchableOpacity
-          className="w-full items-center justify-center rounded-lg border border-dashed border-gray-400 bg-gray-100 p-6"
+          className="w-full items-center justify-center rounded-lg border border-dashed border-gray-400 bg-background p-6"
           onPress={pickImages}>
-          <Camera className="text-gray-500" size={40} />
+          <Camera className="text-muted-foreground" size={40} />
 
-          <Text className="text-xl font-medium text-gray-500">Chọn hình ảnh</Text>
+          <Text className="text-xl font-medium text-muted-foreground">Chọn hình ảnh</Text>
           {/* Hiển thị số ảnh đã chọn */}
-          <Text className="text-sm text-gray-500">{`Đã chọn ${imageUris.length}/${maxImages} ảnh`}</Text>
+          <Text className="text-sm text-muted-foreground">{`Đã chọn ${imageUris.length}/${maxImages} ảnh`}</Text>
         </TouchableOpacity>
       )}
     </View>

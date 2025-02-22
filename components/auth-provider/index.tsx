@@ -104,7 +104,7 @@
 // };
 
 // providers/AuthProvider.tsx
-import { SplashScreen } from 'expo-router';
+// import { SplashScreen } from 'expo-router';
 import { useEffect } from 'react';
 
 import { useAuthStore } from '~/stores/use-auth-store';
@@ -120,7 +120,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       await refetchToken();
-      SplashScreen.hide();
+      // SplashScreen.hide();
     };
     initAuth();
   }, []);
