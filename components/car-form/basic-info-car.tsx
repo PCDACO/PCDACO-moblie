@@ -9,6 +9,7 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 
 import { useCarForm } from '~/hooks/car/use-car-form';
+import PickerImageCar from './picker-image-car';
 
 interface BasicInfoCarProps {
   form: ReturnType<typeof useCarForm>['form'];
@@ -18,7 +19,8 @@ const BasicInfoCar: React.FC<BasicInfoCarProps> = ({ form }) => {
   return (
     <View className="mb-10 gap-4">
       <FieldLayout label="Hình ảnh">
-        <CustomImagePicker maxImages={6} />
+        <PickerImageCar form={form} />
+        {/* <CustomImagePicker maxImages={6} /> */}
       </FieldLayout>
       <FieldLayout label="Tên xe">
         <Controller

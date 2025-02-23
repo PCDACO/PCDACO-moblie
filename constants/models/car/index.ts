@@ -26,7 +26,7 @@ export interface CarDetailResponse {}
 
 export interface CarImagesPayload {
   carImages: File[];
-  paperImages: File[];
+  // paperImages: File[];
 }
 
 export interface CarAmenitiesPayload {

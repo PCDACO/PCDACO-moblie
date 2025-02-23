@@ -46,7 +46,7 @@ export const useCarMutation = () => {
       console.log('create data id ', data.value.id);
 
       queryClient.invalidateQueries({ queryKey: QueryKey.CAR_LIST });
-      ToastAndroid.show(`${data.message}`, ToastAndroid.SHORT);
+      ToastAndroid.show('Tạo xe thành công', ToastAndroid.SHORT);
     },
     onError: (error) => {
       console.log(error);
