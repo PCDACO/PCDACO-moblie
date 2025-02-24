@@ -15,7 +15,7 @@ export const useCarForm = () => {
     resolver: zodResolver(carSchema),
     defaultValues: {
       carImages: [],
-      // paperImages: [],
+      paperImages: [],
       modelId: '',
       price: 0,
       licensePlate: '',
@@ -49,7 +49,7 @@ export const useCarForm = () => {
 
     const imagePayload: CarImagesPayload = {
       carImages: data.carImages,
-      // paperImages: data.paperImages,
+      paperImages: data.paperImages,
     };
 
     console.log('infoPayload', infoPayload);

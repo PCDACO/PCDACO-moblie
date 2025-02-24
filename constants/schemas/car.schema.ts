@@ -14,7 +14,6 @@ export const carSchema = z.object({
   carImages: z
     .array(z.string())
     .nonempty('Car images cannot be empty')
-    // .min(1, 'Car images must be at least 1')
     .max(6, 'Car images must be less than 6')
     .refine(
       (files) => files.every((file) => checkImageSize(file)),
@@ -42,7 +41,7 @@ export const carSchema = z.object({
     .positive('Price per hour must be a positive number')
     .max(5000000, 'Price must be less than 5,000,000'),
 
-  // paperImages: z.array(imageSizeSchema).nonempty('Paper images cannot be empty'),
+  paperImages: z.array(z.string()).nonempty('Paper images cannot be empty'),
 });
 
 export type CarPayloadSchema = z.infer<typeof carSchema>;

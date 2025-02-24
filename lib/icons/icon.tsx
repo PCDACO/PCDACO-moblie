@@ -1,4 +1,5 @@
 import {
+  Trash2,
   CircleX,
   User,
   Lock,
@@ -120,6 +121,7 @@ iconWithClassName(StarIcon);
 iconWithClassName(Lock);
 iconWithClassName(PhoneCall);
 iconWithClassName(CirclePlus);
+iconWithClassName(Trash2);
 
 export {
   Map,
@@ -180,4 +182,5 @@ export {
   PhoneCall,
   CircleX,
   CirclePlus,
+  Trash2,
 };

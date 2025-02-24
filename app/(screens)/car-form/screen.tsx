@@ -3,6 +3,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 
 import BasicInfoCar from '~/components/car-form/basic-info-car';
+import RelateDocument from '~/components/car-form/relate-document';
 import SecondInfoCar from '~/components/car-form/second-info-car';
 import { Button } from '~/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
@@ -51,31 +52,10 @@ const CarFormScreen: FunctionComponent = () => {
             <SecondInfoCar form={form} />
           </TabsContent>
           <TabsContent value="license">
-            <Text>Giấy tờ Content</Text>
+            <RelateDocument form={form} />
           </TabsContent>
         </ScrollView>
       </Tabs>
-      {/* <FieldLayout label="Mô tả">
-        <Controller
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <Textarea
-              // {...field}
-              placeholder="Nhập mô tả"
-              numberOfLines={6}
-              value={field.value}
-              onChangeText={field.onChange}
-              onBlur={field.onBlur}
-            />
-          )}
-        />
-        {form.formState.errors.description && (
-          <Text className="text-xs text-destructive">
-            {form.formState.errors.description.message}
-          </Text>
-        )}
-      </FieldLayout> */}
       <View className="bg-background p-4">
         <Button onPress={onSubmit} disabled={isLoading}>
           <Text className="text-background">{isLoading ? 'Đang lưu...' : 'Lưu'}</Text>

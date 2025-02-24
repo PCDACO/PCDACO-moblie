@@ -7,7 +7,6 @@ import ModelPicker from '../modal-picker';
 import { Checkbox } from '../ui/checkbox';
 
 import { AmentityResponse } from '~/constants/models/amenitiy';
-// import { CarPayload } from '~/constants/models/car';
 import { useAmenities } from '~/hooks/amenity/use-amenity';
 import { useCarForm } from '~/hooks/car/use-car-form';
 import { Plus } from '~/lib/icons/icon';
@@ -15,14 +14,10 @@ import { useCarStore } from '~/stores/use-generic';
 
 interface AmenityItemProps {
   data: AmentityResponse;
-  // selectedAmenities: string[];
-  // toggleAmenity: (id: string) => void;
   form: ReturnType<typeof useCarForm>['form'];
 }
 
 const AmenityItem: React.FC<AmenityItemProps> = ({ data, form }) => {
-  // const isChecked = selectedAmenities.includes(data.id);
-
   return (
     <Controller
       control={form.control}
@@ -77,17 +72,8 @@ interface AmenitiesListProps {
 const AmenitiesList: React.FC<AmenitiesListProps> = ({ form }) => {
   const { listAmenitiesQuery } = useAmenities({ params: { index: 1, size: 100 } });
   const { setData, data: carData } = useCarStore();
-  // const { form } = useCarForm();
-
-  // const [selectedAmenities, setSelectedAmenities] = useState<string[]>(carData?.amenityIds || []);
 
   const selectedAmenity = form.watch('amenityIds');
-
-  // const toggleAmenity = (id: string) => {
-  //   setSelectedAmenities((prev) =>
-  //     prev.includes(id) ? prev.filter((amenityId) => amenityId !== id) : [...prev, id]
-  //   );
-  // };
 
   const amentitiesSelected = listAmenitiesQuery.data?.value.items.filter((item) =>
     selectedAmenity?.includes(item.id)
@@ -117,14 +103,7 @@ const AmenitiesList: React.FC<AmenitiesListProps> = ({ form }) => {
           <FlatList
             data={listAmenitiesQuery.data?.value.items}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <AmenityItem
-                data={item}
-                form={form}
-                // selectedAmenities={selectedAmenities}
-                // toggleAmenity={toggleAmenity}
-              />
-            )}
+            renderItem={({ item }) => <AmenityItem data={item} form={form} />}
             ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
             scrollEnabled
           />

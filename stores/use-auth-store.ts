@@ -53,6 +53,11 @@ export const useAuthStore = create<AuthState>()(
               return error;
             });
           console.log('validate', validate);
+          if (validate === undefined) {
+            console.log('Token is invalid');
+            await logout();
+            return;
+          }
 
           if (validate.status === 401) {
             const response = await AuthService.refreshToken(refreshToken)
@@ -61,11 +66,15 @@ export const useAuthStore = create<AuthState>()(
             if (response.status === 401) {
               console.log('Refresh token failed', response);
               await logout();
+              return;
             } else {
               console.log('Refresh token success');
               await setTokens(response.accessToken, response.refreshToken);
+              return;
             }
-          } else {
+          }
+
+          if (validate.status === 200) {
             console.log('Token is still valid');
           }
         } catch (error) {

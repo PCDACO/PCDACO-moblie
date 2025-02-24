@@ -2,12 +2,20 @@ import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
 import { Alert, TouchableOpacity, View } from 'react-native';
 
-interface ImagePickerProps {
+import { cn } from '~/lib/utils';
+
+interface ImagePickerProps extends React.ComponentProps<typeof TouchableOpacity> {
   onChange?: (file: string[]) => void;
   contextInput: React.ReactNode;
+  className?: string;
 }
 
-const ImagePickerButton: React.FC<ImagePickerProps> = ({ onChange, contextInput }) => {
+const ImagePickerButton: React.FC<ImagePickerProps> = ({
+  onChange,
+  contextInput,
+  className,
+  ...props
+}) => {
   const pickImages = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
@@ -16,7 +24,7 @@ const ImagePickerButton: React.FC<ImagePickerProps> = ({ onChange, contextInput 
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images', 'videos'],
       allowsMultipleSelection: true,
       //   selectionLimit: maxImages - imageUris.length,
       quality: 1,
@@ -31,7 +39,11 @@ const ImagePickerButton: React.FC<ImagePickerProps> = ({ onChange, contextInput 
   return (
     <View>
       <TouchableOpacity
-        className="w-full items-center justify-center rounded-lg border border-dashed border-gray-400 bg-background p-6"
+        className={cn(
+          'w-full items-center justify-center rounded-lg border border-dashed border-gray-400 bg-background p-6',
+          className
+        )}
+        {...props}
         onPress={pickImages}>
         {contextInput}
       </TouchableOpacity>

@@ -34,8 +34,6 @@ export const useAuthForm = ({ type }: UseAuthFormProps) => {
   });
 
   const onSubmit = form.handleSubmit((data) => {
-    // console.log('data', data);
-
     if (type === 'login') {
       loginMutation.mutate(data as LoginPayload);
     } else {
