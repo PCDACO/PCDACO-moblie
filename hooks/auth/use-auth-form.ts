@@ -29,7 +29,7 @@ export const useAuthForm = ({ type }: UseAuthFormProps) => {
             address: '',
             dateOfBirth: new Date(),
             phone: '',
-            roleName: 'Driver',
+            roleName: 'Owner',
           },
   });
 

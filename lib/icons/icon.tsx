@@ -1,4 +1,5 @@
 import {
+  EyeIcon,
   Trash2,
   CircleX,
   User,
@@ -122,6 +123,7 @@ iconWithClassName(Lock);
 iconWithClassName(PhoneCall);
 iconWithClassName(CirclePlus);
 iconWithClassName(Trash2);
+iconWithClassName(EyeIcon);
 
 export {
   Map,
@@ -183,4 +185,5 @@ export {
   CircleX,
   CirclePlus,
   Trash2,
+  EyeIcon,
 };

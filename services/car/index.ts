@@ -1,3 +1,7 @@
+import * as ImagePicker from 'expo-image-picker';
+import * as DocumentPicker from 'expo-document-picker';
+import { Platform } from 'react-native';
+
 import axiosInstance from '~/configs/axios';
 import {
   CarAmenitiesPayload,
@@ -78,10 +82,11 @@ export const CarService = {
       const formData = new FormData();
 
       payload.paperImages.forEach((paper) => {
-        formData.append('images', paper);
+        formData.append('paperImages', paper);
       });
+
       payload.carImages.forEach((car) => {
-        formData.append('images', car);
+        formData.append('carImages', car);
       });
 
       try {
@@ -102,10 +107,13 @@ export const CarService = {
       }
     },
 
-    carAmenities: async (id: string, payload: CarAmenitiesPayload): Promise<RootResponse<null>> => {
+    carAmenities: async (
+      carId: string,
+      payload: CarAmenitiesPayload
+    ): Promise<RootResponse<null>> => {
       try {
         const response = await axiosInstance.patch<RootResponse<null>>(
-          `/api/cars/${id}/amenities`,
+          `/api/cars/${carId}/amenities`,
           payload
         );
         return response.data;

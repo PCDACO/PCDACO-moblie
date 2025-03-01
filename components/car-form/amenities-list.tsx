@@ -59,7 +59,7 @@ const AmenitiesAfterSelect: React.FC<AmenitiesAfterSelectProps> = ({ name, icon 
     <View
       className="flex-row items-center gap-2 rounded-lg border border-input bg-gray-200 p-2"
       style={{ width: '49%' }}>
-      {icon ? <SvgUri width="20" height="20" source={{ uri: icon }} fill="#000000" /> : null}
+      {icon ? <SvgUri width="20" height="20" source={{ uri: icon }} /> : null}
       <Text className="text-base">{name}</Text>
     </View>
   );

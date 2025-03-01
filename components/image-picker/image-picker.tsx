@@ -5,7 +5,7 @@ import { Alert, TouchableOpacity, View } from 'react-native';
 import { cn } from '~/lib/utils';
 
 interface ImagePickerProps extends React.ComponentProps<typeof TouchableOpacity> {
-  onChange?: (file: string[]) => void;
+  onChange?: (file: ImagePicker.ImagePickerAsset[]) => void;
   contextInput: React.ReactNode;
   className?: string;
 }
@@ -31,8 +31,8 @@ const ImagePickerButton: React.FC<ImagePickerProps> = ({
     });
 
     if (!result.canceled) {
-      const newUris = result.assets.map((asset) => asset.uri);
-      onChange?.(newUris);
+      // onChange?.(result.assets);
+      onChange?.(result.assets);
     }
   };
 
@@ -40,7 +40,7 @@ const ImagePickerButton: React.FC<ImagePickerProps> = ({
     <View>
       <TouchableOpacity
         className={cn(
-          'w-full items-center justify-center rounded-lg border border-dashed border-gray-400 bg-background p-6',
+          ' items-center justify-center rounded-lg border border-dashed border-gray-400 bg-background p-6',
           className
         )}
         {...props}

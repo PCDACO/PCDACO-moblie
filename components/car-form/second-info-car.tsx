@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import AmenitiesList from './amenities-list';
 import ModalCharactersic from './modal-charactersic';
 import FieldLayout from '../layout/field-layout';
+
 import { useCarForm } from '~/hooks/car/use-car-form';
 
 interface SecondInfoCarProps {

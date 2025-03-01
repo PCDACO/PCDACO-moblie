@@ -1,47 +1,29 @@
 import { z } from 'zod';
 
-// const imageSizeSchema = z.instanceof(File).refine((file) => file.size < 5000000, {
-//   message: 'Image size must be less than 5MB',
-// });
-
-const checkImageSize = (file: string) => {
-  const BASE64_LENGTH = file.length - (file.indexOf(',') + 1);
-  const FILE_SIZE = (BASE64_LENGTH * 3) / 4 / 1024 / 1024; // Convert to MB
-  return FILE_SIZE <= 2; // Kiểm tra nếu nhỏ hơn 2MB
-};
+export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export const carSchema = z.object({
-  carImages: z
-    .array(z.string())
-    .nonempty('Car images cannot be empty')
-    .max(6, 'Car images must be less than 6')
-    .refine(
-      (files) => files.every((file) => checkImageSize(file)),
-      'Each image must be smaller than 2MB'
-    ),
+  carImages: z.any().array().nonempty('Yêu cầu ít nhất 1 hình ảnh'),
+
   amenityIds: z.array(z.string()).nonempty('Amenity cannot be empty'),
-  modelId: z.string().nonempty('Model cannot be empty'),
-  transmissionTypeId: z.string().nonempty('Transmission type cannot be empty'),
-  fuelTypeId: z.string().uuid().nonempty('Fuel type cannot be empty'),
-  licensePlate: z.string().nonempty('License plate cannot be empty'),
-  color: z.string().nonempty('Color cannot be empty'),
-  seat: z
-    .number()
-    .int()
-    .positive('Seat must be a positive integer')
-    .max(7, 'Seat must be less than 7'),
-  description: z.string().nonempty('Description cannot be empty'),
+  modelId: z.string().nonempty('Yêu cầu chọn mẫu xe'),
+  transmissionTypeId: z.string().nonempty('Yêu cầu chọn loại hộp số'),
+  fuelTypeId: z.string().uuid().nonempty('Yêu cầu chọn loại nhiên liệu'),
+  licensePlate: z.string().nonempty('Yêu cầu nhập biển số xe'),
+  color: z.string().nonempty('Yêu cầu nhập màu xe'),
+  seat: z.number().positive('Số ghế phải là số dương').max(20, 'Số ghế phải nhỏ hơn 20'),
+  description: z.string().nonempty('Yêu cầu nhập mô tả'),
   fuelConsumption: z
     .number()
-    .positive('Fuel consumption must be a positive number')
-    .max(20, 'Fuel consumption must be less than 20'),
+    .positive('Số tiêu thụ nhiên liệu phải là số dương')
+    .max(40, 'Số tiêu thụ nhiên liệu phải nhỏ hơn 40'),
   requiresCollateral: z.boolean(),
   price: z
     .number()
-    .positive('Price per hour must be a positive number')
-    .max(5000000, 'Price must be less than 5,000,000'),
+    .positive('Số tiền phải là số dương')
+    .max(10000000, 'Số tiền phải nhỏ hơn 10 triệu'),
 
-  paperImages: z.array(z.string()).nonempty('Paper images cannot be empty'),
+  paperImages: z.any().array().nonempty('Yêu cầu ít nhất 1 hình ảnh'),
 });
 
 export type CarPayloadSchema = z.infer<typeof carSchema>;

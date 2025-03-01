@@ -1,11 +1,12 @@
 import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
 import { cn } from '~/lib/utils';
 
 interface DocumentPickerButtonProps extends React.ComponentProps<typeof TouchableOpacity> {
-  onChange?: (file: DocumentPicker.DocumentPickerResult) => void;
+  onChange?: (file: DocumentPicker.DocumentPickerAsset[]) => void;
   contextInput: React.ReactNode;
   className?: string;
   multiple?: boolean;
@@ -22,7 +23,7 @@ const DocumentPickerButton: React.FC<DocumentPickerButtonProps> = ({
     try {
       const result = await DocumentPicker.getDocumentAsync({
         type: 'application/pdf',
-        copyToCacheDirectory: false,
+        copyToCacheDirectory: true,
         multiple,
       });
 
@@ -30,8 +31,24 @@ const DocumentPickerButton: React.FC<DocumentPickerButtonProps> = ({
         console.log('User canceled document picker');
         return;
       }
+      const files = await Promise.all(
+        result.assets.map(async (file) => {
+          // Đọc file dưới dạng base64 nếu cần
+          const base64 = await FileSystem.readAsStringAsync(file.uri, {
+            encoding: FileSystem.EncodingType.Base64,
+          });
 
-      onChange?.(result);
+          return {
+            uri: file.uri,
+            name: file.name,
+            size: file.size ?? 0,
+            type: file.mimeType ?? 'application/pdf',
+            base64,
+          };
+        })
+      );
+
+      onChange && onChange(files);
     } catch (error) {
       console.error('Error picking document:', error);
     }

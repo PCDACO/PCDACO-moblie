@@ -44,9 +44,6 @@ export const useCarMutation = () => {
     mutationFn: async (payload: CarPayload) => await CarService.post.car(payload),
     onSuccess: (data) => {
       console.log('create data id ', data.value.id);
-
-      queryClient.invalidateQueries({ queryKey: QueryKey.CAR_LIST });
-      ToastAndroid.show('Tạo xe thành công', ToastAndroid.SHORT);
     },
     onError: (error) => {
       console.log(error);
@@ -81,7 +78,7 @@ export const useCarMutation = () => {
     mutationFn: async ({ payload, id }: { payload: CarImagesPayload; id: string }) =>
       await CarService.patch.carImages(id, payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QueryKey.CAR_DETAIL });
+      // queryClient.invalidateQueries({ queryKey: QueryKey.CAR_DETAIL });
     },
     onError: (error) => {
       console.log(error);
@@ -93,7 +90,7 @@ export const useCarMutation = () => {
     mutationFn: async ({ payload, id }: { payload: CarAmenitiesPayload; id: string }) =>
       await CarService.patch.carAmenities(id, payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: QueryKey.CAR_DETAIL });
+      // queryClient.invalidateQueries({ queryKey: QueryKey.CAR_DETAIL });
     },
     onError: (error) => {
       console.log(error);

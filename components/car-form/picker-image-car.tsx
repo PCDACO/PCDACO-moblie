@@ -1,3 +1,4 @@
+import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
 import { Animated, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 
@@ -13,16 +14,19 @@ interface PickerImageCarProps {
 const PickerImageCar: React.FC<PickerImageCarProps> = ({ form }) => {
   const [viewWidth, setViewWidth] = React.useState<number>(0);
   const [activeIndex, setActiveIndex] = React.useState<number>(1);
-  const [items, setItems] = React.useState<string[]>(form.watch('carImages'));
+  const [items, setItems] = React.useState<File[]>([]);
+
+  // console.log('activeIndex', activeIndex);
+  // console.log('image', form.watch('carImages'));
 
   const flatlistRef = React.useRef<FlatList<any>>(null);
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      //   const nextIndex = (activeIndex + 1) % items.length;
       if (items.length > 0) {
         const nextIndex = (activeIndex + 1) % items.length;
+
         flatlistRef.current?.scrollToIndex({ index: nextIndex });
         setActiveIndex(nextIndex);
       }
@@ -31,10 +35,11 @@ const PickerImageCar: React.FC<PickerImageCarProps> = ({ form }) => {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [items, activeIndex]);
 
   React.useEffect(() => {
     const carImagesSelected = form.watch('carImages');
+    // Update items when carImagesSelected change
     if (carImagesSelected) {
       setItems(carImagesSelected);
     }
@@ -42,64 +47,77 @@ const PickerImageCar: React.FC<PickerImageCarProps> = ({ form }) => {
 
   const onViewableItemsChanged = ({ viewableItems }: any) => {
     // Update activeIndex when viewable items change
+    // console.log('viewableItems', viewableItems[0].index);
+
     if (viewableItems.length > 0) {
       setActiveIndex(viewableItems[0].index + 1);
+    } else {
+      setActiveIndex(0);
     }
   };
-  const dataWithAddButton = [...items, 'ADD_BUTTON']; // Add button to add new image
+
+  const handleAddImage = React.useCallback(
+    (newImages: ImagePicker.ImagePickerAsset[]) => {
+      // Convert ImagePickerAsset to File
+      const newImage = newImages.map((image) => {
+        return {
+          uri: image.uri,
+          name: image.fileName || 'image.jpg',
+          type: image.mimeType || 'image/jpeg',
+        } as unknown as File;
+      });
+
+      newImage.forEach((image) => {
+        setItems((prev) => [...prev, image]);
+      });
+
+      if (newImage.length > 0) {
+        form.setValue('carImages', [...items, ...newImage] as [File, ...File[]]);
+      }
+    },
+    [items]
+  );
+
+  const handleRemoveImage = React.useCallback(
+    (item: any) => {
+      const removeImage = items.filter((image) => image.name !== item.name);
+      setItems(removeImage);
+      form.setValue('carImages', removeImage as [File, ...File[]]);
+
+      if (activeIndex === 0) {
+        flatlistRef.current?.scrollToIndex({ index: 0 });
+      }
+    },
+    [items]
+  );
 
   return (
     <View>
       {items.length > 0 && (
-        <View className="h-60" onLayout={(event) => setViewWidth(event.nativeEvent.layout.width)}>
+        <View
+          className="relative h-60"
+          onLayout={(event) => setViewWidth(event.nativeEvent.layout.width)}>
           <FlatList
-            data={dataWithAddButton}
+            data={items}
             ref={flatlistRef}
             keyExtractor={(_, index) => index.toString()}
             horizontal
             pagingEnabled
             renderItem={({ item }) => {
-              if (item === 'ADD_BUTTON') {
-                return (
-                  <ImagePickerButton
-                    className="h-full"
-                    style={{ width: viewWidth }}
-                    onChange={(imageUris) => {
-                      if (imageUris.length > 0) {
-                        form.setValue('carImages', imageUris as [string, ...string[]], {
-                          shouldValidate: true,
-                        });
-                        setItems(imageUris);
-                      }
-                    }}
-                    contextInput={
-                      <>
-                        <Camera className="text-muted-foreground" size={40} />
-                        <Text className="text-xl font-medium text-muted-foreground">
-                          Chọn hình ảnh
-                        </Text>
-                      </>
-                    }
-                  />
-                );
-              }
-
               return (
                 <View className={` relative h-60 p-2 shadow-md `} style={{ width: viewWidth }}>
-                  <Image
-                    source={{ uri: item }}
-                    className="size-full rounded-xl object-cover shadow-lg"
-                  />
+                  {item && (
+                    <Image
+                      source={{ uri: item.uri }}
+                      className="size-full rounded-xl object-cover shadow-lg"
+                    />
+                  )}
                   <TouchableOpacity
                     className="absolute right-4 top-4 rounded-full  p-1"
                     onPress={() => {
-                      const updatedUris = items.filter((imageUri) => imageUri !== item);
-                      setItems(updatedUris);
-                      form.setValue('carImages', updatedUris as [string, ...string[]], {
-                        shouldValidate: true,
-                      });
+                      handleRemoveImage(item);
                     }}>
-                    <CircleX className="rounded-full bg-transparent text-destructive" size={18} />
+                    <CircleX className="rounded-full bg-background/90 text-destructive" size={18} />
                   </TouchableOpacity>
                 </View>
               );
@@ -109,6 +127,15 @@ const PickerImageCar: React.FC<PickerImageCarProps> = ({ form }) => {
             })}
             onViewableItemsChanged={onViewableItemsChanged}
           />
+          <ImagePickerButton
+            className="absolute bottom-4 right-4 items-center justify-center rounded-full border border-none bg-background/80 p-2"
+            contextInput={<Camera className="text-muted-foreground" size={18} />}
+            onChange={(imageUris) => {
+              if (imageUris.length > 0) {
+                handleAddImage(imageUris);
+              }
+            }}
+          />
         </View>
       )}
       {items.length === 0 && (
@@ -116,10 +143,7 @@ const PickerImageCar: React.FC<PickerImageCarProps> = ({ form }) => {
           className="h-60"
           onChange={(imageUris) => {
             if (imageUris.length > 0) {
-              form.setValue('carImages', imageUris as [string, ...string[]], {
-                shouldValidate: true,
-              });
-              setItems(imageUris);
+              handleAddImage(imageUris);
             }
           }}
           contextInput={
