@@ -4,14 +4,17 @@ import { View, Image, Text } from 'react-native';
 import { Car } from '~/lib/icons/icon';
 
 interface CarImageProps {
-  image?: string;
+  image?: {
+    id: string;
+    url: string;
+  };
 }
 
 const CarImage: React.FC<CarImageProps> = ({ image }) => {
   return (
     <View className="relative">
       {image ? (
-        <Image source={{ uri: image }} className="h-40 w-full rounded-lg" resizeMode="cover" />
+        <Image source={{ uri: image.url }} className="h-40 w-full rounded-lg " resizeMode="cover" />
       ) : (
         <View className="flex h-40 w-full items-center justify-center rounded-lg bg-gray-200">
           <Car className=" w-full rounded-lg text-foreground" />

@@ -1,42 +1,33 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { ToastAndroid } from 'react-native';
 
-import {
-  CarAmenitiesPayload,
-  CarImagesPayload,
-  CarParams,
-  CarPayload,
-} from '~/constants/models/car';
+import { CarAmenitiesPayload, CarParams, CarPayload } from '~/constants/models/car';
 import { QueryKey } from '~/lib/query-key';
 import { CarService } from '~/services/car';
 
 interface CarProps {
   params?: CarParams;
-  id?: string;
 }
 
-export const useCarQuery = ({ params, id }: CarProps) => {
-  // if (!id) {
-  //   throw new Error('ID is required');
-  // }
-
-  // if (params) {
-  //   throw new Error('Params are mutually exclusive');
-  // }
-
+export const useCarQuery = ({ params }: CarProps) => {
   const listQuery = useQuery({
     queryKey: [QueryKey.CAR_LIST, params ? params : {}],
     queryFn: () => CarService.get.list(params),
   });
 
-  // const detailQuery = useQuery({
-  //   queryKey: [QueryKey.CAR_DETAIL, id],
-  //   queryFn: () => CarService.get.detail(id),
-  // });
-
   return {
     listQuery,
-    // detailQuery,
+  };
+};
+
+export const useCarDetailQuery = ({ id }: { id: string }) => {
+  const detailQuery = useQuery({
+    queryKey: [QueryKey.CAR_DETAIL, id],
+    queryFn: () => CarService.get.detail(id),
+  });
+
+  return {
+    detailQuery,
   };
 };
 
@@ -79,8 +70,20 @@ export const useCarMutation = () => {
 
   const patchImageMutation = useMutation({
     mutationKey: [QueryKey.CAR_PATCH_IMAGE],
-    mutationFn: async ({ payload, id }: { payload: CarImagesPayload; id: string }) =>
+    mutationFn: async ({ payload, id }: { payload: File[]; id: string }) =>
       await CarService.patch.carImages(id, payload),
+    onSuccess: () => {
+      // queryClient.invalidateQueries({ queryKey: QueryKey.CAR_DETAIL });
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const patchPaperImageMutation = useMutation({
+    mutationKey: [QueryKey.CAR_PATCH_PAPERS],
+    mutationFn: async ({ payload, id }: { payload: File[]; id: string }) =>
+      await CarService.patch.paperImages(id, payload),
     onSuccess: () => {
       // queryClient.invalidateQueries({ queryKey: QueryKey.CAR_DETAIL });
     },
@@ -107,5 +110,6 @@ export const useCarMutation = () => {
     deleteMutation,
     patchImageMutation,
     patchAmenitiesMutation,
+    patchPaperImageMutation,
   };
 };

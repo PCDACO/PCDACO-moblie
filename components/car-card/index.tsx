@@ -23,7 +23,7 @@ const CarCard: React.FC<CarCardProps> = ({ car }) => {
       }}>
       <View className="gap-4 rounded-xl bg-white px-4 py-4 shadow-md">
         <CarHeader name={car.modelName} />
-        <CarImage />
+        <CarImage image={car.images[0]} />
         <CarFooter price={car.price} fuelType={car.fuelType} />
       </View>
     </Pressable>

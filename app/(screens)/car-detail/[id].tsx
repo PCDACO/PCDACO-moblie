@@ -9,9 +9,16 @@ import RelatedDocument from '~/components/car-detail/related-document';
 import SwiperImage from '~/components/swiper-image';
 import Title from '~/components/typography/title';
 import { Button } from '~/components/ui/button';
+import { useCarDetailQuery } from '~/hooks/car/use-car';
 
 const CarDetailScreen = () => {
   const { id, name } = useLocalSearchParams();
+
+  const carId = Array.isArray(id) ? id[0] : id;
+
+  const { detailQuery } = useCarDetailQuery({ id: carId });
+
+  console.log('detailQuery', detailQuery.data);
 
   return (
     <>

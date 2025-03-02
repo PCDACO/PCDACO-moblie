@@ -16,9 +16,6 @@ const firebase = initializeApp(firebaseConfig);
 const analytics = getAnalytics(firebase);
 const auth = getAuth(firebase);
 
-// const phoneNumber = getPhoneNumberFromUserInput();
-// const appVerifier = window.recaptchaVerifier;
-
 export default {
   firebase,
   auth,

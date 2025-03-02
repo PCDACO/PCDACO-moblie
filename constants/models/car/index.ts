@@ -37,8 +37,13 @@ export interface CarResponse {
   price: number;
   location: null;
   manufacturer: Manufacturer;
-  images: any[];
+  images: Images[];
   amenities: Amenity[];
+}
+
+interface Images {
+  id: string;
+  url: string;
 }
 
 interface Amenity {

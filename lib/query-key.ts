@@ -41,6 +41,7 @@ export const QueryKey = {
   CAR_DELETE: 'car_delete',
   // patch
   CAR_PATCH_IMAGE: 'car_patch_image',
+  CAR_PATCH_PAPERS: 'car_patch_papers',
   CAR_PATCH_AMENITIES: 'car_patch_amenities',
 
   // Fuel

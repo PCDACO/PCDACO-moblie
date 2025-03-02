@@ -24,9 +24,7 @@ export const CarService = {
 
     detail: async (id: string): Promise<RootResponse<CarDetailResponse>> => {
       try {
-        const response = await axiosInstance.get<RootResponse<CarDetailResponse>>(
-          `/api/cars/${id}`
-        );
+        const response = await axiosInstance.get<RootResponse<CarDetailResponse>>(`/api/car/${id}`);
         return response.data;
       } catch (error: any) {
         return error.response.data.message;
@@ -74,20 +72,40 @@ export const CarService = {
   },
 
   patch: {
-    carImages: async (carId: string, payload: CarImagesPayload): Promise<RootResponse<null>> => {
+    carImages: async (carId: string, payload: File[]): Promise<RootResponse<null>> => {
       const formData = new FormData();
 
-      payload.paperImages.forEach((paper) => {
-        formData.append('paperImages', paper);
-      });
-
-      payload.carImages.forEach((car) => {
-        formData.append('carImages', car);
+      payload.forEach((image) => {
+        formData.append('images', image);
       });
 
       try {
         const response = await axiosInstance
-          .patch(`/api/cars/${carId}/images`, formData, {
+          .patch(`/api/cars/${carId}/car-images`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          .then((res) => res.data)
+          .catch((error) => {
+            throw new Error(error);
+          });
+
+        return response;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
+    },
+
+    paperImages: async (carId: string, payload: File[]): Promise<RootResponse<null>> => {
+      const formData = new FormData();
+      payload.forEach((image) => {
+        formData.append('images', image);
+      });
+
+      try {
+        const response = await axiosInstance
+          .patch(`/api/cars/${carId}/paper-images`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
