@@ -24,7 +24,7 @@ import { useTransmissionQuery } from '~/hooks/transmission/use-transmission';
 import Automatic from '~/lib/icons/Automatic';
 import FilePDF from '~/lib/icons/FilePDF';
 import FuelConsumption from '~/lib/icons/FuelConsumption';
-import { Fuel, Armchair, Snowflake, Wifi, Briefcase } from '~/lib/icons/icon';
+import { Fuel, Armchair } from '~/lib/icons/icon';
 
 interface ModalCharactersicProps {
   form: ReturnType<typeof useCarForm>['form'];

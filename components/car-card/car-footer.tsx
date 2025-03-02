@@ -1,18 +1,18 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import Rating from '~/components/car-card/rating';
+// import Rating from '~/components/car-card/rating';
 import StatusBadge from '~/components/car-card/status-badge';
 
 interface CarFooterProps {
-  status: string;
-  rating: number;
-  booking: number;
+  // status: string;
+  // rating: number;
+  // booking: number;
   price: number;
   fuelType: string;
 }
 
-const CarFooter: React.FC<CarFooterProps> = ({ status, rating, booking, price, fuelType }) => {
+const CarFooter: React.FC<CarFooterProps> = ({ price, fuelType }) => {
   return (
     <View className="flex-row items-center justify-between ">
       <View className="gap-1">
@@ -22,8 +22,8 @@ const CarFooter: React.FC<CarFooterProps> = ({ status, rating, booking, price, f
         </Text>
       </View>
       <View className="gap-1">
-        <StatusBadge status={status} />
-        <Rating reviews={booking} rating={rating} />
+        {/* <StatusBadge status={status} /> */}
+        {/* <Rating reviews={booking} rating={rating} /> */}
       </View>
     </View>
   );

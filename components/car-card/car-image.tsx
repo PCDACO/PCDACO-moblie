@@ -1,18 +1,23 @@
 import React from 'react';
 import { View, Image, Text } from 'react-native';
 
+import { Car } from '~/lib/icons/icon';
+
 interface CarImageProps {
-  image: string;
-  totalImages: number;
+  image?: string;
 }
 
-const CarImage: React.FC<CarImageProps> = ({ image, totalImages }) => {
+const CarImage: React.FC<CarImageProps> = ({ image }) => {
   return (
     <View className="relative">
-      <Image source={image} className="h-40 w-full rounded-lg" resizeMode="cover" />
-      <Text className="absolute right-2 top-2 rounded-xl bg-black/60 px-3 py-1 text-sm text-white">
-        1/{totalImages}
-      </Text>
+      {image ? (
+        <Image source={{ uri: image }} className="h-40 w-full rounded-lg" resizeMode="cover" />
+      ) : (
+        <View className="flex h-40 w-full items-center justify-center rounded-lg bg-gray-200">
+          <Car className=" w-full rounded-lg text-foreground" />
+          <Text className="  transform text-lg text-foreground">No Image</Text>
+        </View>
+      )}
     </View>
   );
 };

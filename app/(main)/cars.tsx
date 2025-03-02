@@ -3,69 +3,31 @@ import React from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
 
 import CarCard from '~/components/car-card';
+import { useCarQuery } from '~/hooks/car/use-car';
 import { Plus } from '~/lib/icons/icon';
 
 const CarsScreen = () => {
-  const cars = [
-    {
-      id: '1',
-      image: require('~/assets/placeholder.png'),
-      totalImages: 5,
-      name: 'Honda Civic 2024',
-      fuelType: 'Xăng',
-      price: 1000000,
-      status: 'Đang cho thuê',
-      rating: 4.9,
-      reviews: 18,
-      booking: 10,
-      statusBooking: 'Hiện đang cho thuê ',
+  const { listQuery } = useCarQuery({
+    params: {
+      limit: 10,
     },
-    {
-      id: '2',
-      image: require('~/assets/placeholder.png'),
-      totalImages: 5,
-      name: 'BMW X5',
-      fuelType: 'Xăng',
-      price: 1000000,
-      status: 'Đang khả dụng',
-      rating: 4.8,
-      reviews: 18,
-      booking: 10,
-      statusBooking: 'Lần cho thuê gần nhất: 2 tháng trước',
-    },
-    {
-      id: '3',
-      image: require('~/assets/placeholder.png'),
-      totalImages: 5,
-      name: 'BMW X5',
-      fuelType: 'Xăng',
-      price: 1000000,
-      status: 'Đang khả dụng',
-      rating: 4.8,
-      reviews: 18,
-      booking: 10,
-      statusBooking: 'Lần cho thuê gần nhất: 2 tháng trước',
-    },
-    {
-      id: '4',
-      image: require('~/assets/placeholder.png'),
-      totalImages: 5,
-      name: 'BMW X5',
-      fuelType: 'Xăng',
-      price: 1000000,
-      status: 'Đang khả dụng',
-      rating: 4.8,
-      reviews: 18,
-      booking: 10,
-      statusBooking: 'Lần cho thuê gần nhất: 2 tháng trước',
-    },
-  ];
+  });
+
+  const { data: cars, isLoading } = listQuery;
+
+  if (isLoading) {
+    return <View>Loading...</View>;
+  }
+
+  if (!cars) {
+    return <View>No cars found</View>;
+  }
 
   return (
     <View>
       <ScrollView className="p-4 ">
         <View className="mb-10 gap-4">
-          {cars.map((car, index) => (
+          {cars.value.items.map((car, index) => (
             <CarCard key={index} car={car} />
           ))}
         </View>

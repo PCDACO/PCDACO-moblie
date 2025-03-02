@@ -2,47 +2,29 @@ import { router } from 'expo-router';
 import React from 'react';
 import { Pressable, View } from 'react-native';
 
+import CarHeader from './car-header';
+
 import CarFooter from '~/components/car-card/car-footer';
-import CarInfo from '~/components/car-card/car-header';
 import CarImage from '~/components/car-card/car-image';
+import { CarResponse } from '~/constants/models/car';
 
 interface CarCardProps {
-  car: {
-    id: string;
-    image: string;
-    totalImages: number;
-    name: string;
-    fuelType: string;
-    price: number;
-    status: string;
-    rating: number;
-    reviews: number;
-    booking: number;
-    statusBooking: string;
-  };
+  car: CarResponse;
 }
 
 const CarCard: React.FC<CarCardProps> = ({ car }) => {
-  // const navigation = useNavigation();
-  // const router = useRouter();
   return (
     <Pressable
       onPress={() => {
         router.push({
           pathname: '/(screens)/car-detail/[id]',
-          params: { id: car.id, name: car.name },
+          params: { id: car.id, name: car.modelName },
         });
       }}>
       <View className="gap-4 rounded-xl bg-white px-4 py-4 shadow-md">
-        <CarInfo name={car.name} statusBooking={car.statusBooking} />
-        <CarImage image={car.image} totalImages={car.totalImages} />
-        <CarFooter
-          status={car.status}
-          rating={car.rating}
-          booking={car.booking}
-          price={car.price}
-          fuelType={car.fuelType}
-        />
+        <CarHeader name={car.modelName} />
+        <CarImage />
+        <CarFooter price={car.price} fuelType={car.fuelType} />
       </View>
     </Pressable>
   );

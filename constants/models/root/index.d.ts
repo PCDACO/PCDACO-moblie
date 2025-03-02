@@ -16,7 +16,7 @@ declare global {
 
   type ListPaginationRequest = {
     limit: number;
-    lastId: number;
+    lastId?: number;
   };
 
   type Role = {

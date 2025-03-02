@@ -20,7 +20,37 @@ export interface CarParams extends ListPaginationRequest {
   transmission?: string;
 }
 
-export interface CarResponse {}
+export interface CarResponse {
+  id: string;
+  modelId: string;
+  modelName: string;
+  ownerId: string;
+  ownerName: string;
+  licensePlate: string;
+  color: string;
+  seat: number;
+  description: string;
+  transmissionType: string;
+  fuelType: string;
+  fuelConsumption: number;
+  requiresCollateral: boolean;
+  price: number;
+  location: null;
+  manufacturer: Manufacturer;
+  images: any[];
+  amenities: Amenity[];
+}
+
+interface Amenity {
+  id: string;
+  name: string;
+  description: string;
+}
+
+interface Manufacturer {
+  id: string;
+  name: string;
+}
 
 export interface CarDetailResponse {}
 

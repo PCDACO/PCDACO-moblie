@@ -53,7 +53,7 @@ export const useAuthStore = create<AuthState>()(
               logout();
               return error;
             });
-          console.log('validate', validate);
+
           if (validate === undefined) {
             console.log('Token is invalid');
             await logout();

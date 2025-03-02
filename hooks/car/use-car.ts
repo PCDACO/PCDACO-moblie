@@ -16,23 +16,27 @@ interface CarProps {
 }
 
 export const useCarQuery = ({ params, id }: CarProps) => {
-  if (!id) {
-    throw new Error('ID is required');
-  }
+  // if (!id) {
+  //   throw new Error('ID is required');
+  // }
+
+  // if (params) {
+  //   throw new Error('Params are mutually exclusive');
+  // }
 
   const listQuery = useQuery({
     queryKey: [QueryKey.CAR_LIST, params ? params : {}],
     queryFn: () => CarService.get.list(params),
   });
 
-  const detailQuery = useQuery({
-    queryKey: [QueryKey.CAR_DETAIL, id],
-    queryFn: () => CarService.get.detail(id),
-  });
+  // const detailQuery = useQuery({
+  //   queryKey: [QueryKey.CAR_DETAIL, id],
+  //   queryFn: () => CarService.get.detail(id),
+  // });
 
   return {
     listQuery,
-    detailQuery,
+    // detailQuery,
   };
 };
 

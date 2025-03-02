@@ -1,7 +1,3 @@
-import * as ImagePicker from 'expo-image-picker';
-import * as DocumentPicker from 'expo-document-picker';
-import { Platform } from 'react-native';
-
 import axiosInstance from '~/configs/axios';
 import {
   CarAmenitiesPayload,
@@ -17,7 +13,7 @@ export const CarService = {
     list: async (request?: CarParams): Promise<RootResponse<Pagination<CarResponse>>> => {
       try {
         const response = await axiosInstance.get<RootResponse<Pagination<CarResponse>>>(
-          `/api/cars`,
+          `/api/cars/personal`,
           { params: request }
         );
         return response.data;

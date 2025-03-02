@@ -1,4 +1,6 @@
+import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithPhoneNumber } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
@@ -10,14 +12,15 @@ const firebaseConfig = {
   measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-const missingEnvVars = Object.entries(firebaseConfig).filter(([_, value]) => !value);
-
-if (missingEnvVars.length > 0) {
-  throw new Error(
-    `Missing environment variables: ${missingEnvVars.map(([key]) => key).join(', ')}`
-  );
-}
-
 const firebase = initializeApp(firebaseConfig);
+const analytics = getAnalytics(firebase);
+const auth = getAuth(firebase);
 
-export default firebase;
+// const phoneNumber = getPhoneNumberFromUserInput();
+// const appVerifier = window.recaptchaVerifier;
+
+export default {
+  firebase,
+  auth,
+  analytics,
+};
