@@ -4,11 +4,13 @@ import 'expo-dev-client';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider as NavThemeProvider } from '@react-navigation/native';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { PortalHost } from '@rn-primitives/portal';
 
-import { ThemeToggle } from '~/components/ThemeToggle';
+// import { ThemeToggle } from '~/components/ThemeToggle';
 import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme';
 import { NAV_THEME } from '~/theme';
 
@@ -18,33 +20,33 @@ export {
 } from 'expo-router';
 
 export default function RootLayout() {
+  const queryClient = new QueryClient();
   useInitialAndroidBarSync();
   const { colorScheme, isDarkColorScheme } = useColorScheme();
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <StatusBar
         key={`root-status-bar-${isDarkColorScheme ? 'light' : 'dark'}`}
         style={isDarkColorScheme ? 'light' : 'dark'}
       />
-      {/* WRAP YOUR APP WITH ANY ADDITIONAL PROVIDERS HERE */}
-      {/* <ExampleProvider> */}
 
       <GestureHandlerRootView style={{ flex: 1 }}>
         <BottomSheetModalProvider>
           <ActionSheetProvider>
             <NavThemeProvider value={NAV_THEME[colorScheme]}>
               <Stack screenOptions={SCREEN_OPTIONS}>
-                <Stack.Screen name="(drawer)" options={DRAWER_OPTIONS} />
-                <Stack.Screen name="modal" options={MODAL_OPTIONS} />
+                <Stack.Screen name="index" options={TAB_OPTIONS} />
+                <Stack.Screen name="(main)" options={TAB_OPTIONS} />
+                <Stack.Screen name="(auth)" options={TAB_OPTIONS} />
+                <Stack.Screen name="(screen)" options={TAB_OPTIONS} />
               </Stack>
             </NavThemeProvider>
           </ActionSheetProvider>
         </BottomSheetModalProvider>
       </GestureHandlerRootView>
-
-      {/* </ExampleProvider> */}
-    </>
+      <PortalHost />
+    </QueryClientProvider>
   );
 }
 
@@ -52,13 +54,7 @@ const SCREEN_OPTIONS = {
   animation: 'ios_from_right', // for android
 } as const;
 
-const DRAWER_OPTIONS = {
-  headerShown: false,
-} as const;
-
-const MODAL_OPTIONS = {
-  presentation: 'modal',
+const TAB_OPTIONS = {
   animation: 'fade_from_bottom', // for android
-  title: 'Settings',
-  headerRight: () => <ThemeToggle />,
+  headerShown: false,
 } as const;
