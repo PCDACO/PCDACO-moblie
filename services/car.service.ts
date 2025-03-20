@@ -1,9 +1,10 @@
+import * as DocumentPicker from 'expo-document-picker';
+
 import axiosInstance from '~/configs/axios.config';
 import {
-  CarAmenitiesPayload,
+  CarDetailResponse,
   CarParams,
   CarPayload,
-  CarResponseDetail,
   CarResponseList,
 } from '~/constants/models/car.model';
 
@@ -23,9 +24,9 @@ export const CarService = {
       }
     },
 
-    detail: async (id: string): Promise<RootResponse<CarResponseDetail>> => {
+    detail: async (id: string): Promise<RootResponse<CarDetailResponse>> => {
       try {
-        const response = await axiosInstance.get<RootResponse<CarResponseDetail>>(`/api/car/${id}`);
+        const response = await axiosInstance.get<RootResponse<CarDetailResponse>>(`/api/car/${id}`);
         return response.data;
       } catch (error: any) {
         return error.response.data.message;
@@ -93,30 +94,40 @@ export const CarService = {
       }
     },
 
-    paperImages: async (carId: string, payload: File[]): Promise<RootResponse<null>> => {
+    paperImages: async (
+      carId: string,
+      payload: DocumentPicker.DocumentPickerAsset[]
+    ): Promise<RootResponse<null>> => {
       const formData = new FormData();
-      payload.forEach((image) => {
-        formData.append('images', image);
+
+      payload.forEach((image: DocumentPicker.DocumentPickerAsset) => {
+        formData.append('images', {
+          name: image.name,
+          type: image.mimeType,
+          uri: image.uri,
+        } as unknown as File);
       });
 
-      console.log('formData', formData);
-
       try {
+        console.log('call api');
         const response = await axiosInstance.patch(`/api/cars/${carId}/paper-images`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-
+        console.log('call api success');
         return response.data;
       } catch (error: any) {
+        console.log('call api fail');
         return error.response.data.message;
       }
     },
 
     carAmenities: async (
       carId: string,
-      payload: CarAmenitiesPayload
+      payload: {
+        amenityId: string[];
+      }
     ): Promise<RootResponse<null>> => {
       try {
         const response = await axiosInstance.patch<RootResponse<null>>(

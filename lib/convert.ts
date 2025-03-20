@@ -1,9 +1,12 @@
+import { DocumentPickerAsset } from 'expo-document-picker';
 import { ImagePickerAsset } from 'expo-image-picker';
 
-export const convertAssertToFile = (file: ImagePickerAsset): File => {
+type FileConvert = ImagePickerAsset | DocumentPickerAsset;
+
+export const convertAssertToFile = (file: FileConvert): File => {
   const uri = file.uri;
-  const type = file.mimeType;
-  const name = file.fileName;
+  const type = (file as ImagePickerAsset).mimeType || (file as DocumentPickerAsset).mimeType;
+  const name = (file as ImagePickerAsset).fileName || (file as DocumentPickerAsset).name;
 
   return {
     uri,

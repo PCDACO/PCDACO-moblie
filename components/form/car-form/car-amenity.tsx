@@ -50,7 +50,7 @@ const CarAmenity: FunctionComponent<CarAmenityProps> = ({ form }) => {
   }
 
   return (
-    <View className="gap-8">
+    <View className="gap-8 bg-white px-2 pt-4 dark:bg-gray-900">
       <View className="gap-6">
         <Subtitle title="Tiện nghi xe" />
         <Description
@@ -67,7 +67,12 @@ const CarAmenity: FunctionComponent<CarAmenityProps> = ({ form }) => {
             name="amenityIds"
             render={({ field: { value, onChange } }) => (
               <FlatList
-                data={amenities?.value.items}
+                data={
+                  amenities?.value.items ||
+                  amenities?.value.items.filter((item) =>
+                    form.watch('amenityIds').includes(item.id)
+                  )
+                }
                 scrollEnabled={false}
                 renderItem={({ item }) => (
                   <AmenityItem

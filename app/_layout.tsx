@@ -4,11 +4,14 @@ import 'expo-dev-client';
 import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider as NavThemeProvider } from '@react-navigation/native';
+import { PortalHost } from '@rn-primitives/portal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useCameraPermissions } from 'expo-camera';
+import * as Location from 'expo-location';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import * as React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { PortalHost } from '@rn-primitives/portal';
 
 // import { ThemeToggle } from '~/components/ThemeToggle';
 import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme';
@@ -21,8 +24,22 @@ export {
 
 export default function RootLayout() {
   const queryClient = new QueryClient();
-  useInitialAndroidBarSync();
   const { colorScheme, isDarkColorScheme } = useColorScheme();
+
+  const [requestPermission] = useCameraPermissions();
+  const { requestForegroundPermissionsAsync } = Location;
+  useInitialAndroidBarSync();
+
+  const handlerPermission = React.useCallback(() => {
+    // request camera permission
+    // eslint-disable-next-line no-unused-expressions
+    requestPermission;
+  }, []);
+
+  React.useEffect(() => {
+    requestForegroundPermissionsAsync();
+    handlerPermission();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -58,4 +58,8 @@ export const QueryKey = {
   Transmission: {
     List: 'TransmissionList',
   },
+
+  Model: {
+    List: 'ModelList',
+  },
 };

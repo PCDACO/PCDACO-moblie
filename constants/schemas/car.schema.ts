@@ -2,29 +2,31 @@ import { z } from 'zod';
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+const ACCEPTED_PDF_TYPES = ['application/pdf'];
 
 export const carSchema = z.object({
   carImages: z
     .any()
     .array()
-    .nonempty('Yêu cầu ít nhất 1 hình ảnh')
+    .refine((files) => files.length > 0, 'Yêu cầu ít nhất 1 hình ảnh')
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'Chỉ nhận ảnh định dạng jpg, jpeg, png, webp'
     ),
 
-  amenityIds: z.array(z.string()).nonempty('Amenity cannot be empty'),
+  amenityIds: z.array(z.string()).nonempty('Yêu cầu chọn tiện ích của xe'),
   modelId: z.string().nonempty('Yêu cầu chọn mẫu xe'),
   transmissionTypeId: z.string().nonempty('Yêu cầu chọn loại hộp số'),
   fuelTypeId: z.string().uuid().nonempty('Yêu cầu chọn loại nhiên liệu'),
-  licensePlate: z.string().nonempty('Yêu cầu nhập biển số xe'),
+  licensePlate: z.string().nonempty('Yêu cầu nhập biển số xe').min(8, {
+    message: 'Biển số xe không được ít hơn 8 kí tự !',
+  }),
   color: z.string().nonempty('Yêu cầu nhập màu xe'),
   seat: z.number().positive('Số ghế phải là số dương').max(20, 'Số ghế phải nhỏ hơn 20'),
   description: z.string().nonempty('Yêu cầu nhập mô tả'),
-  fuelConsumption: z
-    .number()
-    .positive('Số tiêu thụ nhiên liệu phải là số dương')
-    .max(40, 'Số tiêu thụ nhiên liệu phải nhỏ hơn 40'),
+  fuelConsumption: z.number().positive('Số tiêu thụ nhiên liệu phải là số dương').max(40, {
+    message: 'Số tiêu thụ nhiên liệu phải nhỏ hơn 40',
+  }),
   requiresCollateral: z.boolean(),
   pickupLatitude: z.number().positive('Vị trí lấy xe phải là số dương'),
   pickupLongitude: z.number().positive('Vị trí lấy xe phải là số dương'),
@@ -38,10 +40,10 @@ export const carSchema = z.object({
   paperImages: z
     .any()
     .array()
-    .nonempty('Yêu cầu ít nhất 1 hình ảnh')
+    .refine((files) => files.length > 0, 'Yêu cầu ít nhất 1 hình ảnh')
     .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      'Chỉ nhận ảnh định dạng jpg, jpeg, png, webp'
+      (files) => ACCEPTED_PDF_TYPES.includes(files?.[0]?.mimeType),
+      'Chỉ nhận file định dạng pdf'
     ),
 });
 

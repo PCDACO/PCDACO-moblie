@@ -1,12 +1,13 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import * as DocumentPicker from 'expo-document-picker';
 import { ToastAndroid } from 'react-native';
 
-import { CarAmenitiesPayload, CarParams, CarPayload } from '~/constants/models/car.model';
+import { CarParams, CarPayload } from '~/constants/models/car.model';
 import { QueryKey } from '~/lib/query-key';
 import { CarService } from '~/services/car.service';
 
 interface CarProps {
-  params?: CarParams;
+  params?: Partial<CarParams>;
 }
 
 export const useCarQuery = ({ params }: CarProps) => {
@@ -25,9 +26,7 @@ export const useCarDetailQuery = ({ id }: { id: string }) => {
     queryFn: () => CarService.get.detail(id),
   });
 
-  return {
-    detailQuery,
-  };
+  return detailQuery;
 };
 
 export const useCarMutation = () => {
@@ -68,7 +67,7 @@ export const useCarMutation = () => {
   });
 
   const patchImageMutation = useMutation({
-    mutationKey: [QueryKey.Car.PatchPaperImage],
+    mutationKey: [QueryKey.Car.PatchImage],
     mutationFn: async ({ payload, id }: { payload: File[]; id: string }) =>
       await CarService.patch.carImages(id, payload),
     onSuccess: () => {
@@ -80,9 +79,14 @@ export const useCarMutation = () => {
   });
 
   const patchPaperImageMutation = useMutation({
-    mutationKey: [QueryKey.Car.PatchImage],
-    mutationFn: async ({ payload, id }: { payload: File[]; id: string }) =>
-      await CarService.patch.paperImages(id, payload),
+    mutationKey: [QueryKey.Car.PatchPaperImage],
+    mutationFn: async ({
+      payload,
+      id,
+    }: {
+      payload: DocumentPicker.DocumentPickerAsset[];
+      id: string;
+    }) => await CarService.patch.paperImages(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Car.Detail] });
     },
@@ -93,7 +97,7 @@ export const useCarMutation = () => {
 
   const patchAmenitiesMutation = useMutation({
     mutationKey: [QueryKey.Car.PatchAmenities],
-    mutationFn: async ({ payload, id }: { payload: CarAmenitiesPayload; id: string }) =>
+    mutationFn: async ({ payload, id }: { payload: { amenityId: string[] }; id: string }) =>
       await CarService.patch.carAmenities(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Car.Detail] });

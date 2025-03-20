@@ -14,4 +14,13 @@ export enum CarStatus {
   Rented = 'Rented',
   Inactive = 'Inactive',
   Pending = 'Pending',
+  Maintain = 'Maintain',
+}
+
+export enum CarStatusNumber {
+  Available = 0,
+  Pending = 1,
+  Rented = 2,
+  Inactive = 3,
+  Maintain = 4,
 }

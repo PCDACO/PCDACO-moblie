@@ -31,7 +31,7 @@ axiosInstance.interceptors.request.use(
 
     return config;
   },
-  (error) => {
+  async (error) => {
     return Promise.reject(error);
   }
 );
@@ -41,21 +41,27 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    // const refreshToken = await storage.getItem('refreshToken');
+    // const originalRequest = error.config;
 
-    // if (error.response.status === 401 && refreshToken) {
-    //   const response = await AuthService.refreshToken(refreshToken);
+    // if (error.response.status === 401 && !originalRequest._retry) {
+    //   originalRequest._retry = true;
 
-    //   if (response.isSuccess) {
-    //     storage.setItem('accessToken', response.value.accessToken);
-    //     storage.setItem('refreshToken', response.value.refreshToken);
+    //   const refreshToken = await storage.getItem('refreshToken');
 
-    //     return axiosInstance(error.config);
-    //   } else {
-    //     storage.removeItem('accessToken');
-    //     storage.removeItem('refreshToken');
+    //   if (refreshToken) {
+    //     const response = await AuthService.refreshToken(refreshToken);
 
-    //     return Promise.reject(error);
+    //     if (response.isSuccess) {
+    //       storage.setItem('accessToken', response.value.accessToken);
+    //       storage.setItem('refreshToken', response.value.refreshToken);
+
+    //       originalRequest.headers.Authorization = `Bearer ${response.value.accessToken}`;
+
+    //       return axiosInstance(originalRequest);
+    //     } else {
+    //       storage.removeItem('accessToken');
+    //       storage.removeItem('refreshToken');
+    //     }
     //   }
     // }
 

@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { TextInput, View } from 'react-native';
 
-import { useDebounce } from '~/hooks/plugins/use-debounce';
+import useDebounce from '~/hooks/plugins/use-debounce';
 import { cn } from '~/lib/cn';
 import { useSearchStore } from '~/store/use-search';
 
@@ -25,7 +25,7 @@ export const SearchInput = ({ placeholder = 'Search...', className = '' }: Searc
   return (
     <View
       className={cn(
-        'w-full flex-row items-center gap-2 rounded-lg bg-white px-4 py-2 dark:bg-slate-300',
+        'w-full flex-row items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 dark:border-gray-700 dark:bg-slate-300',
         className
       )}>
       <Ionicons name="search" size={20} color="#4B5563" />

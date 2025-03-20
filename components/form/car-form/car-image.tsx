@@ -5,15 +5,18 @@ import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import ImagePickerButton from '~/components/plugins/image-picker';
 import Description from '~/components/screens/car-editor/description';
 import Subtitle from '~/components/screens/car-editor/subtitle';
+import { CarDetailResponse } from '~/constants/models/car.model';
 import { useCarForm } from '~/hooks/car/use-car-form';
 import { convertAssertToFile } from '~/lib/convert';
 
 interface CarImageProps {
   form: ReturnType<typeof useCarForm>['form'];
+  carImages?: CarDetailResponse['images'];
 }
 
-const CarImage: FunctionComponent<CarImageProps> = ({ form }) => {
-  const [images, setImages] = React.useState<string[]>();
+const CarImage: FunctionComponent<CarImageProps> = ({ form, carImages }) => {
+  const [images, setImages] = React.useState<string[]>([]);
+
   const [active, setActive] = React.useState<number>(0);
   const [viewWidth, setViewWidth] = React.useState<number>(0);
 
@@ -27,8 +30,18 @@ const CarImage: FunctionComponent<CarImageProps> = ({ form }) => {
     }
   };
 
+  React.useEffect(() => {
+    if (!carImages) {
+      if (form.watch('carImages')) {
+        setImages(form.watch('carImages').map((item: any) => item.uri));
+      }
+    } else {
+      setImages(carImages.filter((item) => item.type === 'Car').map((item) => item.url));
+    }
+  }, [form.watch('carImages')]);
+
   return (
-    <View className=" gap-6">
+    <View className=" gap-6 bg-white px-2 pt-4 dark:bg-gray-900">
       <Subtitle title="Hình ảnh xe" />
       <Description title="Hãy chụp ảnh xe của bạn từ nhiều góc độ khác nhau để người thuê có thể xem chi tiết." />
 
@@ -63,6 +76,7 @@ const CarImage: FunctionComponent<CarImageProps> = ({ form }) => {
                   onPress={() => {
                     setImages(undefined);
                     setActive(0);
+                    form.setValue('carImages', []);
                   }}>
                   <Feather name="x-circle" size={24} color="red" />
                 </TouchableOpacity>
@@ -78,7 +92,7 @@ const CarImage: FunctionComponent<CarImageProps> = ({ form }) => {
                 const imageConvert = image.map((item) => convertAssertToFile(item));
 
                 if (imageConvert.length > 0) {
-                  form.setValue('carImages', [imageConvert[0], ...imageConvert.slice(1)]);
+                  form.setValue('carImages', imageConvert);
                 }
               }}
               contextInput={

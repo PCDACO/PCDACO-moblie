@@ -39,14 +39,7 @@ export const useAuth = () => {
       setIsAuthenticated(true);
     },
     onError: (error: any) => {
-      if (error.response?.status === 401) {
-        if (refreshToken) {
-          refreshTokenMutation.mutate(refreshToken);
-        } else {
-          removeTokens();
-          setIsAuthenticated(false);
-        }
-      }
+      console.log('error', error);
     },
   });
 

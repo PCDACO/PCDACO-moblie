@@ -13,7 +13,7 @@ interface CarDescriptionProps {
 
 const CarDescription: FunctionComponent<CarDescriptionProps> = ({ form }) => {
   return (
-    <View className="gap-4">
+    <View className="gap-4 bg-white px-2 pt-4 dark:bg-gray-900">
       <Subtitle title="Mô tả xe" />
       <Description
         title="Mô tả chi tiết về xe của bạn để người thuê hiểu rõ hơn về xe."
@@ -25,7 +25,7 @@ const CarDescription: FunctionComponent<CarDescriptionProps> = ({ form }) => {
           name="description"
           render={({ field: { value, onChange } }) => (
             <TextInput
-              value={value}
+              value={value || form.watch('description')}
               onChangeText={onChange}
               placeholder="Mô tả chi tiết về xe của bạn ..."
               className="rounded-lg border border-gray-200 placeholder:p-4 placeholder:text-base dark:border-gray-800"

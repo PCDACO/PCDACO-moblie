@@ -1,3 +1,5 @@
+import { CarStatusNumber } from '../enums';
+
 export interface CarParams extends Partial<LastIdRootResquest> {
   latitude: number;
   longtitude: number;
@@ -8,6 +10,7 @@ export interface CarParams extends Partial<LastIdRootResquest> {
   fuel: string;
   transmission: string;
   keyword: string;
+  status: CarStatusNumber;
 }
 
 export interface CarPayload {
@@ -58,7 +61,7 @@ interface Manufacturer {
   name: string;
 }
 
-export interface CarResponseDetail {
+export interface CarDetailResponse {
   id: string;
   modelId: string;
   modelName: string;
@@ -81,12 +84,7 @@ export interface CarResponseDetail {
   manufacturer: Manufacturer;
   images: Image[];
   amenities: Amenity[];
-}
-
-interface Image {
-  id: string;
-  url: string;
-  type: string;
+  bookings: any[];
 }
 
 export interface Amenity {
@@ -96,6 +94,9 @@ export interface Amenity {
   icon: string;
 }
 
-export interface CarAmenitiesPayload {
-  amenityId: string[];
+export interface Image {
+  id: string;
+  url: string;
+  type: 'Car' | 'Paper';
+  name: string;
 }

@@ -17,7 +17,7 @@ interface CarPriceTermProps {
 
 const CarPriceTerm: FunctionComponent<CarPriceTermProps> = ({ form }) => {
   return (
-    <View className=" gap-4 ">
+    <View className=" gap-4 bg-white px-2 pt-4 dark:bg-gray-900">
       <Subtitle title="Giá thuê" />
       <FieldLayout label="Giá thuê mỗi ngày (VNĐ)">
         <Controller
@@ -25,10 +25,16 @@ const CarPriceTerm: FunctionComponent<CarPriceTermProps> = ({ form }) => {
           name="price"
           render={({ field: { value, onChange } }) => (
             <Input
-              value={value ? formatNumber(value) : ''}
+              value={
+                value
+                  ? formatNumber(value)
+                  : form.watch('price')
+                    ? formatNumber(form.watch('price'))
+                    : ''
+              }
               onChangeText={(text) => {
                 const numericValue = text.replace(/\D/g, '');
-                onChange(numericValue);
+                onChange(Number(numericValue));
               }}
               placeholder="Nhập giá thuê"
               keyboardType="numeric"
@@ -50,7 +56,10 @@ const CarPriceTerm: FunctionComponent<CarPriceTermProps> = ({ form }) => {
             control={form.control}
             name="requiresCollateral"
             render={({ field: { value, onChange } }) => (
-              <Switch checked={value} onCheckedChange={onChange} />
+              <Switch
+                checked={value || form.watch('requiresCollateral')}
+                onCheckedChange={onChange}
+              />
             )}
           />
         </View>
@@ -65,7 +74,7 @@ const CarPriceTerm: FunctionComponent<CarPriceTermProps> = ({ form }) => {
         name="terms"
         render={({ field: { value, onChange } }) => (
           <TextInput
-            value={value}
+            value={value || form.watch('terms')}
             onChangeText={onChange}
             placeholder="Nhập điều khoản và quy định cho thuê xe của bạn ..."
             className="rounded-lg border border-gray-200 placeholder:p-4 placeholder:text-base dark:border-gray-800"

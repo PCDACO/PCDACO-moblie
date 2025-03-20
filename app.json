@@ -11,6 +11,8 @@
     },
     "plugins": [
       "expo-router",
+      "@config-plugins/react-native-blob-util",
+      "@config-plugins/react-native-pdf",
       [
         "expo-dev-launcher",
         {
@@ -42,6 +44,12 @@
         {
           "iCloudContainerEnvironment": "Production"
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow PCDACO-Owner to use your location."
+        }
       ]
     ],
     "experiments": {
@@ -65,14 +73,24 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anhden123.PCDACOOwner"
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.DOWNLOAD_WITHOUT_NOTIFICATION",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "package": "com.anhtht138.PCDACOOwner"
     },
     "extra": {
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "c790cd7b-7555-401f-bcac-86efb8299840"
+        "projectId": "c9d9d5c9-25fc-4c26-9c1b-1dd70379a7f4"
       }
     }
   }
