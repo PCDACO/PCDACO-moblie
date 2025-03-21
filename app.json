@@ -50,6 +50,13 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow PCDACO-Owner to use your location."
         }
+      ],
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiYW5odGh0MTM4IiwiYSI6ImNtOGl3cXY2MjA3ZjEyanNpbTQ0ZWxhdHEifQ.ejQXolOC3H1lMD0DZpk_Bg",
+          "RNMapboxMapsVersion": "11.0.0"
+        }
       ]
     ],
     "experiments": {

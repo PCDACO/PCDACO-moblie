@@ -1,4 +1,4 @@
-import { Feather, FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import React, { FunctionComponent } from 'react';
 import { Text, View, Image, FlatList } from 'react-native';
 import Markdown from 'react-native-markdown-display';
@@ -37,21 +37,21 @@ export const AmenityItem = ({ amenity }: AmenityItemProps) => {
   );
 };
 
-interface PaperImageItemProps {
-  nameFile: string;
-  paperImages: string;
-}
+// interface PaperImageItemProps {
+//   nameFile: string;
+//   paperImages: string;
+// }
 
-const PaperImageItem = ({ nameFile, paperImages }: PaperImageItemProps) => {
-  return (
-    <View className="flex-row items-center gap-2 rounded-lg border border-gray-200 p-2">
-      <FontAwesome name="file-pdf-o" size={24} color={COLORS.light.primary} />
-      <Text numberOfLines={1} ellipsizeMode="tail" className="flex-1 text-foreground">
-        {nameFile}
-      </Text>
-    </View>
-  );
-};
+// const PaperImageItem = ({ nameFile, paperImages }: PaperImageItemProps) => {
+//   return (
+//     <View className="flex-row items-center gap-2 rounded-lg border border-gray-200 p-2">
+//       <FontAwesome name="file-pdf-o" size={24} color={COLORS.light.primary} />
+//       <Text numberOfLines={1} ellipsizeMode="tail" className="flex-1 text-foreground">
+//         {nameFile}
+//       </Text>
+//     </View>
+//   );
+// };
 
 const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
   const [carImages, setCarImages] = React.useState<string[]>([]);
@@ -123,8 +123,6 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
 
     if (modelId) {
       const model = modelData?.value.items.find((item) => item.id === modelId);
-      console.log('modelfilter', model);
-
       setModel(model);
     }
 
