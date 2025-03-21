@@ -1,4 +1,4 @@
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
 import * as React from 'react';
@@ -8,7 +8,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Loading from '~/components/plugins/loading';
 import { SearchInput } from '~/components/plugins/search-input';
 import CarCard from '~/components/screens/car-list/car-card';
-import { CarStatusNumber } from '~/constants/enums';
 import { useCarQuery } from '~/hooks/car/use-car';
 import { useStepStore } from '~/store/use-step';
 import { COLORS } from '~/theme/colors';
@@ -16,19 +15,14 @@ import { COLORS } from '~/theme/colors';
 const CarsScreen = () => {
   const router = useRouter();
   const { resetStep } = useStepStore();
-  const {
-    data: cars,
-    isLoading,
-    error,
-  } = useCarQuery({
+  const { data: cars, isLoading } = useCarQuery({
     params: {
       limit: 10,
-      // status: CarStatusNumber.Pending,
     },
   });
 
   const sheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['90%'], []);
+  const snapPoints = React.useMemo(() => ['1%', '90%'], []);
 
   const handleSnapPress = React.useCallback((index: number) => {
     sheetRef.current?.snapToIndex(index);
@@ -42,12 +36,6 @@ const CarsScreen = () => {
     sheetRef.current?.close();
   }, []);
 
-  React.useEffect(() => {
-    if (sheetRef.current) {
-      sheetRef.current.close();
-    }
-  }, [sheetRef]);
-
   return (
     <SafeAreaView className="relative h-full flex-1">
       <View className="flex-row items-center gap-2 px-4">
@@ -58,7 +46,7 @@ const CarsScreen = () => {
             padding: 11,
           }}
           onPress={() => {
-            handleSnapPress(0);
+            handleSnapPress(1);
           }}>
           <Ionicons name="options-outline" size={20} color={COLORS.black} />
         </TouchableOpacity>
@@ -79,7 +67,13 @@ const CarsScreen = () => {
               paddingHorizontal: 16,
               paddingTop: 16,
             }}
-            ListEmptyComponent={<Text>Không có xe nào</Text>}
+            ListEmptyComponent={
+              <View className="h-screen flex-1 items-center justify-center gap-2">
+                <FontAwesome5 name="car-side" size={40} color={COLORS.gray} />
+                <Text className="text-lg font-bold text-muted">Không có xe nào</Text>
+              </View>
+            }
+            ItemSeparatorComponent={() => <View className="h-2" />}
           />
         )}
       </View>

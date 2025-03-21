@@ -77,7 +77,7 @@ const CarBasicInfo: FunctionComponent<CarBasicInfoProps> = ({ form }) => {
   React.useEffect(() => {
     if (form.watch('modelId')) {
       setSearchModel(
-        modelData?.value.items.find((item) => item.id === form.watch('modelId'))?.name || ''
+        modelData?.value.items.find((item) => item.id === form.watch('modelId'))?.name as any
       );
     }
   }, [form.watch('modelId')]);
@@ -89,7 +89,7 @@ const CarBasicInfo: FunctionComponent<CarBasicInfoProps> = ({ form }) => {
   };
 
   return (
-    <View className="gap-4 bg-white px-2 pt-4 dark:bg-gray-900">
+    <View className="gap-4 bg-white px-2 py-4 dark:bg-gray-900">
       {/* form car basic info */}
       <Subtitle title="Thông tin xe" />
       <View className="gap-4">

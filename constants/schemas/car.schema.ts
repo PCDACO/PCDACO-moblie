@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-const ACCEPTED_PDF_TYPES = ['application/pdf'];
+// const ACCEPTED_PDF_TYPES = ['application/pdf'];
 
 export const carSchema = z.object({
   carImages: z
@@ -23,7 +23,10 @@ export const carSchema = z.object({
   }),
   color: z.string().nonempty('Yêu cầu nhập màu xe'),
   seat: z.number().positive('Số ghế phải là số dương').max(20, 'Số ghế phải nhỏ hơn 20'),
-  description: z.string().nonempty('Yêu cầu nhập mô tả'),
+  description: z
+    .string()
+    .nonempty('Yêu cầu nhập mô tả')
+    .max(500, 'Điều khoản không được vượt quá 500 ký tự'),
   fuelConsumption: z.number().positive('Số tiêu thụ nhiên liệu phải là số dương').max(40, {
     message: 'Số tiêu thụ nhiên liệu phải nhỏ hơn 40',
   }),
@@ -35,15 +38,18 @@ export const carSchema = z.object({
     .number()
     .positive('Số tiền phải là số dương')
     .max(10000000, 'Số tiền phải nhỏ hơn 10 triệu'),
-  terms: z.string().nonempty('Yêu cầu nhập điều khoản'),
+  terms: z
+    .string()
+    .nonempty('Yêu cầu nhập điều khoản')
+    .max(500, 'Điều khoản không được vượt quá 500 ký tự'),
 
   paperImages: z
     .any()
     .array()
     .refine((files) => files.length > 0, 'Yêu cầu ít nhất 1 hình ảnh')
     .refine(
-      (files) => ACCEPTED_PDF_TYPES.includes(files?.[0]?.mimeType),
-      'Chỉ nhận file định dạng pdf'
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      'Chỉ nhận ảnh định dạng jpg, jpeg, png, webp'
     ),
 });
 

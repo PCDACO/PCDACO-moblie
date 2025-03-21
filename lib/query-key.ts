@@ -40,7 +40,13 @@ export const QueryKey = {
 
   Bank: {
     List: 'BankList',
-    Account: 'BankAccount',
+    Account: {
+      List: 'BankAccountList',
+      Detail: 'BankAccountDetail',
+      Create: 'BankAccountCreate',
+      Update: 'BankAccountUpdate',
+      Delete: 'BankAccountDelete',
+    },
   },
 
   User: {

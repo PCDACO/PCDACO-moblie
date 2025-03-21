@@ -17,7 +17,7 @@ interface CarPriceTermProps {
 
 const CarPriceTerm: FunctionComponent<CarPriceTermProps> = ({ form }) => {
   return (
-    <View className=" gap-4 bg-white px-2 pt-4 dark:bg-gray-900">
+    <View className=" gap-4 bg-white px-2 py-4 dark:bg-gray-900">
       <Subtitle title="Giá thuê" />
       <FieldLayout label="Giá thuê mỗi ngày (VNĐ)">
         <Controller

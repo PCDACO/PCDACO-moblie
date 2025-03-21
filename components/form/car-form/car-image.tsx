@@ -15,7 +15,7 @@ interface CarImageProps {
 }
 
 const CarImage: FunctionComponent<CarImageProps> = ({ form, carImages }) => {
-  const [images, setImages] = React.useState<string[]>([]);
+  const [images, setImages] = React.useState<string[]>();
 
   const [active, setActive] = React.useState<number>(0);
   const [viewWidth, setViewWidth] = React.useState<number>(0);
@@ -41,7 +41,7 @@ const CarImage: FunctionComponent<CarImageProps> = ({ form, carImages }) => {
   }, [form.watch('carImages')]);
 
   return (
-    <View className=" gap-6 bg-white px-2 pt-4 dark:bg-gray-900">
+    <View className=" gap-6 bg-white px-2 py-4 dark:bg-gray-900">
       <Subtitle title="Hình ảnh xe" />
       <Description title="Hãy chụp ảnh xe của bạn từ nhiều góc độ khác nhau để người thuê có thể xem chi tiết." />
 

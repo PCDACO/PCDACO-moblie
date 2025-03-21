@@ -14,7 +14,6 @@ import CarPriceTerm from '~/components/form/car-form/car-price-term';
 import VehicleRegistration from '~/components/form/car-form/vehicle-registration';
 import { ProgressIndicator } from '~/components/nativewindui/ProgressIndicator';
 import { Text } from '~/components/nativewindui/Text';
-import Loading from '~/components/plugins/loading';
 import HeaderTitle from '~/components/screens/car-editor/header-title';
 import ErrorScreen from '~/components/screens/car-editor/status/error-screen';
 import LoadingScreen from '~/components/screens/car-editor/status/loading-screen';
@@ -27,7 +26,7 @@ const EditCarScreen: React.FC = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
 
-  const { step, prevStep } = useStepStore();
+  const { step, prevStep, nextStep } = useStepStore();
   const [progress, setProgress] = React.useState<number>(0);
 
   const { form, checkConditionOfEachStep, isError, isSuccess, isLoading, onSubmit } = useCarForm({
@@ -55,19 +54,15 @@ const EditCarScreen: React.FC = () => {
   return (
     <SafeAreaView className="relative h-full dark:bg-gray-900">
       <View className="relative">
-        <TouchableOpacity onPress={() => router.back()} className="absolute left-0 top-4 p-2">
+        <TouchableOpacity onPress={() => router.back()} className="absolute left-0 top-0 p-2">
           <Feather name="arrow-left" size={24} color="black" />
         </TouchableOpacity>
         <HeaderTitle title={id ? 'Chỉnh sửa xe' : 'Tạo xe'} />
         <ProgressIndicator value={progress} />
       </View>
 
-      <ScrollView className="px-2 ">
-        <View
-          className="h-screen rounded-lg "
-          style={{
-            marginBottom: 700,
-          }}>
+      <ScrollView className="h-screen px-2">
+        <View className=" rounded-lg" style={{ paddingBottom: 100 }}>
           {step === 1 && <CarImage form={form} />}
           {step === 2 && <CarBasicInfo form={form} />}
           {step === 3 && <CarAmenity form={form} />}

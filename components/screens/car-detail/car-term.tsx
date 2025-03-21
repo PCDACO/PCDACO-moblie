@@ -1,5 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import { View, Text } from 'react-native';
+import { FunctionComponent } from 'react';
+import { View } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 
 import FieldLayout from '~/components/layouts/field-layout';
 
@@ -11,7 +12,7 @@ const CarTerm: FunctionComponent<CarTermProps> = ({ term }) => {
   return (
     <FieldLayout label="Điều khoản">
       <View className="gap-2 rounded-xl border border-gray-200 p-4 dark:border-gray-800">
-        <Text>{term}</Text>
+        <Markdown>{term}</Markdown>
       </View>
     </FieldLayout>
   );

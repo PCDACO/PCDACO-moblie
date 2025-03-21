@@ -36,13 +36,6 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
   const checkConditionOfEachStep = async (step: number, id: string) => {
     switch (step) {
       case 1: {
-        console.log('have id');
-
-        if (id) {
-          nextStep();
-          return;
-        }
-
         const isValidate = await validField(form.trigger(['carImages']));
         if (isValidate) {
           nextStep();
@@ -160,6 +153,7 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
                 });
 
                 ToastAndroid.show('Đăng ký xe thành công', ToastAndroid.SHORT);
+                form.reset();
               },
               onError: (error) => {
                 console.log('error', error);

@@ -43,14 +43,14 @@ const CarAmenity: FunctionComponent<CarAmenityProps> = ({ form }) => {
 
   if (isLoading) {
     return (
-      <View className="h-full items-center justify-center">
+      <View className="h-screen flex-1 items-center justify-center">
         <Loading />
       </View>
     );
   }
 
   return (
-    <View className="gap-8 bg-white px-2 pt-4 dark:bg-gray-900">
+    <View className="gap-8 bg-white p-4 px-2 dark:bg-gray-900">
       <View className="gap-6">
         <Subtitle title="Tiện nghi xe" />
         <Description

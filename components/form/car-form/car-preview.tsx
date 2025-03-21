@@ -1,6 +1,7 @@
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import React, { FunctionComponent } from 'react';
-import { Text, View, Image, FlatList, Pressable } from 'react-native';
+import { Text, View, Image, FlatList } from 'react-native';
+import Markdown from 'react-native-markdown-display';
 import { SvgUri } from 'react-native-svg';
 
 import FieldLayout from '~/components/layouts/field-layout';
@@ -54,15 +55,19 @@ const PaperImageItem = ({ nameFile, paperImages }: PaperImageItemProps) => {
 
 const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
   const [carImages, setCarImages] = React.useState<string[]>([]);
-  const [paperImages, setPaperImages] = React.useState<PaperImageItemProps[]>([]);
+  const [paperImages, setPaperImages] = React.useState<string[]>([]);
   const [active, setActive] = React.useState<number>(0);
   const [viewWidth, setViewWidth] = React.useState<number>(0);
+  const [viewWidthPaper, setViewWidthPaper] = React.useState<number>(0);
+  const [activePaper, setActivePaper] = React.useState<number>(0);
   const [amenitiesId, setAmenitiesId] = React.useState<string[]>([]);
   const [model, setModel] = React.useState<ModelsResponse>();
   const [transmission, setTransmission] = React.useState<TransmissionResponseList>();
   const [fuel, setFuel] = React.useState<FuelResponseList>();
 
   const flatlistRef = React.useRef<FlatList<any>>(null);
+  const flatlistRefPaper = React.useRef<FlatList<any>>(null);
+
   const { data: amenities } = useAmenities({
     params: {
       index: 1,
@@ -71,15 +76,15 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
   });
 
   const { data: modelData } = useModelQuery({
-    params: { index: 1, size: 50 },
+    params: { index: 1, size: 100 },
   });
 
   const { data: transmissionData } = useTransmissionQuery({
-    params: { index: 1, size: 50 },
+    params: { index: 1, size: 100 },
   });
 
   const { data: fuelData } = useFuelQuery({
-    params: { index: 1, size: 50 },
+    params: { index: 1, size: 100 },
   });
 
   const onViewableItemsChanged = ({ viewableItems }: any) => {
@@ -90,14 +95,21 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
     }
   };
 
+  const onViewableItemsChangedPaper = ({ viewableItems }: any) => {
+    if (viewableItems.length > 0) {
+      setActivePaper(viewableItems[0].index + 1);
+    } else {
+      setActivePaper(0);
+    }
+  };
   const { watch } = form;
 
   React.useEffect(() => {
     const carImages: { uri: string; name: string; type: string }[] = watch('carImages');
-    const paperImages: { uri: string; name: string; mimeType: string; size: number }[] =
-      watch('paperImages');
+    const paperImages: { uri: string; name: string; type: string }[] = watch('paperImages');
     const amentities: string[] = watch('amenityIds');
     const modelId: string = watch('modelId');
+
     const fuelTypeId: string = watch('fuelTypeId');
     const transmissionTypeId: string = watch('transmissionTypeId');
 
@@ -111,6 +123,8 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
 
     if (modelId) {
       const model = modelData?.value.items.find((item) => item.id === modelId);
+      console.log('modelfilter', model);
+
       setModel(model);
     }
 
@@ -127,14 +141,9 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
     }
 
     if (paperImages.length > 0) {
-      setPaperImages(
-        paperImages.map((item) => ({
-          nameFile: item.name,
-          paperImages: item.uri,
-        }))
-      );
+      setPaperImages(paperImages.map((image) => image.uri));
     }
-  }, [watch]);
+  }, [watch, modelData, fuelData, transmissionData]);
 
   const filterAmenities = amenities?.value.items.filter((item) => amenitiesId.includes(item.id));
   const description = watch('description');
@@ -186,11 +195,9 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
             <Text className="text-foreground">{model?.name || ''}</Text>
           </View>
 
-          <View className="flex-row items-center justify-between">
+          <View className="flex-row items-start justify-between">
             <Text className="text-gray-500">Địa chỉ nhận xe</Text>
-            <Text className="text-end text-foreground" numberOfLines={3}>
-              {address || ''}
-            </Text>
+            <Text className="text-end text-foreground">{address || ''}</Text>
           </View>
 
           <View className="flex-row items-center justify-between">
@@ -229,7 +236,7 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
 
       <FieldLayout label="Mô tả">
         <View className="rounded-lg border border-input p-4">
-          <Text>{description || ''}</Text>
+          <Markdown>{description || ''}</Markdown>
         </View>
       </FieldLayout>
 
@@ -245,26 +252,38 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
           </View>
           <View className="gap-2">
             <Description className="text-sm" title="Điều khoản" />
-            <Text>{terms || ''}</Text>
+            <Markdown>{terms || ''}</Markdown>
           </View>
         </View>
       </FieldLayout>
 
       <FieldLayout label="Giấy tờ xe">
-        <FlatList
-          data={paperImages}
-          renderItem={({ item }) => (
-            <PaperImageItem nameFile={item.nameFile} paperImages={item.paperImages} />
-          )}
-          keyExtractor={(item) => item.nameFile}
-          scrollEnabled={false}
-          ItemSeparatorComponent={() => <View className="h-2" />}
-          ListEmptyComponent={() => (
-            <View className="flex-row items-center justify-center">
-              <Text>Không có giấy tờ xe, vui lòng thêm giấy tờ xe</Text>
-            </View>
-          )}
-        />
+        <View
+          className="relative"
+          onLayout={(event) => setViewWidthPaper(event.nativeEvent.layout.width)}>
+          <FlatList
+            ref={flatlistRefPaper}
+            data={paperImages}
+            renderItem={({ item }) => (
+              <Image
+                source={{ uri: item }}
+                className="h-60"
+                style={{
+                  width: viewWidthPaper,
+                }}
+              />
+            )}
+            keyExtractor={(item) => item}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            onViewableItemsChanged={onViewableItemsChangedPaper}
+          />
+        </View>
+        <View className="absolute bottom-2 right-2 z-10 rounded-full bg-slate-200 p-2 dark:bg-slate-800">
+          <Text className="text-black">
+            {activePaper || 0}/{paperImages.length || 0}
+          </Text>
+        </View>
       </FieldLayout>
 
       <CardShadow className="flex-row items-center gap-4 p-4">

@@ -13,7 +13,7 @@ interface CarDescriptionProps {
 
 const CarDescription: FunctionComponent<CarDescriptionProps> = ({ form }) => {
   return (
-    <View className="gap-4 bg-white px-2 pt-4 dark:bg-gray-900">
+    <View className="gap-4 bg-white px-2 py-4 dark:bg-gray-900">
       <Subtitle title="Mô tả xe" />
       <Description
         title="Mô tả chi tiết về xe của bạn để người thuê hiểu rõ hơn về xe."

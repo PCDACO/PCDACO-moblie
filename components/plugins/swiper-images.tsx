@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import { FlatList, View, Image, Text, StyleSheet } from 'react-native';
+import React, { FunctionComponent } from 'react';
+import { FlatList, View, Image, Text } from 'react-native';
 
 export interface SwiperImageItem {
   id: string;

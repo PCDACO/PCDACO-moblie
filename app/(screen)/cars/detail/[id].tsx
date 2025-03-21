@@ -1,7 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ScrollView, View, Animated, PanResponder, Dimensions } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Loading from '~/components/plugins/loading';
 import { SwiperImageItem } from '~/components/plugins/swiper-images';
@@ -22,7 +21,6 @@ const CarDetailScreen = () => {
   const slideAnim = useRef(new Animated.Value(370)).current;
   const [isExpanded, setIsExpanded] = useState(false);
   const screenHeight = Dimensions.get('window').height;
-  console.log('screenHeight', screenHeight);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -67,10 +65,14 @@ const CarDetailScreen = () => {
   }
 
   const carImages: SwiperImageItem[] =
-    car?.value.images.map((image) => ({
-      id: image.id,
-      url: image.url,
-    })) || [];
+    car?.value.images
+      .filter((item) => item.type === 'Car')
+      .map((image) => ({
+        id: image.id,
+        url: image.url,
+      })) || [];
+
+  const paperImages = car?.value.images.filter((item) => item.type === 'Paper');
 
   return (
     <View className="relative flex-1 bg-slate-100 dark:bg-slate-900">
@@ -102,13 +104,10 @@ const CarDetailScreen = () => {
             }}>
             <CarBasicInfo car={car?.value as CarDetailResponse} />
             <CarConfiguration car={car?.value as CarDetailResponse} />
-            <CarDescription
-              description={car?.value.description || ''}
-              requiresCollateral={car?.value.requiresCollateral || false}
-            />
+            <CarDescription description={car?.value.description || ''} />
             <CarAmentity amenity={car?.value.amenities || []} />
             <CarTerm term={car?.value.terms || ''} />
-            <CarVehicalRegistration image={car?.value.images || []} />
+            <CarVehicalRegistration image={paperImages || []} />
           </View>
         </ScrollView>
       </Animated.View>

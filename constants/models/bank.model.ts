@@ -1,4 +1,4 @@
-export interface BankResponse {
+export interface BankResponseList {
   id: string;
   name: string;
   code: string;
@@ -10,13 +10,15 @@ export interface BankResponse {
   lookup_supported: number;
 }
 
-export interface BankAccountResponse {
-  ownerName: string;
-}
+export interface BankAccountResponseList {}
+
+export interface BankAccountResponseDetail {}
 
 export interface BankRequest extends RootRequest {}
 
-export interface BankPayload {
-  bank: string;
-  account: string;
+export interface BankAccountPayload {
+  bankInfoId: string;
+  accountNumber: string;
+  accountName: string;
+  isPrimary: boolean;
 }
