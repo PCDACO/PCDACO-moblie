@@ -1,5 +1,3 @@
-import * as DocumentPicker from 'expo-document-picker';
-
 import axiosInstance from '~/configs/axios.config';
 import {
   CarDetailResponse,

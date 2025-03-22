@@ -36,6 +36,10 @@ const CarBasicInfo: React.FC<CarBasicInfoProps> = ({ car }) => {
 
       <View className="rounded-lg border border-gray-200 p-4 dark:border-gray-800">
         <View className="flex-row justify-between">
+          <Description title={`Địa chỉ nhận xe: `} />
+          <Text className="text-foreground">{car.pickupLocation.address}</Text>
+        </View>
+        <View className="flex-row justify-between">
           <Description title={`Yêu cầu thế chấp: `} />
           <Text className="text-foreground">{car.requiresCollateral ? 'Có' : 'Không'}</Text>
         </View>

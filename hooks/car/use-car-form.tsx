@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ToastAndroid } from 'react-native';
 
@@ -7,13 +8,14 @@ import { useCarMutation } from './use-car';
 import { CarPayload } from '~/constants/models/car.model';
 import { CarPayloadSchema, carSchema } from '~/constants/schemas/car.schema';
 import { useStepStore } from '~/store/use-step';
+import { translate } from '~/lib/translate';
 
 interface UseCarFormProps {
   id: string;
 }
 
 export const useCarForm = ({ id }: UseCarFormProps) => {
-  const { nextStep, resetStep } = useStepStore();
+  const { nextStep } = useStepStore();
 
   const {
     createMutation,
@@ -139,7 +141,62 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
     };
 
     if (id) {
-      updateMutation.mutate({ id, payload: carPayload });
+      updateMutation.mutate(
+        { id, payload: carPayload },
+        {
+          onSuccess: () => {
+            patchImageMutation.mutate(
+              { id, payload: data.carImages },
+              {
+                onSuccess: () => {
+                  patchAmenitiesMutation.mutate(
+                    {
+                      id,
+                      payload: {
+                        amenityId: data.amenityIds,
+                      },
+                    },
+                    {
+                      onSuccess: () => {
+                        patchPaperImageMutation.mutate(
+                          { id, payload: data.paperImages },
+                          {
+                            onSuccess: () => {
+                              ToastAndroid.show(translate.cars.toast.update, ToastAndroid.SHORT);
+                            },
+                            onError: (error: any) => {
+                              ToastAndroid.show(
+                                error || translate.cars.toast.error_update,
+                                ToastAndroid.SHORT
+                              );
+                            },
+                          }
+                        );
+                      },
+                      onError: (error: any) => {
+                        console.log('error', error);
+                        ToastAndroid.show(
+                          error || translate.cars.toast.error_update,
+                          ToastAndroid.SHORT
+                        );
+                      },
+                    }
+                  );
+                },
+                onError: (error: any) => {
+                  console.log('error', error);
+                  ToastAndroid.show(error || translate.cars.toast.error_update, ToastAndroid.SHORT);
+                },
+              }
+            );
+          },
+
+          onError: (error: any) => {
+            console.log('error', error);
+            ToastAndroid.show(error || translate.cars.toast.error_update, ToastAndroid.SHORT);
+          },
+        }
+      );
     } else {
       createMutation.mutate(carPayload, {
         onSuccess: (response) => {
@@ -151,21 +208,19 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
                   id: response.value.id,
                   payload: data.paperImages,
                 });
-
-                ToastAndroid.show('Đăng ký xe thành công', ToastAndroid.SHORT);
+                ToastAndroid.show(translate.cars.toast.create, ToastAndroid.SHORT);
                 form.reset();
               },
-              onError: (error) => {
+              onError: (error: any) => {
                 console.log('error', error);
+                ToastAndroid.show(error || translate.cars.toast.error_create, ToastAndroid.SHORT);
               },
             }
           );
-
-          resetStep();
         },
-        onError: (error) => {
+        onError: (error: any) => {
           console.log('error', error);
-          ToastAndroid.show('Đăng ký xe thất bại', ToastAndroid.SHORT);
+          ToastAndroid.show(error || translate.cars.toast.error_create, ToastAndroid.SHORT);
         },
       });
     }
@@ -176,9 +231,9 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
     onSubmit,
     checkConditionOfEachStep,
     isLoading:
-      (createMutation.isPending &&
-        patchImageMutation.isPending &&
-        patchPaperImageMutation.isPending) ||
+      createMutation.isPending ||
+      patchImageMutation.isPending ||
+      patchPaperImageMutation.isPending ||
       updateMutation.isPending,
     isError: createMutation.isError || updateMutation.isError,
     isSuccess:

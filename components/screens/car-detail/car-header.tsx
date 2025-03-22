@@ -3,11 +3,15 @@ import { router } from 'expo-router';
 import { FunctionComponent } from 'react';
 import { View, Pressable, TouchableOpacity } from 'react-native';
 
+import { useStepStore } from '~/store/use-step';
+
 interface CarHeaderProps {
   id: string;
 }
 const CarHeader: FunctionComponent<CarHeaderProps> = ({ id }) => {
+  const { resetStep } = useStepStore();
   const onEdit = () => {
+    resetStep();
     router.push(`/cars/edit?id=${id}`);
   };
 

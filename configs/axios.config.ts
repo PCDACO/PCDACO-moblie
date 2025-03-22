@@ -2,8 +2,6 @@ import axios from 'axios';
 
 import { storage } from '~/lib/storage';
 import { generateGuid } from '~/lib/utils';
-import { AuthService } from '~/services/auth.service';
-import { useAuthStore } from '~/store/auth-store';
 
 const axiosInstance = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,

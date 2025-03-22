@@ -17,6 +17,7 @@ const ScreenLayout: React.FC = () => {
           presentation: 'modal',
         }}
       />
+      <Stack.Screen name="map" options={{ headerShown: false, presentation: 'modal' }} />
     </Stack>
   );
 };

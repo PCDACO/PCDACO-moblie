@@ -7,6 +7,7 @@ import CarStatusBadge from './car-status-badge';
 
 import CardBasic from '~/components/plugins/card-basic';
 import { CarResponseList } from '~/constants/models/car.model';
+import { useCarMutation } from '~/hooks/car/use-car';
 
 interface CarCardProps {
   car: CarResponseList;
@@ -14,11 +15,12 @@ interface CarCardProps {
 
 const CarCard: React.FC<CarCardProps> = ({ car }) => {
   const carImage = car.images.find((img) => img.type === 'Car')?.url;
+  const { deleteMutation } = useCarMutation();
 
   const router = useRouter();
 
   const onDelete = () => {
-    console.log('delete');
+    deleteMutation.mutate(car.id);
   };
 
   const onDetail = () => {

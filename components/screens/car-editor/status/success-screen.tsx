@@ -3,7 +3,13 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-export default function SuccessScreen() {
+import { translate } from '~/lib/translate';
+
+interface SuccessScreenProps {
+  id?: string;
+}
+
+export default function SuccessScreen({ id }: SuccessScreenProps) {
   const router = useRouter();
   const handleNewCar = () => {
     router.replace('/cars/edit');
@@ -19,9 +25,13 @@ export default function SuccessScreen() {
         <Feather name="check-circle" size={48} color="#16a34a" />
       </View>
 
-      <Text className="mb-2 text-xl font-semibold">Đăng ký thành công!</Text>
+      <Text className="mb-2 text-xl font-semibold">
+        {id ? translate.cars.toast.update : translate.cars.toast.create}
+      </Text>
       <Text className="mb-8 text-center text-gray-500">
-        Xe của bạn đã được đăng ký thành công và đang chờ xét duyệt.
+        {id
+          ? 'Xe của bạn đã được cập nhật thành công và đang chờ xét duyệt.'
+          : 'Xe của bạn đã được đăng ký thành công và đang chờ xét duyệt.'}
       </Text>
 
       <View className="mb-6 w-full max-w-md rounded-xl bg-white p-4 shadow-sm">
@@ -35,7 +45,7 @@ export default function SuccessScreen() {
             <Text className="text-sm text-gray-500">Thời gian xét duyệt:</Text>
             <Text className="text-sm font-medium">24-48 giờ</Text>
           </View>
-          <View className="flex-row justify-between">
+          {/* <View className="flex-row justify-between">
             <Text className="text-sm text-gray-500">Mã xe:</Text>
             <Text className="text-sm font-medium">
               {'CAR-' +
@@ -43,7 +53,7 @@ export default function SuccessScreen() {
                   .toString()
                   .padStart(4, '0')}
             </Text>
-          </View>
+          </View> */}
         </View>
       </View>
 

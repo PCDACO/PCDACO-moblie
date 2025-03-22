@@ -65,6 +65,8 @@ export interface CarDetailResponse {
   id: string;
   modelId: string;
   modelName: string;
+  fuelTypeId: string;
+  transmissionId: string;
   ownerId: string;
   ownerName: string;
   licensePlate: string;
@@ -81,17 +83,39 @@ export interface CarDetailResponse {
   totalRented: number;
   averageRating: number;
   location: null;
+  pickupLocation: PickupLocation;
   manufacturer: Manufacturer;
   images: Image[];
   amenities: Amenity[];
   bookings: any[];
+  contract: Contract;
 }
-
 export interface Amenity {
   id: string;
   name: string;
   description: string;
   icon: string;
+}
+
+export interface Contract {
+  id: string;
+  terms: string;
+  status: string;
+  ownerSignatureDate: Date;
+  technicianSignatureDate: null;
+  inspectionResults: null;
+  gpsDeviceId: null;
+}
+
+export interface PickupLocation {
+  longitude: number;
+  latitude: number;
+  address: string;
+}
+
+export interface Location {
+  latitude: number;
+  longitude: number;
 }
 
 export interface Image {

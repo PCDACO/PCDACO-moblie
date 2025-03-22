@@ -18,6 +18,7 @@ import HeaderTitle from '~/components/screens/car-editor/header-title';
 import ErrorScreen from '~/components/screens/car-editor/status/error-screen';
 import LoadingScreen from '~/components/screens/car-editor/status/loading-screen';
 import SuccessScreen from '~/components/screens/car-editor/status/success-screen';
+import { useCarDetailQuery } from '~/hooks/car/use-car';
 import { useCarForm } from '~/hooks/car/use-car-form';
 import { cn } from '~/lib/cn';
 import { useStepStore } from '~/store/use-step';
@@ -25,8 +26,9 @@ import { useStepStore } from '~/store/use-step';
 const EditCarScreen: React.FC = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const { data } = useCarDetailQuery({ id: id as string });
 
-  const { step, prevStep, nextStep } = useStepStore();
+  const { step, prevStep } = useStepStore();
   const [progress, setProgress] = React.useState<number>(0);
 
   const { form, checkConditionOfEachStep, isError, isSuccess, isLoading, onSubmit } = useCarForm({
@@ -39,16 +41,53 @@ const EditCarScreen: React.FC = () => {
     setProgress((step / totalStep) * 100);
   }, [step]);
 
+  React.useEffect(() => {
+    if (data && data.value) {
+      const carImages = data.value.images.filter((item) => item.type === 'Car');
+      const paperImages = data.value.images.filter((item) => item.type === 'Paper');
+
+      const convertCarImages = carImages.map((item) => ({
+        uri: item.url,
+        name: item.name,
+        type: `image/${item.name.split('.').pop()}`,
+      }));
+
+      const convertPaperImages = paperImages.map((item) => ({
+        uri: item.url,
+        name: item.name,
+        type: `image/jpeg`,
+      }));
+
+      form.setValue('carImages', convertCarImages || []);
+      form.setValue('modelId', data.value.modelId || '');
+      form.setValue('licensePlate', data.value.licensePlate || '');
+      form.setValue('color', data.value.color || '');
+      form.setValue('seat', data.value.seat || 0);
+      form.setValue('description', data.value.description || '');
+      form.setValue('fuelConsumption', data.value.fuelConsumption || 0);
+      form.setValue('requiresCollateral', data.value.requiresCollateral || false);
+      form.setValue('price', data.value.price || 0);
+      form.setValue('terms', data.value.terms || '');
+      form.setValue('amenityIds', (data.value.amenities.map((item) => item.id) as any) || []);
+      form.setValue('pickupLatitude', data.value.pickupLocation.latitude || 0);
+      form.setValue('pickupLongitude', data.value.pickupLocation.longitude || 0);
+      form.setValue('pickupAddress', data.value.pickupLocation.address || '');
+      form.setValue('paperImages', convertPaperImages || []);
+      form.setValue('transmissionTypeId', data.value.transmissionId || '');
+      form.setValue('fuelTypeId', data.value.fuelTypeId || '');
+    }
+  }, [data]);
+
   if (isLoading) {
     return <LoadingScreen />;
   }
 
   if (isError) {
-    return <ErrorScreen />;
+    return <ErrorScreen id={id as string} />;
   }
 
   if (isSuccess) {
-    return <SuccessScreen />;
+    return <SuccessScreen id={id as string} />;
   }
 
   return (

@@ -37,7 +37,7 @@ const CarAmenity: FunctionComponent<CarAmenityProps> = ({ form }) => {
   const { data: amenities, isLoading } = useAmenities({
     params: {
       index: 1,
-      size: 100,
+      size: 200,
     },
   });
 
@@ -69,8 +69,8 @@ const CarAmenity: FunctionComponent<CarAmenityProps> = ({ form }) => {
               <FlatList
                 data={
                   amenities?.value.items ||
-                  amenities?.value.items.filter((item) =>
-                    form.watch('amenityIds').includes(item.id)
+                  amenities?.value.items.filter(
+                    (item) => !form.watch('amenityIds').includes(item.id)
                   )
                 }
                 scrollEnabled={false}

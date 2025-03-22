@@ -2,8 +2,13 @@ import { Feather } from '@expo/vector-icons';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import { useStepStore } from '~/store/use-step';
+import { translate } from '~/lib/translate';
 
-export default function ErrorScreen() {
+interface ErrorScreenProps {
+  id?: string;
+}
+
+export default function ErrorScreen({ id }: ErrorScreenProps) {
   const { setStep } = useStepStore();
   const handleRetry = () => {};
 
@@ -17,7 +22,9 @@ export default function ErrorScreen() {
         <Feather name="alert-circle" size={48} color="#DC2626" />
       </View>
 
-      <Text className="mb-2 text-xl font-semibold">Đăng ký không thành công</Text>
+      <Text className="mb-2 text-xl font-semibold">
+        {id ? translate.cars.toast.error_update : translate.cars.toast.error_create}
+      </Text>
       <Text className="mb-8 text-center text-gray-500">
         Có lỗi xảy ra khi đăng ký xe. Vui lòng thử lại sau.
       </Text>
