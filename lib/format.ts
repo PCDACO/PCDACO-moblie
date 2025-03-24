@@ -33,3 +33,33 @@ export function countDaysBetweenDates(startDate: Date, endDate: Date): number {
   const diffInTime = endDate.getTime() - startDate.getTime();
   return Math.round(diffInTime / oneDay);
 }
+
+export function formatPhoneNumber(phone: string): string {
+  // Bỏ hết ký tự không phải số
+  const digits = phone.replace(/\D/g, '');
+
+  if (digits.length !== 10) {
+    return phone; // Trả lại nguyên bản nếu không phải 10 số
+  }
+
+  const part1 = digits.slice(0, 4);
+  const part2 = digits.slice(4, 7);
+  const part3 = digits.slice(7, 10);
+
+  return `${part1}.${part2}.${part3}`;
+}
+
+export function getDuration(startDate: Date, endDate: Date): string {
+  const msInDay = 1000 * 60 * 60 * 24;
+
+  // Tính số ngày chênh lệch
+  const diffTime = endDate.getTime() - startDate.getTime();
+  const diffDays = Math.ceil(diffTime / msInDay);
+
+  if (diffDays < 30) {
+    return `${diffDays} ngày`;
+  } else {
+    const months = Math.floor(diffDays / 30);
+    return `${months} tháng`;
+  }
+}

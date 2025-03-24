@@ -25,8 +25,6 @@ const CarHeader: FunctionComponent<CarHeaderProps> = ({ id }) => {
       <TouchableOpacity onPress={onEdit}>
         <Feather name="edit" size={24} color="black" />
       </TouchableOpacity>
-
-      {/* {renderBagde(status)} */}
     </View>
   );
 };

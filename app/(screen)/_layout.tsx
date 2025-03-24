@@ -4,12 +4,50 @@ import React from 'react';
 const ScreenLayout: React.FC = () => {
   return (
     <Stack>
-      <Stack.Screen name="booking/index" options={{ headerShown: false }} />
-      <Stack.Screen name="user/[id]" options={{ headerShown: false }} />
-      <Stack.Screen name="user/password/[id]" options={{ headerShown: false }} />
-      <Stack.Screen name="license/license-edit" options={{ headerShown: false }} />
-      <Stack.Screen name="cars/edit/index" options={{ headerShown: false }} />
-      <Stack.Screen name="cars/detail/[id]" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="booking/[id]"
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+          animation: 'fade_from_bottom',
+          presentation: 'modal',
+          title: 'Thông tin đặt xe',
+        }}
+      />
+      <Stack.Screen
+        name="user/[id]"
+        options={{ headerShown: false, animation: 'fade_from_bottom' }}
+      />
+      <Stack.Screen
+        name="user/password/[id]"
+        options={{ headerShown: false, animation: 'fade_from_bottom' }}
+      />
+      <Stack.Screen
+        name="license/license-edit"
+        options={{ headerShown: false, animation: 'fade_from_bottom' }}
+      />
+      <Stack.Screen
+        name="cars/edit/index"
+        options={{ headerShown: false, animation: 'fade_from_bottom' }}
+      />
+      <Stack.Screen
+        name="cars/detail/[id]"
+        options={{
+          headerShown: false,
+          animation: 'fade_from_bottom',
+        }}
+      />
+      <Stack.Screen
+        name="booking/history"
+        options={{
+          headerShown: true,
+          animation: 'fade_from_bottom',
+          presentation: 'modal',
+          headerTitle: 'Lịch sử đặt xe',
+          headerTitleAlign: 'center',
+        }}
+      />
+
       <Stack.Screen
         name="cars/pdf"
         options={{

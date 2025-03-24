@@ -1,120 +1,127 @@
-import axiosInstance from '~/configs/axios.config';
+import { useMutation, useQuery } from '@tanstack/react-query';
+
 import {
-  BookFeedbackPayload,
+  BookApprovePayload,
   BookParams,
   BookPayload,
-  BookResponseDetail,
-  BookResponseList,
-  BookTrackBatchPayload,
-  BookTrackPayload,
+  BookStartTripPayload,
   Webhook,
 } from '~/constants/models/book.model';
+import { QueryKey } from '~/lib/query-key';
+import { BookService } from '~/services/book.service';
 
-export const BookService = {
-  get: {
-    List: async (params?: BookParams): Promise<RootResponse<Pagination<BookResponseList>>> => {
-      const response = await axiosInstance
-        .get('/api/bookings', { params })
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
+export const useBookingListQuery = (params?: Partial<BookParams>) => {
+  const bookingQuery = useQuery({
+    queryKey: [QueryKey.Booking.get.List, params ?? {}],
+    queryFn: async () => await BookService.get.list(params),
+    enabled: !!params,
+  });
 
-    Detail: async (id?: string): Promise<RootResponse<BookResponseDetail>> => {
-      if (!id) {
-        throw new Error('ID is required');
-      }
+  return bookingQuery;
+};
 
-      const response = await axiosInstance
-        .get(`/api/bookings/${id}`)
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
-  },
+export const useBookingDetailQuery = (id: string) => {
+  const bookingDetailQuery = useQuery({
+    queryKey: [QueryKey.Booking.get.Detail, id],
+    queryFn: async () => await BookService.get.detail(id),
+    enabled: !!id,
+  });
 
-  put: {
-    Approve: async (id: string, isApproved: boolean): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .put(`/api/bookings/${id}/approve`, { isApproved })
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
+  return bookingDetailQuery;
+};
 
-    Cancel: async (id: string): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .put(`/api/bookings/${id}/cancel`)
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
+export const useBookingMutation = () => {
+  const createBooking = useMutation({
+    mutationKey: [QueryKey.Booking.post.Create],
+    mutationFn: async (payload: BookPayload) => await BookService.post.bookings(payload),
+  });
 
-    Complete: async (id: string): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .put(`/api/bookings/${id}/complete`)
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
+  const trackBooking = useMutation({
+    mutationKey: [QueryKey.Booking.post.Track],
+    mutationFn: async ({ id, payload }: { id: string; payload: BookStartTripPayload }) =>
+      await BookService.post.track(id, payload),
+  });
 
-    Return: async (id: string): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .put(`/api/bookings/${id}/return`)
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
+  const postInspectionBooking = useMutation({
+    mutationKey: [QueryKey.Booking.post.PostInspection],
+    mutationFn: async (bookingId: string) => await BookService.post.postInspection(bookingId),
+  });
 
-    StartTrip: async (id: string): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .put(`/api/bookings/${id}/start-trip`)
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
-  },
+  const webhookBooking = useMutation({
+    mutationKey: [QueryKey.Booking.post.Webhook],
+    mutationFn: async (payload: Webhook) => await BookService.post.webhook(payload),
+  });
 
-  post: {
-    BookTrackBatch: async (data: BookTrackBatchPayload): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .post('/api/bookings/batch', data)
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
+  const inspectionBooking = useMutation({
+    mutationKey: [QueryKey.Booking.post.Inspection],
+    mutationFn: async (bookingId: string) => await BookService.post.preInspection(bookingId),
+  });
 
-    BookTrack: async (data: BookTrackPayload): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .post('/api/bookings', data)
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
+  const paymentBooking = useMutation({
+    mutationKey: [QueryKey.Booking.post.Payment],
+    mutationFn: async (bookingId: string) => await BookService.post.bookingPayment(bookingId),
+  });
 
-    BookFeedback: async (id: string, data: BookFeedbackPayload): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .post(`/api/bookings/${id}/feedback`, data)
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
+  const completeBooking = useMutation({
+    mutationKey: [QueryKey.Booking.put.Complete],
+    mutationFn: async (bookingId: string) => await BookService.put.complete(bookingId),
+  });
 
-    Book: async (data: BookPayload): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .post('/api/bookings', data)
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
-      return response;
-    },
+  const approveOrRejectBooking = useMutation({
+    mutationKey: [QueryKey.Booking.put.Approve],
+    mutationFn: async ({
+      bookingId,
+      payload,
+    }: {
+      bookingId: string;
+      payload: BookApprovePayload;
+    }) => await BookService.put.approveOrReject(bookingId, payload),
+  });
 
-    Webhook: async (data: Webhook): Promise<RootResponse<null>> => {
-      const response = await axiosInstance
-        .post('/api/webhook', data)
-        .then((res) => res.data)
-        .catch((err) => err.response.data);
+  const cancelBooking = useMutation({
+    mutationKey: [QueryKey.Booking.put.Cancel],
+    mutationFn: async (id: string) => await BookService.put.cancel(id),
+  });
 
-      return response;
-    },
-  },
+  const returnBooking = useMutation({
+    mutationKey: [QueryKey.Booking.put.Return],
+    mutationFn: async (id: string) => await BookService.put.return(id),
+  });
+
+  const startTripBooking = useMutation({
+    mutationKey: [QueryKey.Booking.put.StartTrip],
+    mutationFn: async (id: string) => await BookService.put.startTrip(id),
+  });
+
+  return {
+    createBooking,
+    trackBooking,
+    postInspectionBooking,
+    webhookBooking,
+    inspectionBooking,
+    paymentBooking,
+    completeBooking,
+    approveOrRejectBooking,
+    cancelBooking,
+    returnBooking,
+    startTripBooking,
+  };
+};
+
+export const useBookingContractQuery = (id: string) => {
+  const bookingContractQuery = useQuery({
+    queryKey: [QueryKey.Booking.get.Contract, id],
+    queryFn: async () => await BookService.get.contracts(id),
+  });
+
+  return bookingContractQuery;
+};
+
+export const useBookingPaymentQuery = (id: string) => {
+  const bookingPaymentQuery = useQuery({
+    queryKey: [QueryKey.Booking.get.Payment, id],
+    queryFn: async () => await BookService.get.payment(id),
+  });
+
+  return bookingPaymentQuery;
 };

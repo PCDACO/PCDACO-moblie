@@ -87,9 +87,18 @@ export interface CarDetailResponse {
   manufacturer: Manufacturer;
   images: Image[];
   amenities: Amenity[];
-  bookings: any[];
+  bookings: Bookings[];
   contract: Contract;
 }
+
+export interface Bookings {
+  driverId: string;
+  driverName: string;
+  startTime: Date;
+  endTime: Date;
+}
+
+
 export interface Amenity {
   id: string;
   name: string;

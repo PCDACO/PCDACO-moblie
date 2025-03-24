@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from 'expo-router';
-import { useRef, useState } from 'react';
-import { ScrollView, View, Animated, PanResponder, Dimensions } from 'react-native';
+import { useState } from 'react';
+import { ScrollView, View, Animated } from 'react-native';
 
 import Loading from '~/components/plugins/loading';
 import { SwiperImageItem } from '~/components/plugins/swiper-images';
@@ -14,47 +14,17 @@ import CarTerm from '~/components/screens/car-detail/car-term';
 import CarVehicalRegistration from '~/components/screens/car-detail/car-vehical-registation';
 import { CarDetailResponse } from '~/constants/models/car.model';
 import { useCarDetailQuery } from '~/hooks/car/use-car';
+import { usePanResponder } from '~/hooks/plugins/use-pan-responder';
 
 const CarDetailScreen = () => {
   const { id } = useLocalSearchParams();
   const { data: car, isLoading } = useCarDetailQuery({ id: id as string });
-  const slideAnim = useRef(new Animated.Value(370)).current;
   const [isExpanded, setIsExpanded] = useState(false);
-  const screenHeight = Dimensions.get('window').height;
 
-  const panResponder = useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderMove: (_, gestureState) => {
-        const newPosition = 370 + gestureState.dy;
-        if (newPosition >= 0 && newPosition <= screenHeight) {
-          slideAnim.setValue(newPosition);
-        }
-      },
-      onPanResponderRelease: (_, gestureState) => {
-        if (gestureState.dy < screenHeight / 3) {
-          // If pulled up more than 1/3 of screen height, expand
-          Animated.spring(slideAnim, {
-            toValue: 60,
-            useNativeDriver: true,
-            tension: 65,
-            friction: 10,
-          }).start();
-          setIsExpanded(true);
-        } else {
-          // Otherwise, return to default position
-          Animated.spring(slideAnim, {
-            toValue: 370,
-            useNativeDriver: true,
-            tension: 65,
-            friction: 10,
-          }).start();
-          setIsExpanded(false);
-        }
-      },
-    })
-  ).current;
+  const { slideAnim, panResponder } = usePanResponder({
+    onExpand: () => setIsExpanded(true),
+    onCollapse: () => setIsExpanded(false),
+  });
 
   if (isLoading) {
     return (
@@ -85,7 +55,6 @@ const CarDetailScreen = () => {
           paddingTop: 10,
           transform: [{ translateY: slideAnim }],
         }}>
-        {/* ⬇️ Đây là chỗ kéo – thêm panHandlers vào đây */}
         <View {...panResponder.panHandlers} className="h-6 w-full items-center justify-center">
           <View className="h-1 w-20 rounded-full bg-gray-200 dark:bg-gray-800" />
         </View>

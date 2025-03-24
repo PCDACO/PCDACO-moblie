@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { router } from 'expo-router';
 
 import { storage } from '~/lib/storage';
 import { generateGuid } from '~/lib/utils';
@@ -9,7 +10,7 @@ const axiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
   withCredentials: false,
-  timeout: 10000,
+  timeout: 20000,
 });
 
 axiosInstance.interceptors.request.use(
@@ -40,6 +41,9 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
+    if (error.response?.status === 401) {
+      router.replace('/(auth)/login');
+    }
     return Promise.reject(error);
   }
 );

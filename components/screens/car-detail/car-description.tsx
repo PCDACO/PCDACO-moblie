@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import Markdown from 'react-native-markdown-display';
 
 import FieldLayout from '~/components/layouts/field-layout';
@@ -16,9 +16,6 @@ const CarDescription: FunctionComponent<CarDescriptionProps> = ({
   return (
     <FieldLayout label="Mô tả" className="gap-2">
       <View className="gap-2 rounded-xl border border-gray-200 p-4 dark:border-gray-800">
-        {/* <Text className="text-sm text-muted-foreground">
-          Yêu cầu thế chấp: {requiresCollateral ? 'Có' : 'Không'}
-        </Text> */}
         <Markdown>{description}</Markdown>
       </View>
     </FieldLayout>

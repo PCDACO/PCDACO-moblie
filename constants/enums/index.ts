@@ -24,3 +24,14 @@ export enum CarStatusNumber {
   Inactive = 3,
   Maintain = 4,
 }
+
+export enum BookingStatusEnum {
+  Pending = 'Pending',
+  Approved = 'Approved',
+  Rejected = 'Rejected',
+  ReadyForPickup = 'ReadyForPickup',
+  Ongoing = 'Ongoing',
+  Completed = 'Completed',
+  Cancelled = 'Cancelled',
+  Expired = 'Expired',
+}
