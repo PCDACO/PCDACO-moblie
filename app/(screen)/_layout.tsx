@@ -15,6 +15,15 @@ const ScreenLayout: React.FC = () => {
         }}
       />
       <Stack.Screen
+        name="bank/edit"
+        options={{
+          headerShown: false,
+          animation: 'fade_from_bottom',
+          presentation: 'modal',
+        }}
+      />
+
+      <Stack.Screen
         name="user/[id]"
         options={{ headerShown: false, animation: 'fade_from_bottom' }}
       />
@@ -55,7 +64,7 @@ const ScreenLayout: React.FC = () => {
           presentation: 'modal',
         }}
       />
-      <Stack.Screen name="map" options={{ headerShown: false, presentation: 'modal' }} />
+      <Stack.Screen name="map/index" options={{ headerShown: false, presentation: 'modal' }} />
     </Stack>
   );
 };

@@ -1,20 +1,23 @@
 export interface BankResponseList {
   id: string;
+  bankLookUpId: string;
   name: string;
   code: string;
   bin: number;
-  short_name: string;
-  logo_url: string;
-  icon_url: string;
-  swift_code: string;
-  lookup_supported: number;
+  shortName: string;
+  logoUrl: string;
+  iconUrl: string;
+  swiftCode: string;
+  lookupSupported: number;
 }
 
 export interface BankAccountResponseList {}
 
 export interface BankAccountResponseDetail {}
 
-export interface BankRequest extends RootRequest {}
+export interface BankRequest {
+  search: string;
+}
 
 export interface BankAccountPayload {
   bankInfoId: string;

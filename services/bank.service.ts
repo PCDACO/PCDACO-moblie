@@ -9,7 +9,7 @@ import {
 
 export const BankService = {
   get: {
-    list: async (search?: string): Promise<RootResponse<BankResponseList>> => {
+    list: async (search?: string): Promise<RootResponse<BankResponseList[]>> => {
       try {
         const response = await axiosInstance.get('/api/bank-info', { params: { search } });
         return response.data;
@@ -38,6 +38,7 @@ export const BankService = {
       }
     },
   },
+
   post: {
     account: async (
       payload: BankAccountPayload

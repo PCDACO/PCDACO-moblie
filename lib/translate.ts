@@ -38,4 +38,13 @@ export const translate = {
       reject: 'Từ chối đơn đặt xe thành công!',
     },
   },
+
+  bank: {
+    toast: {
+      create: 'Thêm tài khoản ngân hàng thành công!',
+      update: 'Cập nhật tài khoản ngân hàng thành công!',
+      error_create: 'Thêm tài khoản ngân hàng thất bại!',
+      error_update: 'Cập nhật tài khoản ngân hàng thất bại!',
+    },
+  },
 };

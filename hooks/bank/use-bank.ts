@@ -17,7 +17,7 @@ interface BankAccountDetailQueryProps {
 export const useBankQuery = ({ search }: BankQueryProps) => {
   const bankQuery = useQuery({
     queryKey: [QueryKey.Bank.List, search],
-    queryFn: () => BankService.get.list(search),
+    queryFn: async () => await BankService.get.list(search),
     enabled: !!search,
     staleTime: 1000 * 60 * 5,
     retry: 2,

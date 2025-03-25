@@ -43,13 +43,13 @@ const BookHeader: FunctionComponent<BookHeaderProps> = ({
         />
       </View>
       <View className="flex-row items-center justify-between">
-        <View className="flex-1 flex-row items-center gap-2">
+        {/* <View className="flex-1 flex-row items-center gap-2">
           <Feather name="user" size={24} color={COLORS.gray} />
           <View>
             <Description title="Chủ xe" className="text-sm" />
             <Description className="text-sm font-semibold text-foreground" title={ownerName} />
           </View>
-        </View>
+        </View> */}
         <View className="flex-1 flex-row items-center gap-2">
           <Feather name="user" size={24} color={COLORS.gray} />
           <View>

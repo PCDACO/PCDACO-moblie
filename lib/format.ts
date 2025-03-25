@@ -63,3 +63,14 @@ export function getDuration(startDate: Date, endDate: Date): string {
     return `${months} tháng`;
   }
 }
+
+export const formatAccountNumber = (number: string) => {
+  if (number.length <= 4) return number;
+  const lastFour = number.slice(-4);
+  const masked = '•'.repeat(number.length - 4);
+  return masked + lastFour;
+};
+
+export const formatCardNumber = (number: string | number) => {
+  return number.toString().replace(/\d{4}(?=\d)/g, '$& ');
+};

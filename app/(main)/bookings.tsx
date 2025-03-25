@@ -26,7 +26,7 @@ const BookingScreen: FunctionComponent = () => {
       setParams({
         search: searchKeyword || '',
         limit: bookingParams?.limit || 10,
-        status: BookingStatusEnum.Pending || bookingParams?.status,
+        status: [BookingStatusEnum.Pending, BookingStatusEnum.Approved],
         isPaid: bookingParams?.isPaid,
         lastId: bookingParams?.lastId,
       });

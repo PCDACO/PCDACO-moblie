@@ -4,6 +4,8 @@ const IOS_SYSTEM_COLORS = {
   white: 'rgb(255, 255, 255)',
   black: 'rgb(0, 0, 0)',
   gray: 'rgb(142, 142, 147)',
+  indigo: 'rgb(79, 70, 229',
+  pupler: 'rgb(168, 85, 247)',
   light: {
     grey6: 'rgb(242, 242, 247)',
     grey5: 'rgb(230, 230, 235)',
@@ -37,6 +39,8 @@ const IOS_SYSTEM_COLORS = {
 const ANDROID_COLORS = {
   white: 'rgb(255, 255, 255)',
   black: 'rgb(0, 0, 0)',
+  indigo: 'rgb(79, 70, 229',
+  pupler: 'rgb(168, 85, 247)',
   gray: 'rgb(142, 142, 147)',
   light: {
     grey6: 'rgb(249, 249, 255)',
