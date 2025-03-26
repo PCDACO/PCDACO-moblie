@@ -13,7 +13,7 @@ export const bookSchema = z.object({
     { message: 'Yêu cầu chọn thời gian bắt đầu' }
   ),
   endTime: z.coerce.date().refine(
-    (date: Date) => {
+    (date: Date) => {ư
       const now = new Date();
       return date > now;
     },

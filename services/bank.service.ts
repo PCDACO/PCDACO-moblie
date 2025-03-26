@@ -3,7 +3,6 @@ import {
   BankAccountPayload,
   BankAccountResponseDetail,
   BankAccountResponseList,
-  BankRequest,
   BankResponseList,
 } from '~/constants/models/bank.model';
 
@@ -19,7 +18,7 @@ export const BankService = {
     },
 
     accounts: async (
-      params?: Partial<BankRequest>
+      params?: Partial<RootRequest>
     ): Promise<RootResponse<Pagination<BankAccountResponseList>>> => {
       try {
         const response = await axiosInstance.get('/api/bank-accounts', { params });

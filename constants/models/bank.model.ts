@@ -11,9 +11,29 @@ export interface BankResponseList {
   lookupSupported: number;
 }
 
-export interface BankAccountResponseList {}
+export interface BankAccountResponseList {
+  id: string;
+  bankInfoId: string;
+  bankName: string;
+  bankCode: string;
+  accountNumber: string;
+  accountName: string;
+  isPrimary: boolean;
+  bankIconUrl: string;
+  bankShortName: string;
+}
 
-export interface BankAccountResponseDetail {}
+export interface BankAccountResponseDetail {
+  id: string;
+  bankInfoId: string;
+  bankName: string;
+  bankCode: string;
+  bankShortName: string;
+  accountNumber: string;
+  accountName: string;
+  isPrimary: boolean;
+  bankIconUrl: string;
+}
 
 export interface BankRequest {
   search: string;

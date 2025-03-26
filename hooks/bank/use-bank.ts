@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { BankAccountPayload, BankRequest } from '~/constants/models/bank.model';
+import { BankAccountPayload } from '~/constants/models/bank.model';
 import { QueryKey } from '~/lib/query-key';
 import { BankService } from '~/services/bank.service';
 
@@ -8,7 +8,7 @@ interface BankQueryProps {
   search?: string;
 }
 interface BankAccountQueryProps {
-  params?: Partial<BankRequest>;
+  params?: Partial<RootRequest>;
 }
 interface BankAccountDetailQueryProps {
   id: string;
