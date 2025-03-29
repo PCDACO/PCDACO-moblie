@@ -2,7 +2,7 @@ import { BookingStatusEnum } from '../enums';
 
 export interface BookParams extends Partial<LastIdRootResquest> {
   search: string;
-  status: string[];
+  status: string;
   isPaid: boolean;
 }
 
@@ -10,6 +10,21 @@ export interface BookPayload {
   carId: string;
   startTime: Date;
   endTime: Date;
+}
+
+export interface BookPreInspectionPayload {
+  exteriorPhotos: File[];
+  fuelGaugePhotos: File[];
+  carKeyPhotos: File[];
+  trunkPhotos: File[];
+  parkingLocationPhotos: File[];
+}
+
+export interface BookPostInspectionPayload {
+  fuelGaugeFinalPhotos: File[];
+  cleanlinessPhotos: File[];
+  scratchesPhotos: File[];
+  tollFeesPhotos: File[];
 }
 
 export interface BookTrackBatch {
@@ -39,6 +54,17 @@ export interface BookStartTripPayload {
 export interface BookCompletePayload {
   currentLatitude: number;
   currentLongitude: number;
+}
+
+export interface BookPaymentResponse {
+  basePrice: number;
+  excessDays: number;
+  excessFee: number;
+  paymentUrl: string;
+  platformFee: number;
+  qrCode: string;
+  totalAmount: number;
+  totalDistance: number;
 }
 
 export interface BookResponseList {

@@ -4,7 +4,10 @@ import {
   BookCompleteResponse,
   BookParams,
   BookPayload,
+  BookPaymentResponse,
   BookPostInspection,
+  BookPostInspectionPayload,
+  BookPreInspectionPayload,
   BookResponseDetail,
   BookResponseList,
   BookStartTripPayload,
@@ -18,7 +21,6 @@ export const BookService = {
     ): Promise<RootResponse<Pagination<BookResponseList>>> => {
       try {
         const response = await axiosInstance.get('/api/bookings', { params });
-
         return response.data;
       } catch (error: any) {
         throw error.response.data;
@@ -66,7 +68,7 @@ export const BookService = {
       }
     },
 
-    bookingPayment: async (id: string) => {
+    bookingPayment: async (id: string): Promise<RootResponse<BookPaymentResponse>> => {
       try {
         const response = await axiosInstance.post(`/api/bookings/${id}/payment`);
 
@@ -96,9 +98,33 @@ export const BookService = {
       }
     },
 
-    postInspection: async (bookingId: string): Promise<RootResponse<BookPostInspection>> => {
+    postInspection: async (
+      bookingId: string,
+      payload: BookPostInspectionPayload
+    ): Promise<RootResponse<BookPostInspection>> => {
       try {
-        const response = await axiosInstance.post(`/api/bookings/${bookingId}/post-inspection`);
+        const formData = new FormData();
+
+        payload.fuelGaugeFinalPhotos.forEach((file) => {
+          formData.append('fuelGaugeFinalPhotos', file);
+        });
+
+        payload.cleanlinessPhotos.forEach((file) => {
+          formData.append('cleanlinessPhotos', file);
+        });
+
+        payload.scratchesPhotos.forEach((file) => {
+          formData.append('scratchesPhotos', file);
+        });
+
+        payload.tollFeesPhotos.forEach((file) => {
+          formData.append('tollFeesPhotos', file);
+        });
+
+        const response = await axiosInstance.postForm(
+          `/api/bookings/${bookingId}/post-inspection`,
+          formData
+        );
 
         return response.data;
       } catch (error: any) {
@@ -106,13 +132,41 @@ export const BookService = {
       }
     },
 
-    preInspection: async (bookingId: string): Promise<RootResponse<BookPostInspection>> => {
+    preInspection: async (
+      bookingId: string,
+      payload: BookPreInspectionPayload
+    ): Promise<RootResponse<BookPostInspection>> => {
       try {
-        const response = await axiosInstance.post(`/api/bookings/${bookingId}/pre-inspection`);
+        const formData = new FormData();
+
+        payload.exteriorPhotos.forEach((file) => {
+          formData.append('exteriorPhotos', file);
+        });
+
+        payload.fuelGaugePhotos.forEach((file) => {
+          formData.append('fuelGaugePhotos', file);
+        });
+
+        payload.carKeyPhotos.forEach((file) => {
+          formData.append('carKeyPhotos', file);
+        });
+
+        payload.trunkPhotos.forEach((file) => {
+          formData.append('trunkPhotos', file);
+        });
+
+        payload.parkingLocationPhotos.forEach((file) => {
+          formData.append('parkingLocationPhotos', file);
+        });
+
+        const response = await axiosInstance.postForm(
+          `/api/bookings/${bookingId}/pre-inspection`,
+          formData
+        );
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw error.response?.data || error.message;
       }
     },
   },
@@ -155,7 +209,6 @@ export const BookService = {
         throw error.response.data;
       }
     },
-
     return: async (id: string) => {
       try {
         const response = await axiosInstance.put(`/api/bookings/${id}/return`);

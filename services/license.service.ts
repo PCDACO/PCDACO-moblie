@@ -48,8 +48,6 @@ export const LiccenseService = {
       formData.append('licenseImageBack', payload.licenseImageBack);
       formData.append('licenseImageFront', payload.licenseImageFront);
 
-      console.log('form data', formData);
-
       try {
         const response = await axiosInstance.patch(`/api/users/license/images`, formData, {
           headers: {

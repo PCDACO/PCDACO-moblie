@@ -22,6 +22,7 @@ export const translate = {
     },
     failed: {
       title: 'Đặt xe thất bại',
+      message: 'Vui lòng thử lại sau',
     },
     status: {
       Pending: 'Chờ xác nhận',
@@ -36,6 +37,8 @@ export const translate = {
     toast: {
       approve: 'Xác nhận đơn đặt xe thành công!',
       reject: 'Từ chối đơn đặt xe thành công!',
+      pre_inspection: 'Đặt lịch kiểm tra thành công!',
+      post_inspection: 'Đặt lịch kiểm tra sau thành công!',
     },
   },
 

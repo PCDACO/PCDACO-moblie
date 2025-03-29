@@ -9,3 +9,11 @@ export const formatNumber = (value: string | number): string => {
   const numericValue = value.toString().replace(/\D/g, '');
   return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 };
+
+export const createFormData = (payload: Record<string, File[]>) => {
+  const formData = new FormData();
+  Object.entries(payload).forEach(([key, files]) => {
+    files.forEach((file) => formData.append(key, file));
+  });
+  return formData;
+};

@@ -10,7 +10,7 @@ import { formatPhoneNumber } from '~/lib/format';
 import { COLORS } from '~/theme/colors';
 
 interface DriverInfoProps {
-  driver: BookResponseDetail['owner'];
+  driver: BookResponseDetail['driver'];
 }
 
 const DriverInfo: FunctionComponent<DriverInfoProps> = ({ driver }) => {

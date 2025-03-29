@@ -39,6 +39,24 @@ const ScreenLayout: React.FC = () => {
         name="cars/edit/index"
         options={{ headerShown: false, animation: 'fade_from_bottom' }}
       />
+
+      <Stack.Screen
+        name="booking/inspection/post"
+        options={{
+          headerShown: false,
+          animation: 'fade_from_bottom',
+          presentation: 'modal',
+        }}
+      />
+
+      <Stack.Screen
+        name="booking/inspection/pre"
+        options={{
+          headerShown: false,
+          animation: 'fade_from_bottom',
+          presentation: 'modal',
+        }}
+      />
       <Stack.Screen
         name="cars/detail/[id]"
         options={{

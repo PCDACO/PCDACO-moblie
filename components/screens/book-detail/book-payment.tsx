@@ -6,9 +6,9 @@ import Subtitle from '../car-editor/subtitle';
 
 import CardBasic from '~/components/plugins/card-basic';
 import { BookResponseDetail } from '~/constants/models/book.model';
+import { cn } from '~/lib/cn';
 import { formatNumber } from '~/lib/utils';
 import { COLORS } from '~/theme/colors';
-import { cn } from '~/lib/cn';
 
 interface BookPaymentProps {
   payment: BookResponseDetail['payment'];
@@ -49,7 +49,7 @@ const BookPayment: FunctionComponent<BookPaymentProps> = ({ payment }) => {
         <View className="h-0.5 bg-slate-200" />
         <View className="flex-row justify-between gap-2">
           <Text className="text-base ">Tổng số tiền:</Text>
-          <Text className="text-base font-bold">{formatNumber(payment.basePrice)} VND</Text>
+          <Text className="text-base font-bold">{formatNumber(payment.totalAmount)} VND</Text>
         </View>
       </View>
     </CardBasic>

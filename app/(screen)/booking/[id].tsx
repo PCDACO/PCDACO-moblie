@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import * as React from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 
@@ -48,7 +48,7 @@ const BookingScreen = () => {
           />
           <DriverInfo
             driver={
-              bookDetail?.owner || {
+              bookDetail?.driver || {
                 email: '',
                 id: '',
                 name: '',
@@ -82,26 +82,58 @@ const BookingScreen = () => {
           />
         </View>
       </ScrollView>
-      {bookDetail?.booking.status === BookingStatusEnum.Pending && (
-        <View className="absolute bottom-0 left-0 right-0 z-20 flex-row gap-2 bg-white p-4">
+      <View className="absolute bottom-0 left-0 right-0 z-20 flex-row gap-2 bg-white p-4">
+        {bookDetail?.booking.status === BookingStatusEnum.Pending && (
+          <>
+            <TouchableOpacity
+              onPress={() => {
+                handleApproveOrRejectBooking(false);
+              }}
+              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-background p-4 dark:border-gray-700">
+              <Feather name="x-circle" size={20} color={COLORS.black} />
+              <Text className="text-foreground">Từ chối đặt xe</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                handleApproveOrRejectBooking(true);
+              }}
+              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-primary p-4">
+              <Feather name="check-circle" size={20} color={COLORS.white} />
+              <Text className="text-background">Xác nhận đặt xe</Text>
+            </TouchableOpacity>
+          </>
+        )}
+
+        {bookDetail?.booking.status === BookingStatusEnum.Approved && (
           <TouchableOpacity
             onPress={() => {
-              handleApproveOrRejectBooking(false);
-            }}
-            className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-background p-4 dark:border-gray-700">
-            <Feather name="x-circle" size={20} color={COLORS.black} />
-            <Text className="text-foreground">Từ chối đặt xe</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              handleApproveOrRejectBooking(true);
+              router.push({
+                pathname: '/booking/inspection/pre',
+                params: {
+                  bookId: bookDetail.id,
+                },
+              });
             }}
             className="flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-primary p-4">
-            <Feather name="check-circle" size={20} color={COLORS.white} />
-            <Text className="text-background">Xác nhận đặt xe</Text>
+            <Text className="text-background">Kiểm tra trước khi giao xe</Text>
           </TouchableOpacity>
-        </View>
-      )}
+        )}
+
+        {bookDetail?.booking.status === BookingStatusEnum.Completed && (
+          <TouchableOpacity
+            onPress={() => {
+              router.push({
+                pathname: '/booking/inspection/post',
+                params: {
+                  bookId: bookDetail.id,
+                },
+              });
+            }}
+            className="flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-primary p-4">
+            <Text className="text-background">Kiểm tra sau khi nhận xe</Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
