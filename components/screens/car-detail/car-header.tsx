@@ -16,7 +16,7 @@ const CarHeader: FunctionComponent<CarHeaderProps> = ({ id }) => {
   };
 
   return (
-    <View className="absolute left-0 right-0 top-0 z-10 flex h-16 flex-row items-center justify-between bg-white/40 p-4 dark:bg-black/0">
+    <View className="absolute left-0 right-0 top-0 z-10 flex h-16 flex-row items-center justify-between bg-white/40 p-4 dark:bg-black/0 ">
       <Pressable
         onPress={() => router.back()}
         className="size-10 items-center justify-center rounded-full bg-black/20 dark:bg-white/20">

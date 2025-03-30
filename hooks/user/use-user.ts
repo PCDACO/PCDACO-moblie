@@ -1,4 +1,4 @@
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { UserPasswordPayload, UserPayload } from '~/constants/models/user.model';
 import { QueryKey } from '~/lib/query-key';
@@ -27,7 +27,7 @@ export const useUserDetailQuery = (id: string) => {
 };
 
 export const useUserMutation = () => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   const updateUserMutation = useMutation({
     mutationKey: [QueryKey.User.Update],

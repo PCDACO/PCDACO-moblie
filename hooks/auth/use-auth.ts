@@ -6,7 +6,7 @@ import { AuthService } from '~/services/auth.service';
 import { useAuthStore } from '~/store/auth-store';
 
 export const useAuth = () => {
-  const { setTokens, setIsAuthenticated, removeTokens, refreshToken } = useAuthStore();
+  const { setTokens, setIsAuthenticated, removeTokens } = useAuthStore();
 
   const loginMutation = useMutation({
     mutationKey: [QueryKey.Auth.Login],
