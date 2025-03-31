@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ToastAndroid } from 'react-native';
 
@@ -7,8 +6,9 @@ import { useCarMutation } from './use-car';
 
 import { CarPayload } from '~/constants/models/car.model';
 import { CarPayloadSchema, carSchema } from '~/constants/schemas/car.schema';
-import { useStepStore } from '~/store/use-step';
 import { translate } from '~/lib/translate';
+import { useStepStore } from '~/store/use-step';
+import { useLocationStore } from '~/store/use-location';
 
 interface UseCarFormProps {
   id: string;
@@ -16,7 +16,7 @@ interface UseCarFormProps {
 
 export const useCarForm = ({ id }: UseCarFormProps) => {
   const { nextStep } = useStepStore();
-
+  const { resetSelectedLocation } = useLocationStore();
   const {
     createMutation,
     updateMutation,
@@ -162,7 +162,9 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
                           { id, payload: data.paperImages },
                           {
                             onSuccess: () => {
+                              resetSelectedLocation();
                               ToastAndroid.show(translate.cars.toast.update, ToastAndroid.SHORT);
+                              form.reset();
                             },
                             onError: (error: any) => {
                               ToastAndroid.show(
@@ -204,12 +206,26 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
             { id: response.value.id, payload: data.carImages },
             {
               onSuccess: () => {
-                patchPaperImageMutation.mutate({
-                  id: response.value.id,
-                  payload: data.paperImages,
-                });
-                ToastAndroid.show(translate.cars.toast.create, ToastAndroid.SHORT);
-                form.reset();
+                patchPaperImageMutation.mutate(
+                  {
+                    id: response.value.id,
+                    payload: data.paperImages,
+                  },
+                  {
+                    onSuccess: () => {
+                      resetSelectedLocation();
+                      ToastAndroid.show(translate.cars.toast.create, ToastAndroid.SHORT);
+                      form.reset();
+                    },
+                    onError: (error: any) => {
+                      console.log('error', error);
+                      ToastAndroid.show(
+                        error || translate.cars.toast.error_create,
+                        ToastAndroid.SHORT
+                      );
+                    },
+                  }
+                );
               },
               onError: (error: any) => {
                 console.log('error', error);

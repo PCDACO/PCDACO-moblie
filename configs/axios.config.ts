@@ -1,50 +1,46 @@
 import axios from 'axios';
-import { router } from 'expo-router';
 
 import { storage } from '~/lib/storage';
 import { generateGuid } from '~/lib/utils';
 import { AuthService } from '~/services/auth.service';
 import { useAuthStore } from '~/store/auth-store';
 
-let currentCall: Promise<any> | null = null;
-
 export const handleApiError = async (error: any) => {
-  if (error.response?.status === 401) {
-    const originalRequest = error.config;
-    const authStore = useAuthStore.getState();
-    const refreshToken = await storage.getItem('refreshToken');
+  switch (error.response?.status) {
+    case 401: {
+      const originalRequest = error.config;
+      const authStore = useAuthStore.getState();
+      const refreshToken = await storage.getItem('refreshToken');
 
-    if (!refreshToken) {
+      if (refreshToken) {
+        const response = await AuthService.refreshToken(refreshToken);
+        if (response) {
+          authStore.setTokens(response.value.accessToken, response.value.refreshToken);
+          originalRequest.headers.Authorization = `Bearer ${response.value.accessToken}`;
+          return axios(originalRequest);
+        } else {
+          authStore.removeTokens();
+        }
+      } else {
+        authStore.removeTokens();
+      }
+      break;
+    }
+    case 403: {
+      break;
+    }
+    case 404: {
+      break;
+    }
+    case 500: {
+      const authStore = useAuthStore.getState();
       authStore.removeTokens();
-      router.replace('/(auth)/login');
+      break;
+    }
+    default: {
       return Promise.reject(error);
     }
-
-    if (!currentCall) {
-      currentCall = AuthService.refreshToken(refreshToken)
-        .then((response) => {
-          if (response) {
-            authStore.setTokens(response.value.accessToken, response.value.refreshToken);
-            originalRequest.headers.Authorization = `Bearer ${response.value.accessToken}`;
-            return axios(originalRequest);
-          } else {
-            authStore.removeTokens();
-            router.replace('/(auth)/login');
-            return Promise.reject(error);
-          }
-        })
-        .finally(() => {
-          currentCall = null;
-        });
-
-      return currentCall;
-    }
-
-    authStore.removeTokens();
-    router.replace('/(auth)/login');
   }
-
-  return Promise.reject(error);
 };
 
 const axiosInstance = axios.create({
@@ -74,11 +70,15 @@ axiosInstance.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   async (error) => handleApiError(error)
 );
 

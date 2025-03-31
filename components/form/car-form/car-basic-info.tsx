@@ -1,8 +1,10 @@
 import * as Location from 'expo-location';
 import React, { FunctionComponent } from 'react';
 import { Controller } from 'react-hook-form';
-import { ToastAndroid, View, Text } from 'react-native';
+import { ToastAndroid, View, Text, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import { useLocationStore } from '~/store/use-location';
 
 import ModelSuggestionPopover from './model-suggestion-popover';
 
@@ -30,6 +32,8 @@ interface CarBasicInfoProps {
 }
 
 const CarBasicInfo: FunctionComponent<CarBasicInfoProps> = ({ form }) => {
+  const router = useRouter();
+  const selectedLocation = useLocationStore((state) => state.selectedLocation);
   const [location, setLocation] = React.useState<Location.LocationObject | null>(null);
   const [searchModel, setSearchModel] = React.useState<string>('');
   const [showSuggestions, setShowSuggestions] = React.useState(false);
@@ -82,10 +86,22 @@ const CarBasicInfo: FunctionComponent<CarBasicInfoProps> = ({ form }) => {
     }
   }, [form.watch('modelId')]);
 
+  React.useEffect(() => {
+    if (selectedLocation) {
+      form.setValue('pickupAddress', selectedLocation.address);
+      form.setValue('pickupLatitude', selectedLocation.latitude);
+      form.setValue('pickupLongitude', selectedLocation.longitude);
+    }
+  }, [selectedLocation]);
+
   const handleModelSelect = (model: ModelsResponse) => {
     setSearchModel(model.name);
     form.setValue('modelId', model.id);
     setShowSuggestions(false);
+  };
+
+  const handlePickupAddressPress = () => {
+    router.push('/map');
   };
 
   return (
@@ -123,16 +139,15 @@ const CarBasicInfo: FunctionComponent<CarBasicInfoProps> = ({ form }) => {
             control={form.control}
             name="pickupAddress"
             render={({ field }) => (
-              <Input
-                {...field}
-                placeholder="Nhập vị trí để xe"
-                value={field.value || form.watch('pickupAddress')}
-                onChangeText={(text) => {
-                  field.onChange(text);
-                  form.setValue('pickupLatitude', location?.coords.latitude || 0);
-                  form.setValue('pickupLongitude', location?.coords.longitude || 0);
-                }}
-              />
+              <TouchableOpacity onPress={handlePickupAddressPress}>
+                <Input
+                  {...field}
+                  placeholder="Nhập vị trí để xe"
+                  value={field.value || form.watch('pickupAddress')}
+                  editable={false}
+                  pointerEvents="none"
+                />
+              </TouchableOpacity>
             )}
           />
           {form.formState.errors.pickupAddress && (

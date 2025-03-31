@@ -4,10 +4,12 @@ import { useRouter } from 'expo-router';
 import * as React from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Backdrop from '~/components/plugins/back-drop';
 
 import Loading from '~/components/plugins/loading';
 import { SearchInput } from '~/components/plugins/search-input';
 import CarCard from '~/components/screens/car-list/car-card';
+import CarParams from '~/components/screens/car-list/car-params';
 import { useCarQuery } from '~/hooks/car/use-car';
 import { useStepStore } from '~/store/use-step';
 import { COLORS } from '~/theme/colors';
@@ -21,35 +23,29 @@ const CarsScreen = () => {
     },
   });
 
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+
   const sheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['1%', '90%'], []);
+  const snapPoints = React.useMemo(() => ['1%', '45%'], []);
 
   const handleSnapPress = React.useCallback((index: number) => {
     sheetRef.current?.snapToIndex(index);
+    setIsSheetOpen(index === snapPoints.length - 1);
   }, []);
 
   const handleSheetChange = React.useCallback((index: number) => {
-    console.log('handleSheetChange', index);
+    setIsSheetOpen(index === snapPoints.length - 1);
   }, []);
 
   const handleClosePress = React.useCallback(() => {
     sheetRef.current?.close();
+    setIsSheetOpen(false);
   }, []);
 
   return (
     <SafeAreaView className="relative h-full flex-1">
       <View className="flex-row items-center gap-2 px-4">
         <SearchInput className="flex-1" />
-        <TouchableOpacity
-          className="items-center justify-center rounded-lg border border-gray-200 bg-white  dark:border-gray-700 dark:bg-slate-300"
-          style={{
-            padding: 11,
-          }}
-          onPress={() => {
-            handleSnapPress(1);
-          }}>
-          <Ionicons name="options-outline" size={20} color={COLORS.black} />
-        </TouchableOpacity>
       </View>
       <View className="flex-1">
         {isLoading && (
@@ -79,6 +75,17 @@ const CarsScreen = () => {
       </View>
 
       <TouchableOpacity
+        className="absolute bottom-16 right-4 items-center justify-center rounded-full border border-gray-200 bg-white dark:border-gray-700 dark:bg-slate-300"
+        style={{
+          padding: 10,
+        }}
+        onPress={() => {
+          handleSnapPress(1);
+        }}>
+        <Ionicons name="options-outline" size={20} color={COLORS.black} />
+      </TouchableOpacity>
+
+      <TouchableOpacity
         className="absolute bottom-4 right-4 size-10 items-center justify-center rounded-full bg-blue-500"
         onPress={() => {
           resetStep();
@@ -93,15 +100,12 @@ const CarsScreen = () => {
         ref={sheetRef}
         snapPoints={snapPoints}
         enableDynamicSizing={false}
+        backdropComponent={
+          isSheetOpen ? (props) => <Backdrop {...props} onPress={handleClosePress} /> : null
+        }
         onChange={handleSheetChange}>
         <BottomSheetView className="relative flex-1 bg-white dark:bg-slate-300">
-          <View className="absolute bottom-4 left-0 right-0 px-4">
-            <TouchableOpacity
-              className="items-center justify-center rounded-full bg-primary p-4"
-              onPress={handleClosePress}>
-              <Text className="text-white dark:text-black">Xác nhận</Text>
-            </TouchableOpacity>
-          </View>
+          <CarParams close={handleClosePress} />
         </BottomSheetView>
       </BottomSheet>
     </SafeAreaView>

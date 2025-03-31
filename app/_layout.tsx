@@ -69,10 +69,11 @@ export default function RootLayout() {
 }
 
 const SCREEN_OPTIONS = {
-  animation: 'ios_from_right', // for android
+  animation: 'ios_from_right',
 } as const;
 
 const TAB_OPTIONS = {
-  animation: 'fade_from_bottom', // for android
+  animation: 'fade_from_bottom',
+  presentation: 'modal',
   headerShown: false,
 } as const;
