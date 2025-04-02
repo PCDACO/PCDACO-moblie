@@ -35,9 +35,9 @@ export const CarService = {
       }
     },
 
-    contact: async (id: string): Promise<RootResponse<null>> => {
+    contact: async (id: string) => {
       try {
-        const response = await axiosInstance.get<RootResponse<null>>(`/api/car/${id}/contact`);
+        const response = await axiosInstance.get<RootResponse<null>>(`/api/cars/${id}/contract`);
         return response.data;
       } catch (error: any) {
         return error.response.data.message;
@@ -102,6 +102,17 @@ export const CarService = {
         const response = await axiosInstance.post<RootResponse<null>>(
           `/api/cars/${id}/availability`,
           payload
+        );
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
+    },
+
+    assign_contract: async (id: string): Promise<RootResponse<null>> => {
+      try {
+        const response = await axiosInstance.post<RootResponse<null>>(
+          `/api/cars/contracts/${id}/sign`
         );
         return response.data;
       } catch (error: any) {

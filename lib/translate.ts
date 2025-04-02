@@ -6,6 +6,14 @@ export const translate = {
       rented: 'Đã thuê',
       maintain: 'Duy trì',
       inactive: 'Không hoạt động',
+
+      contract: {
+        pending: 'Chờ ký',
+        owner_signed: 'Chờ chủ xe ký',
+        technician_signed: 'Chờ kỹ sư ký',
+        completed: 'Đã ký',
+        rejected: 'Đã từ chối',
+      },
     },
 
     toast: {

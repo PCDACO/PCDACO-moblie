@@ -2,45 +2,42 @@ import axios from 'axios';
 
 import { storage } from '~/lib/storage';
 import { generateGuid } from '~/lib/utils';
+import { AuthService } from '~/services/auth.service';
+import { useAuthStore } from '~/store/auth-store';
 
 export const handleApiError = async (error: any) => {
-  console.log('error', error.response.data);
+  const originalRequest = error.config;
+  const { setTokens, removeTokens } = useAuthStore.getState();
 
-  // switch (error.response?.status) {
-  //   case 401: {
-  //     const originalRequest = error.config;
-  //     const authStore = useAuthStore.getState();
-  //     const refreshToken = await storage.getItem('refreshToken');
+  // If error is 401 and we haven't tried to refresh token yet
+  if (error.response?.status === 401 && !originalRequest._retry) {
+    originalRequest._retry = true;
 
-  //     if (refreshToken) {
-  //       const response = await AuthService.refreshToken(refreshToken);
-  //       if (response) {
-  //         authStore.setTokens(response.value.accessToken, response.value.refreshToken);
-  //         originalRequest.headers.Authorization = `Bearer ${response.value.accessToken}`;
-  //         return axios(originalRequest);
-  //       } else {
-  //         authStore.removeTokens();
-  //       }
-  //     } else {
-  //       authStore.removeTokens();
-  //     }
-  //     break;
-  //   }
-  //   case 403: {
-  //     break;
-  //   }
-  //   case 404: {
-  //     break;
-  //   }
-  //   case 500: {
-  //     const authStore = useAuthStore.getState();
-  //     authStore.removeTokens();
-  //     break;
-  //   }
-  //   default: {
-  //     return Promise.reject(error);
-  //   }
-  // }
+    try {
+      const refreshToken = await storage.getItem('refreshToken');
+      if (!refreshToken) {
+        throw new Error('No refresh token available');
+      }
+
+      // Attempt to refresh the token
+      const response = await AuthService.refreshToken(refreshToken);
+
+      // Store new tokens using Zustand store
+      await setTokens(response.value.accessToken, response.value.refreshToken);
+
+      // Update the original request with new token
+      originalRequest.headers.Authorization = `Bearer ${response.value.accessToken}`;
+
+      // Retry the original request
+      return axiosInstance(originalRequest);
+    } catch (refreshError) {
+      // If refresh token fails, clear tokens using Zustand store
+      await removeTokens();
+      return Promise.reject(refreshError);
+    }
+  }
+
+  return Promise.reject(error);
 };
 
 const axiosInstance = axios.create({

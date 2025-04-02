@@ -17,6 +17,7 @@ interface MultiDatePickerProps {
   maxDate?: Date;
   disabledDates?: Date[];
   disabled?: boolean;
+  onMonthChange?: (month: number, year: number) => void;
 }
 
 const MultiDatePicker: React.FC<MultiDatePickerProps> = ({
@@ -28,6 +29,7 @@ const MultiDatePicker: React.FC<MultiDatePickerProps> = ({
   maxDate,
   disabledDates = [],
   disabled = false,
+  onMonthChange,
 }) => {
   const [markedDates, setMarkedDates] = useState<{ [key: string]: any }>({});
 
@@ -113,6 +115,11 @@ const MultiDatePicker: React.FC<MultiDatePickerProps> = ({
         minDate={minDate?.toISOString()}
         maxDate={maxDate?.toISOString()}
         disabledByDefault={disabled}
+        onMonthChange={(month: { month: number; year: number }) => {
+          if (onMonthChange) {
+            onMonthChange(month.month, month.year);
+          }
+        }}
       />
     </View>
   );

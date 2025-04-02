@@ -44,6 +44,16 @@ export const useCarUnavailableQuery = ({ id, month, year }: CarUnavailableParams
   return unavailableQuery;
 };
 
+export const useCarContactQuery = ({ id }: { id: string }) => {
+  const contactQuery = useQuery({
+    queryKey: [QueryKey.Car.Contact, id],
+    queryFn: () => CarService.get.contact(id),
+    enabled: !!id,
+  });
+
+  return contactQuery;
+};
+
 interface UseCarQueriesParams {
   id: string;
   month: number;
@@ -51,7 +61,7 @@ interface UseCarQueriesParams {
 }
 
 export const useCarQueries = ({ id, month, year }: UseCarQueriesParams) => {
-  const [detailQuery, unavailableQuery] = useQueries({
+  const [detailQuery, unavailableQuery, contactQuery] = useQueries({
     queries: [
       {
         queryKey: [QueryKey.Car.Detail, id],
@@ -63,10 +73,18 @@ export const useCarQueries = ({ id, month, year }: UseCarQueriesParams) => {
         queryFn: () => CarService.get.unavailable({ id, month, year }),
         enabled: !!id && !!month && !!year,
       },
+      {
+        queryKey: [QueryKey.Car.Contact, id],
+        queryFn: async () => {
+          const response = await CarService.get.contact(id);
+          return response || null;
+        },
+        enabled: !!id,
+      },
     ],
   });
 
-  return { detailQuery, unavailableQuery };
+  return { detailQuery, unavailableQuery, contactQuery };
 };
 
 export const useCarMutation = () => {
@@ -75,11 +93,10 @@ export const useCarMutation = () => {
   const createMutation = useMutation({
     mutationKey: [QueryKey.Car.Create],
     mutationFn: async (payload: CarPayload) => await CarService.post.car(payload),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Car.List] });
     },
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
       ToastAndroid.show('Tạo xe thất bại', ToastAndroid.SHORT);
     },
   });
@@ -93,6 +110,11 @@ export const useCarMutation = () => {
   const postDisableMutation = useMutation({
     mutationKey: [QueryKey.Car.PostDisable],
     mutationFn: async (id: string) => await CarService.post.disable(id),
+  });
+
+  const postAssignContractMutation = useMutation({
+    mutationKey: [QueryKey.Car.AssignContract],
+    mutationFn: async (id: string) => await CarService.post.assign_contract(id),
   });
 
   const postEnableMutation = useMutation({
@@ -173,5 +195,6 @@ export const useCarMutation = () => {
     postAvailabilityMutation,
     postDisableMutation,
     postEnableMutation,
+    postAssignContractMutation,
   };
 };

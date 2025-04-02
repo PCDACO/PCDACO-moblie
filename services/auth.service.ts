@@ -16,7 +16,7 @@ export const AuthService = {
       const response = await axiosInstance.post('/api/auth/login', data);
       return response.data;
     } catch (error: any) {
-      throw error.response.data.message;
+      throw error.response.data;
     }
   },
 

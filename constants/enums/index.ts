@@ -18,6 +18,23 @@ export enum CarStatus {
   Rejected = 'Rejected',
 }
 
+export enum CarContractStatus {
+  Pending = 'Pending',
+  OwnerSigned = 'OwnerSigned',
+  TechnicianSigned = 'TechnicianSigned',
+  Completed = 'Completed',
+  Rejected = 'Rejected',
+}
+
+export enum BookingReportType {
+  Conflict = 'Conflict',
+  Accident = 'Accident',
+  FineNotice = 'FineNotice',
+  Damage = 'Damage',
+  Maintenance = 'Maintenance',
+  Other = 'Other',
+}
+
 export enum CarStatusNumber {
   Inactive = 0,
   Pending = 1,

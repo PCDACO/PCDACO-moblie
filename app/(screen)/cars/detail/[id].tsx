@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView, View, Animated, Pressable, Text, FlatList } from 'react-native';
+import { View, Animated, Pressable, Text } from 'react-native';
 
 import Backdrop from '~/components/plugins/back-drop';
 import Loading from '~/components/plugins/loading';
@@ -12,6 +12,7 @@ import CarAmentity from '~/components/screens/car-detail/car-amentity';
 import CarBasicInfo from '~/components/screens/car-detail/car-basic-info';
 import CarCalendar from '~/components/screens/car-detail/car-calendar';
 import CarConfiguration from '~/components/screens/car-detail/car-configuation';
+import CarContact from '~/components/screens/car-detail/car-contact';
 import CarDescription from '~/components/screens/car-detail/car-description';
 import CarHeader from '~/components/screens/car-detail/car-header';
 import CarImages from '~/components/screens/car-detail/car-image';
@@ -23,15 +24,30 @@ import { usePanResponder } from '~/hooks/plugins/use-pan-responder';
 
 const CarDetailScreen = () => {
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
+  const handleMonthChange = (month: number, year: number) => {
+    setCurrentMonth(month);
+    setCurrentYear(year);
+  };
 
   const { id } = useLocalSearchParams();
-  const { detailQuery, unavailableQuery } = useCarQueries({
+  const { detailQuery, unavailableQuery, contactQuery } = useCarQueries({
     id: id as string,
-    month: new Date().getMonth() + 1,
-    year: new Date().getFullYear(),
+    month: currentMonth,
+    year: currentYear,
   });
+
   const car = detailQuery.data;
   const isLoading = detailQuery.isLoading;
+
+  const unavailable = unavailableQuery.data;
+  const isLoadingUnavailable = unavailableQuery.isLoading;
+
+  const contact = contactQuery.data;
+  const isLoadingContact = contactQuery.isLoading;
+
   const [isExpanded, setIsExpanded] = useState(false);
 
   const sheetRef = React.useRef<BottomSheet>(null);
@@ -64,7 +80,7 @@ const CarDetailScreen = () => {
         url: image.url,
       })) || [];
 
-  if (isLoading) {
+  if (isLoading || isLoadingContact || isLoadingUnavailable) {
     return (
       <View className="h-full flex-1 items-center justify-center">
         <Loading />
@@ -81,7 +97,7 @@ const CarDetailScreen = () => {
         <View
           className=" h-full gap-6 py-2"
           style={{
-            marginBottom: 20,
+            paddingBottom: 100,
           }}>
           <CarBasicInfo car={car?.value as CarDetailResponse} />
           <CarConfiguration car={car?.value as CarDetailResponse} />
@@ -97,8 +113,8 @@ const CarDetailScreen = () => {
       title: 'Thời gian ',
       content: (
         <CarCalendar
-          carId={id as string}
-          unavailableDates={unavailableQuery.data?.value.map((date) => new Date(date.date)) || []}
+          onMonthChange={handleMonthChange}
+          unavailableDates={unavailable?.value.map((date) => new Date(date.date)) || []}
         />
       ),
       key: 'car-unavailable-time',
@@ -106,9 +122,11 @@ const CarDetailScreen = () => {
     {
       title: 'Hợp đồng',
       content: (
-        <View>
-          <Text>Hợp đồng</Text>
-        </View>
+        <CarContact
+          id={car?.value.id || ''}
+          contract={contact}
+          carContract={car?.value.contract as CarDetailResponse['contract']}
+        />
       ),
       key: 'contract',
     },
@@ -129,23 +147,14 @@ const CarDetailScreen = () => {
           <View className="h-1 w-20 rounded-full bg-gray-200 dark:bg-gray-800" />
         </View>
 
-        <FlatList
-          className="mb-10 h-screen w-full"
-          scrollEnabled={isExpanded}
-          style={{
-            marginBottom: 100,
-          }}
-          showsVerticalScrollIndicator={false}
-          data={[{ key: 'content' }]}
-          renderItem={() => (
-            <TabView
-              tabs={tabs}
-              initialTab={0}
-              headerClassName="shadow-sm"
-              contentClassName="bg-gray-50"
-            />
-          )}
-        />
+        <View className="w-full flex-1">
+          <TabView
+            tabs={tabs}
+            initialTab={0}
+            headerClassName="shadow-sm"
+            contentClassName="bg-gray-50"
+          />
+        </View>
       </Animated.View>
 
       <BottomSheet
@@ -180,7 +189,7 @@ const CarDetailScreen = () => {
                 router.push({
                   pathname: '/(screen)/cars/availability/[id]',
                   params: {
-                    id: car?.value.id,
+                    id: car?.value.id || '',
                   },
                 });
               }}>

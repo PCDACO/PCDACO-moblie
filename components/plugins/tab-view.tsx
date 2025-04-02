@@ -1,5 +1,13 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, Pressable, Animated, useWindowDimensions, FlatList } from 'react-native';
+import {
+  View,
+  Text,
+  Pressable,
+  Animated,
+  useWindowDimensions,
+  FlatList,
+  ScrollView,
+} from 'react-native';
 
 export interface Tab {
   key: string;
@@ -41,8 +49,13 @@ const TabView: React.FC<TabsProps> = ({
   });
 
   const renderItem = ({ item, index }: { item: Tab; index: number }) => (
-    <View style={{ width }} className="p-4">
-      {item.content}
+    <View style={{ width }} className="flex-1">
+      <ScrollView
+        className="flex-1"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ padding: 16 }}>
+        {item.content}
+      </ScrollView>
     </View>
   );
 
@@ -81,28 +94,30 @@ const TabView: React.FC<TabsProps> = ({
       </View>
 
       {/* Content */}
-      <FlatList
-        ref={flatListRef}
-        data={tabs}
-        renderItem={renderItem}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={(event) => {
-          const index = Math.round(event.nativeEvent.contentOffset.x / width);
-          setActiveTab(index);
-        }}
-        scrollEventThrottle={16}
-        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
-          useNativeDriver: false,
-        })}
-        className={contentClassName}
-        getItemLayout={(_, index) => ({
-          length: width,
-          offset: width * index,
-          index,
-        })}
-      />
+      <View className="flex-1">
+        <FlatList
+          ref={flatListRef}
+          data={tabs}
+          renderItem={renderItem}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onMomentumScrollEnd={(event) => {
+            const index = Math.round(event.nativeEvent.contentOffset.x / width);
+            setActiveTab(index);
+          }}
+          scrollEventThrottle={16}
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+            useNativeDriver: false,
+          })}
+          className={contentClassName}
+          getItemLayout={(_, index) => ({
+            length: width,
+            offset: width * index,
+            index,
+          })}
+        />
+      </View>
     </View>
   );
 };

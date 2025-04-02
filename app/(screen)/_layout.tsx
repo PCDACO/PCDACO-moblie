@@ -87,6 +87,18 @@ const ScreenLayout: React.FC = () => {
         name="map/index"
         options={{ headerShown: false, presentation: 'modal', animation: 'fade_from_bottom' }}
       />
+
+      <Stack.Screen
+        name="cars/contact"
+        options={{
+          headerShown: true,
+          presentation: 'modal',
+          animation: 'slide_from_right',
+          headerTitle: 'Hợp đồng',
+          headerTitleAlign: 'center',
+        }}
+      />
+
       <Stack.Screen
         name="cars/availability/[id]"
         options={{
