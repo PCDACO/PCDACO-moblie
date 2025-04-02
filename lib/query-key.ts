@@ -85,4 +85,14 @@ export const QueryKey = {
   Model: {
     List: 'ModelList',
   },
+
+  Report: {
+    List: 'ReportList',
+    Detail: 'ReportDetail',
+    Create: 'ReportCreate',
+    Approve: 'ReportApprove',
+    Compensation: 'ReportCompensation',
+    CompensationProof: 'ReportCompensationProof',
+    Image: 'ReportImage',
+  },
 };

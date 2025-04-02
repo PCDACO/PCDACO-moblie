@@ -7,8 +7,8 @@ import { useCarMutation } from './use-car';
 import { CarPayload } from '~/constants/models/car.model';
 import { CarPayloadSchema, carSchema } from '~/constants/schemas/car.schema';
 import { translate } from '~/lib/translate';
-import { useStepStore } from '~/store/use-step';
 import { useLocationStore } from '~/store/use-location';
+import { useStepStore } from '~/store/use-step';
 
 interface UseCarFormProps {
   id: string;

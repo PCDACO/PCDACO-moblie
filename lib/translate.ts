@@ -53,4 +53,19 @@ export const translate = {
       error_update: 'Cập nhật tài khoản ngân hàng thất bại!',
     },
   },
+
+  report: {
+    toast: {
+      create: 'Tạo báo cáo thành công!',
+      error_create: 'Tạo báo cáo thất bại!',
+      approve: 'Phê duyệt báo cáo thành công!',
+      error_approve: 'Phê duyệt báo cáo thất bại!',
+      compensation: 'Cập nhật bồi thường thành công!',
+      error_compensation: 'Cập nhật bồi thường thất bại!',
+      compensation_proof: 'Cập nhật bằng chứng thành công!',
+      error_compensation_proof: 'Cập nhật bằng chứng thất bại!',
+      image: 'Cập nhật hình ảnh thành công!',
+      error_image: 'Cập nhật hình ảnh thất bại!',
+    },
+  },
 };
