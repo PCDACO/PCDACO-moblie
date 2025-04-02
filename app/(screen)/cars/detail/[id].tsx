@@ -1,11 +1,16 @@
-import { useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
-import { ScrollView, View, Animated } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { router, useLocalSearchParams } from 'expo-router';
+import React, { useState } from 'react';
+import { ScrollView, View, Animated, Pressable, Text, FlatList } from 'react-native';
 
+import Backdrop from '~/components/plugins/back-drop';
 import Loading from '~/components/plugins/loading';
 import { SwiperImageItem } from '~/components/plugins/swiper-images';
+import TabView, { Tab } from '~/components/plugins/tab-view';
 import CarAmentity from '~/components/screens/car-detail/car-amentity';
 import CarBasicInfo from '~/components/screens/car-detail/car-basic-info';
+import CarCalendar from '~/components/screens/car-detail/car-calendar';
 import CarConfiguration from '~/components/screens/car-detail/car-configuation';
 import CarDescription from '~/components/screens/car-detail/car-description';
 import CarHeader from '~/components/screens/car-detail/car-header';
@@ -13,26 +18,43 @@ import CarImages from '~/components/screens/car-detail/car-image';
 import CarTerm from '~/components/screens/car-detail/car-term';
 import CarVehicalRegistration from '~/components/screens/car-detail/car-vehical-registation';
 import { CarDetailResponse } from '~/constants/models/car.model';
-import { useCarDetailQuery } from '~/hooks/car/use-car';
+import { useCarQueries } from '~/hooks/car/use-car';
 import { usePanResponder } from '~/hooks/plugins/use-pan-responder';
 
 const CarDetailScreen = () => {
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+
   const { id } = useLocalSearchParams();
-  const { data: car, isLoading } = useCarDetailQuery({ id: id as string });
+  const { detailQuery, unavailableQuery } = useCarQueries({
+    id: id as string,
+    month: new Date().getMonth() + 1,
+    year: new Date().getFullYear(),
+  });
+  const car = detailQuery.data;
+  const isLoading = detailQuery.isLoading;
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const sheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => ['1%', '20%'], []);
 
   const { slideAnim, panResponder } = usePanResponder({
     onExpand: () => setIsExpanded(true),
     onCollapse: () => setIsExpanded(false),
   });
 
-  if (isLoading) {
-    return (
-      <View className="h-full flex-1 items-center justify-center">
-        <Loading />
-      </View>
-    );
-  }
+  const handleSnapPress = React.useCallback((index: number) => {
+    sheetRef.current?.snapToIndex(index);
+    setIsSheetOpen(index === snapPoints.length - 1);
+  }, []);
+
+  const handleSheetChange = React.useCallback((index: number) => {
+    setIsSheetOpen(index === snapPoints.length - 1);
+  }, []);
+
+  const handleClosePress = React.useCallback(() => {
+    sheetRef.current?.close();
+    setIsSheetOpen(false);
+  }, []);
 
   const carImages: SwiperImageItem[] =
     car?.value.images
@@ -42,15 +64,63 @@ const CarDetailScreen = () => {
         url: image.url,
       })) || [];
 
+  if (isLoading) {
+    return (
+      <View className="h-full flex-1 items-center justify-center">
+        <Loading />
+      </View>
+    );
+  }
+
   const paperImages = car?.value.images.filter((item) => item.type === 'Paper');
+
+  const tabs: Tab[] = [
+    {
+      title: 'Thông tin xe',
+      content: (
+        <View
+          className=" h-full gap-6 py-2"
+          style={{
+            marginBottom: 20,
+          }}>
+          <CarBasicInfo car={car?.value as CarDetailResponse} />
+          <CarConfiguration car={car?.value as CarDetailResponse} />
+          <CarDescription description={car?.value.description || ''} />
+          <CarAmentity amenity={car?.value.amenities || []} />
+          <CarTerm term={car?.value.terms || ''} />
+          <CarVehicalRegistration image={paperImages || []} />
+        </View>
+      ),
+      key: 'car-info',
+    },
+    {
+      title: 'Thời gian ',
+      content: (
+        <CarCalendar
+          carId={id as string}
+          unavailableDates={unavailableQuery.data?.value.map((date) => new Date(date.date)) || []}
+        />
+      ),
+      key: 'car-unavailable-time',
+    },
+    {
+      title: 'Hợp đồng',
+      content: (
+        <View>
+          <Text>Hợp đồng</Text>
+        </View>
+      ),
+      key: 'contract',
+    },
+  ];
 
   return (
     <View className="relative flex-1 bg-slate-100 dark:bg-slate-900">
-      <CarHeader id={id as string} />
+      <CarHeader onEdit={() => handleSnapPress(snapPoints.length - 1)} />
       <CarImages images={carImages} status={car?.value.status || ''} />
 
       <Animated.View
-        className="absolute bottom-0 left-0 right-0 top-0 z-10 items-center justify-center rounded-t-3xl border border-gray-200 bg-white px-6 shadow-lg dark:border-gray-800 dark:bg-slate-900"
+        className="z-0.5 absolute bottom-0 left-0 right-0 top-0 items-center justify-center rounded-t-3xl border border-gray-200 bg-white shadow-lg dark:border-gray-800 dark:bg-slate-900"
         style={{
           paddingTop: 10,
           transform: [{ translateY: slideAnim }],
@@ -59,27 +129,67 @@ const CarDetailScreen = () => {
           <View className="h-1 w-20 rounded-full bg-gray-200 dark:bg-gray-800" />
         </View>
 
-        <ScrollView
+        <FlatList
           className="mb-10 h-screen w-full"
           scrollEnabled={isExpanded}
           style={{
             marginBottom: 100,
           }}
-          showsVerticalScrollIndicator={false}>
-          <View
-            className=" h-full gap-6 py-2"
-            style={{
-              marginBottom: 20,
-            }}>
-            <CarBasicInfo car={car?.value as CarDetailResponse} />
-            <CarConfiguration car={car?.value as CarDetailResponse} />
-            <CarDescription description={car?.value.description || ''} />
-            <CarAmentity amenity={car?.value.amenities || []} />
-            <CarTerm term={car?.value.terms || ''} />
-            <CarVehicalRegistration image={paperImages || []} />
-          </View>
-        </ScrollView>
+          showsVerticalScrollIndicator={false}
+          data={[{ key: 'content' }]}
+          renderItem={() => (
+            <TabView
+              tabs={tabs}
+              initialTab={0}
+              headerClassName="shadow-sm"
+              contentClassName="bg-gray-50"
+            />
+          )}
+        />
       </Animated.View>
+
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={snapPoints}
+        enableDynamicSizing={false}
+        backdropComponent={
+          isSheetOpen ? (props) => <Backdrop {...props} onPress={handleClosePress} /> : null
+        }
+        onChange={handleSheetChange}>
+        <BottomSheetView className="relative flex-1 bg-white dark:bg-slate-300">
+          <View className="absolute bottom-6 left-0 right-0 justify-between gap-2 px-4 ">
+            <Pressable
+              className="flex-1 flex-row items-center justify-center gap-2 rounded-full border border-gray-400 p-4"
+              onPress={() => {
+                handleClosePress();
+                router.push({
+                  pathname: '/(screen)/cars/edit',
+                  params: {
+                    id: car?.value.id,
+                  },
+                });
+              }}>
+              <Ionicons name="create-outline" size={20} color="black" />
+              <Text>Có nhu cầu chỉnh sửa xe</Text>
+            </Pressable>
+
+            <Pressable
+              className="flex-1 flex-row items-center justify-center gap-2 rounded-full border border-gray-200 bg-black p-4"
+              onPress={() => {
+                handleClosePress();
+                router.push({
+                  pathname: '/(screen)/cars/availability/[id]',
+                  params: {
+                    id: car?.value.id,
+                  },
+                });
+              }}>
+              <Ionicons name="time-outline" size={20} color="white" />
+              <Text className="text-white">Cài đặt thời gian không cho thuê xe</Text>
+            </Pressable>
+          </View>
+        </BottomSheetView>
+      </BottomSheet>
     </View>
   );
 };

@@ -47,13 +47,14 @@ const CarVehicalRegistration: FunctionComponent<CarVehicalRegistrationProps> = (
             <Image
               source={{ uri: item }}
               style={{ width: viewWidth }}
-              className="h-60   object-cover "
+              className="h-60 object-cover "
             />
           )}
           horizontal
           onViewableItemsChanged={onViewableItemsChanged}
           keyExtractor={(_, index) => index.toString()}
           showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
           ListEmptyComponent={() => (
             <View className="rounded-xl border border-gray-200 p-4 dark:border-gray-800">
               <Text>Không có giấy tờ</Text>

@@ -80,9 +80,23 @@ const ScreenLayout: React.FC = () => {
         options={{
           headerShown: false,
           presentation: 'modal',
+          animation: 'fade_from_bottom',
         }}
       />
-      <Stack.Screen name="map/index" options={{ headerShown: false, presentation: 'modal' }} />
+      <Stack.Screen
+        name="map/index"
+        options={{ headerShown: false, presentation: 'modal', animation: 'fade_from_bottom' }}
+      />
+      <Stack.Screen
+        name="cars/availability/[id]"
+        options={{
+          headerShown: true,
+          presentation: 'modal',
+          animation: 'fade_from_bottom',
+          headerTitle: 'Thời gian không cho thuê xe',
+          headerTitleAlign: 'center',
+        }}
+      />
     </Stack>
   );
 };

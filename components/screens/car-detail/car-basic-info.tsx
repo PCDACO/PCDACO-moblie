@@ -15,41 +15,40 @@ interface CarBasicInfoProps {
 const CarBasicInfo: React.FC<CarBasicInfoProps> = ({ car }) => {
   return (
     <View className="">
+      {/* Header */}
       <View className="flex-row justify-between">
-        <View className="gap-2">
-          <View>
-            <Subtitle title={`${car.manufacturer.name} - ${car.modelName}`} />
-            <Description title={`Biển số: ${car.licensePlate}`} />
-          </View>
+        <View className="flex-1 pr-4">
+          <Subtitle title={`${car.manufacturer.name} - ${car.modelName}`} />
+          <Description title={`Biển số: ${car.licensePlate}`} />
         </View>
-        <View>
+        <View className="items-end">
           <Subtitle title={`${formatNumber(car.price)}/ngày`} />
-          <View className="flex-row items-end justify-end gap-2">
+          <View className="flex-row items-center gap-1">
             <FontAwesome name="star" size={16} color="#FACC15" />
-            <Text>
-              {car.averageRating}
+            <Text numberOfLines={1} ellipsizeMode="tail">
+              {car.averageRating}{' '}
               <Text className="text-sm text-gray-500">({car.totalRented} lượt thuê)</Text>
             </Text>
           </View>
         </View>
       </View>
-
-      <View className="rounded-lg border border-gray-200 p-4 dark:border-gray-800">
+      {/* Detail Box */}
+      <View className="mt-4 rounded-lg border border-gray-200 p-4 dark:border-gray-800">
         <View className="flex-row justify-between">
-          <Description title={`Địa chỉ nhận xe: `} />
-          <Text className="text-foreground">{car.pickupLocation.address}</Text>
+          <Description className="text-sm" title="Yêu cầu thế chấp:" />
+          <Text className="flex-1 text-right text-foreground">
+            {car.requiresCollateral ? 'Có' : 'Không'}
+          </Text>
         </View>
         <View className="flex-row justify-between">
-          <Description title={`Yêu cầu thế chấp: `} />
-          <Text className="text-foreground">{car.requiresCollateral ? 'Có' : 'Không'}</Text>
+          <Description className="text-sm" title="Màu:" />
+          <Text className="flex-1 text-right text-foreground">{car.color}</Text>
         </View>
         <View className="flex-row justify-between">
-          <Description title={`Màu: `} />
-          <Text className="text-foreground">{car.color}</Text>
-        </View>
-        <View className="flex-row justify-between">
-          <Description title={`Địa chỉ nhận: `} />
-          <Text className="text-foreground">{car.color}</Text>
+          <Description className="text-sm" title="Địa chỉ nhận xe:" />
+          <Text className="flex-1 break-words text-right text-foreground" numberOfLines={2}>
+            {car.pickupLocation.address}
+          </Text>
         </View>
       </View>
     </View>

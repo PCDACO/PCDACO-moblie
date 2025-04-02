@@ -93,7 +93,9 @@ const EditCarScreen: React.FC = () => {
   return (
     <SafeAreaView className="relative h-full dark:bg-gray-900">
       <View className="relative gap-2">
-        <TouchableOpacity onPress={() => router.back()} className="absolute bottom-1 left-0 p-2">
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="absolute bottom-1 left-2 z-10 p-2">
           <Feather name="arrow-left" size={24} color="black" />
         </TouchableOpacity>
         <HeaderTitle title={id ? 'Chỉnh sửa xe' : 'Tạo xe'} />

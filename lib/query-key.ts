@@ -22,7 +22,11 @@ export const QueryKey = {
   Car: {
     List: 'CarList',
     Detail: 'CarDetail',
+    Unavailable: 'CarUnavailable',
     Create: 'CarCreate',
+    PostAvailability: 'CarPostAvailability',
+    PostDisable: 'CarPostDisable',
+    PostEnable: 'CarPostEnable',
     Update: 'CarUpdate',
     Delete: 'CarDelete',
     PatchImage: 'CarPatchImage',

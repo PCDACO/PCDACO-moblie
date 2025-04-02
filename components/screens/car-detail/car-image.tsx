@@ -15,7 +15,7 @@ const CarImages: FunctionComponent<CarImagesProps> = ({ images, status }) => {
   return (
     <View className="relative">
       <SwiperImages images={images} />
-      <View className="absolute bottom-4 left-2 z-10">
+      <View className="z-0.5 absolute bottom-4 left-2">
         <CarStatusBadge
           status={status}
           className="px-6 py-2"

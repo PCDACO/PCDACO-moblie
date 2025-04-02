@@ -1,7 +1,12 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ToastAndroid } from 'react-native';
 
-import { CarParams, CarPayload } from '~/constants/models/car.model';
+import {
+  CarAvailabilityPayload,
+  CarParams,
+  CarPayload,
+  CarUnavailableParams,
+} from '~/constants/models/car.model';
 import { QueryKey } from '~/lib/query-key';
 import { CarService } from '~/services/car.service';
 
@@ -29,6 +34,41 @@ export const useCarDetailQuery = ({ id }: { id: string }) => {
   return detailQuery;
 };
 
+export const useCarUnavailableQuery = ({ id, month, year }: CarUnavailableParams) => {
+  const unavailableQuery = useQuery({
+    queryKey: [QueryKey.Car.Unavailable, id, month, year],
+    queryFn: () => CarService.get.unavailable({ id, month, year }),
+    enabled: !!id && !!month && !!year,
+  });
+
+  return unavailableQuery;
+};
+
+interface UseCarQueriesParams {
+  id: string;
+  month: number;
+  year: number;
+}
+
+export const useCarQueries = ({ id, month, year }: UseCarQueriesParams) => {
+  const [detailQuery, unavailableQuery] = useQueries({
+    queries: [
+      {
+        queryKey: [QueryKey.Car.Detail, id],
+        queryFn: () => CarService.get.detail(id),
+        enabled: !!id,
+      },
+      {
+        queryKey: [QueryKey.Car.Unavailable, id, month, year],
+        queryFn: () => CarService.get.unavailable({ id, month, year }),
+        enabled: !!id && !!month && !!year,
+      },
+    ],
+  });
+
+  return { detailQuery, unavailableQuery };
+};
+
 export const useCarMutation = () => {
   const queryClient = useQueryClient();
 
@@ -42,6 +82,22 @@ export const useCarMutation = () => {
       console.log(error);
       ToastAndroid.show('Tạo xe thất bại', ToastAndroid.SHORT);
     },
+  });
+
+  const postAvailabilityMutation = useMutation({
+    mutationKey: [QueryKey.Car.PostAvailability],
+    mutationFn: async ({ id, payload }: { payload: CarAvailabilityPayload; id: string }) =>
+      await CarService.post.availability(id, payload),
+  });
+
+  const postDisableMutation = useMutation({
+    mutationKey: [QueryKey.Car.PostDisable],
+    mutationFn: async (id: string) => await CarService.post.disable(id),
+  });
+
+  const postEnableMutation = useMutation({
+    mutationKey: [QueryKey.Car.PostEnable],
+    mutationFn: async (id: string) => await CarService.post.enable(id),
   });
 
   const updateMutation = useMutation({
@@ -114,5 +170,8 @@ export const useCarMutation = () => {
     patchImageMutation,
     patchAmenitiesMutation,
     patchPaperImageMutation,
+    postAvailabilityMutation,
+    postDisableMutation,
+    postEnableMutation,
   };
 };

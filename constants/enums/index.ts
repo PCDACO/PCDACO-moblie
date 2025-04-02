@@ -10,11 +10,12 @@ export enum FinancialReportStatus {
 }
 
 export enum CarStatus {
-  Available = 'Available',
-  Rented = 'Rented',
   Inactive = 'Inactive',
   Pending = 'Pending',
+  Available = 'Available',
+  Rented = 'Rented',
   Maintain = 'Maintain',
+  Rejected = 'Rejected',
 }
 
 export enum CarStatusNumber {

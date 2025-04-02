@@ -11,11 +11,13 @@ export const translate = {
     toast: {
       create: 'Đăng ký xe thành công!',
       update: 'Cập nhật xe thành công!',
+      availability: 'Cập nhật thời gian không cho thuê xe thành công!',
 
       error_create: 'Đăng ký xe thất bại!',
       error_update: 'Cập nhật xe thất bại!',
       error_upload_image: 'Tải ảnh thất bại!',
       error_upload_paper_image: 'Tải ảnh giấy tờ thất bại!',
+      error_availability: 'Cập nhật thời gian không cho thuê xe thất bại!',
     },
   },
 

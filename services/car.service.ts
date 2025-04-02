@@ -1,9 +1,13 @@
 import axiosInstance from '~/configs/axios.config';
 import {
+  CarAvailabilityPayload,
   CarDetailResponse,
   CarParams,
   CarPayload,
   CarResponseList,
+  CarStatusResponse,
+  CarUnavailableResponse,
+  CarUnavailableParams,
 } from '~/constants/models/car.model';
 
 export const CarService = {
@@ -30,6 +34,29 @@ export const CarService = {
         return error.response.data.message;
       }
     },
+
+    contact: async (id: string): Promise<RootResponse<null>> => {
+      try {
+        const response = await axiosInstance.get<RootResponse<null>>(`/api/car/${id}/contact`);
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
+    },
+
+    unavailable: async (
+      params: CarUnavailableParams
+    ): Promise<RootResponse<CarUnavailableResponse[]>> => {
+      try {
+        const response = await axiosInstance.get<RootResponse<CarUnavailableResponse[]>>(
+          `/api/cars/${params.id}/unavailable-dates`,
+          { params }
+        );
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
+    },
   },
 
   post: {
@@ -37,6 +64,43 @@ export const CarService = {
       try {
         const response = await axiosInstance.post<RootResponse<{ id: string }>>(
           `/api/cars`,
+          payload
+        );
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
+    },
+
+    enable: async (id: string): Promise<RootResponse<CarStatusResponse>> => {
+      try {
+        const response = await axiosInstance.post<RootResponse<CarStatusResponse>>(
+          `/api/cars/${id}/enable`
+        );
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
+    },
+
+    disable: async (id: string): Promise<RootResponse<CarStatusResponse>> => {
+      try {
+        const response = await axiosInstance.post<RootResponse<CarStatusResponse>>(
+          `/api/cars/${id}/disable`
+        );
+        return response.data;
+      } catch (error: any) {
+        return error.response.data.message;
+      }
+    },
+
+    availability: async (
+      id: string,
+      payload: CarAvailabilityPayload
+    ): Promise<RootResponse<null>> => {
+      try {
+        const response = await axiosInstance.post<RootResponse<null>>(
+          `/api/cars/${id}/availability`,
           payload
         );
         return response.data;

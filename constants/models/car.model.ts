@@ -1,5 +1,28 @@
 import { CarStatusNumber } from '../enums';
 
+export interface CarContactAssignResponse {
+  contractId: string;
+  status: string;
+}
+
+export interface CarStatusResponse {
+  id: string;
+  status: string;
+}
+
+export interface CarUnavailableResponse {
+  date: Date;
+}
+export interface CarUnavailableParams {
+  id: string;
+  month: number;
+  year: number;
+}
+
+export interface CarAvailabilityPayload {
+  dates: Date[];
+}
+
 export interface CarParams extends Partial<LastIdRootResquest> {
   latitude: number;
   longtitude: number;
@@ -97,7 +120,6 @@ export interface Bookings {
   startTime: Date;
   endTime: Date;
 }
-
 
 export interface Amenity {
   id: string;

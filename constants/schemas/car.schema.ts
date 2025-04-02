@@ -53,4 +53,9 @@ export const carSchema = z.object({
     ),
 });
 
+export const carAvailabilitySchema = z.object({
+  dates: z.array(z.string()).nonempty('Yêu cầu chọn ngày'),
+});
+
 export type CarPayloadSchema = z.infer<typeof carSchema>;
+export type CarAvailabilitySchema = z.infer<typeof carAvailabilitySchema>;
