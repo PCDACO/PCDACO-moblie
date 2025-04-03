@@ -32,33 +32,36 @@ const ProfileScreen = () => {
   }
 
   return (
-    <ScrollView>
-      <SafeAreaView>
-        <View className=" flex-row justify-between px-4 ">
-          <TouchableOpacity className="p-2" onPress={() => router.back()}>
-            <Feather size={20} name="arrow-left" />
-          </TouchableOpacity>
-          <TouchableOpacity className="p-2">
-            <Feather size={20} name="edit" />
-          </TouchableOpacity>
+    <View className="relative h-full">
+      <TouchableOpacity className="absolute left-4 top-4 z-10 p-2" onPress={() => router.back()}>
+        <Feather size={20} name="arrow-left" />
+      </TouchableOpacity>
+      <ScrollView>
+        <View
+          className="gap-4"
+          style={{
+            paddingTop: 30,
+          }}>
+          <ProfileHeader
+            image={data?.value.avatarUrl}
+            name={data?.value.name}
+            role={data?.value.role}
+            user={data?.value}
+          />
+          <ProfileStats
+            bookingsCount={data?.value.totalRented || 0}
+            income={data?.value.balance || 0}
+            totalCar={data?.value.totalCar || 0}
+            totalRent={data?.value.totalRent || 0}
+            totalRented={data?.value.totalRented || 0}
+          />
+          <ProfileMenu id={data?.value.id || ''} />
         </View>
-        <ProfileHeader
-          image={data?.value.avatarUrl}
-          name={data?.value.name}
-          role={data?.value.role}
-          user={data?.value}
-        />
-        <ProfileStats
-          bookingsCount={data?.value.totalRented || 0}
-          income={data?.value.balance || 0}
-          totalCar={data?.value.totalCar || 0}
-          totalRent={data?.value.totalRent || 0}
-          totalRented={data?.value.totalRented || 0}
-        />
-        <ProfileMenu id={data?.value.id || ''} />
+      </ScrollView>
+      <View className="absolute bottom-0 left-0 right-0 px-4">
         <LogoutButton />
-      </SafeAreaView>
-    </ScrollView>
+      </View>
+    </View>
   );
 };
 

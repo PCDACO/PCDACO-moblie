@@ -63,11 +63,17 @@ const BookBadgeStatus: FunctionComponent<BookBadgeStatusProps> = ({
       bgClass = 'bg-gray-500';
       textClass = 'text-white';
       break;
+    case BookingStatusEnum.Done:
+      badgeText = translate.booking.status[status];
+      bgClass = 'bg-blue-500';
+      textClass = 'text-white';
+      break;
     default:
       badgeText = status;
       bgClass = 'bg-gray-500';
       textClass = 'text-white';
   }
+
   return (
     <View className={cn(className, 'rounded-full px-2 py-0.5', bgClass, className)}>
       <Text className={cn(textSize, fontWeight, textClass)}>{badgeText}</Text>

@@ -25,9 +25,6 @@ export enum DateFormat {
 export function formatDateToString(date: Date, format: DateFormat): string {
   const hours = date.getHours();
   const minutes = date.getMinutes();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  const formattedHours = hours % 12 || 12;
-  const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
   const day = date.getDate();
   const month = date.getMonth() + 1;
 
@@ -35,9 +32,9 @@ export function formatDateToString(date: Date, format: DateFormat): string {
     case DateFormat.Day:
       return `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${date.getFullYear()}`;
     case DateFormat.Time:
-      return `${formattedHours}:${formattedMinutes} ${ampm}`;
+      return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
     case DateFormat.DayTime:
-      return `${formattedHours}:${formattedMinutes} ${ampm} ${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}`;
+      return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}, ${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${date.getFullYear()}`;
     default:
       return '';
   }

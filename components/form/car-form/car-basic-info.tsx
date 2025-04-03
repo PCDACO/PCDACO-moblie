@@ -1,10 +1,9 @@
 import * as Location from 'expo-location';
+import { useRouter } from 'expo-router';
 import React, { FunctionComponent } from 'react';
 import { Controller } from 'react-hook-form';
 import { ToastAndroid, View, Text, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
-import { useLocationStore } from '~/store/use-location';
 
 import ModelSuggestionPopover from './model-suggestion-popover';
 
@@ -26,6 +25,7 @@ import { useFuelQuery } from '~/hooks/fuel/use-fuel';
 import { useModelQuery } from '~/hooks/models/use-model';
 import useDebounce from '~/hooks/plugins/use-debounce';
 import { useTransmissionQuery } from '~/hooks/transmission/use-transmission';
+import { useLocationStore } from '~/store/use-location';
 
 interface CarBasicInfoProps {
   form: ReturnType<typeof useCarForm>['form'];

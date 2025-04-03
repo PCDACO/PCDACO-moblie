@@ -24,18 +24,26 @@ const BookCard: FunctionComponent<BookCardProps> = ({ booking }) => {
     });
   };
 
+  let borderLColor = 'border-l-gray-500';
+
+  if (booking.isPaid && booking.isRefund) {
+    borderLColor = 'border-l-blue-500';
+  } else if (booking.isPaid) {
+    borderLColor = 'border-l-green-500';
+  } else if (booking.isRefund) {
+    borderLColor = 'border-l-red-500';
+  } else {
+    borderLColor = 'border-l-red-500';
+  }
+
   return (
-    <CardBasic
-      className={cn(
-        'my-1 gap-2',
-        booking.isPaid ? ' border-l-4 border-l-green-500' : ' border-l-4 border-l-red-500'
-      )}
-      onPress={handlePress}>
+    <CardBasic className={cn('my-1 gap-2 border-l-4', borderLColor)} onPress={handlePress}>
       <BookHeader
         carName={booking.carName || ''}
         status={booking.status || ''}
         id={booking.id || ''}
         isPaid={booking.isPaid || false}
+        isRefund={booking.isRefund || false}
         ownerName={booking.ownerName || ''}
         driverName={booking.driverName || ''}
       />

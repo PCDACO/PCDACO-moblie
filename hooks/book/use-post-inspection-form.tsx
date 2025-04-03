@@ -41,8 +41,11 @@ export const usePostInspectionForm = (id: string) => {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: [QueryKey.Booking.get.Detail] });
           ToastAndroid.show(translate.booking.toast.post_inspection, ToastAndroid.SHORT);
-          router.back();
+
           form.reset();
+          setTimeout(() => {
+            router.back();
+          }, 1000);
         },
         onError: (error: any) => {
           ToastAndroid.show(error?.message || translate.booking.failed.message, ToastAndroid.SHORT);

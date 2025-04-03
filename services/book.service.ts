@@ -20,7 +20,23 @@ export const BookService = {
       params?: Partial<BookParams>
     ): Promise<RootResponse<Pagination<BookResponseList>>> => {
       try {
-        const response = await axiosInstance.get('/api/bookings', { params });
+        // Transform status array into multiple status parameters
+        const transformedParams = { ...params };
+        if (transformedParams.status) {
+          const statuses = Array.isArray(transformedParams.status)
+            ? transformedParams.status
+            : [transformedParams.status];
+          delete transformedParams.status;
+          // Create an array of status parameters
+          transformedParams.status = statuses;
+        }
+
+        const response = await axiosInstance.get('/api/bookings', {
+          params: transformedParams,
+          paramsSerializer: {
+            indexes: null, // This will serialize arrays as repeated parameters
+          },
+        });
         return response.data;
       } catch (error: any) {
         throw error.response.data;

@@ -5,6 +5,7 @@ import { ScrollView, TouchableOpacity, View } from 'react-native';
 
 import { Text } from '~/components/nativewindui/Text';
 import Loading from '~/components/plugins/loading';
+import BookHeader from '~/components/screens/book-detail/book-header';
 import BookInfo from '~/components/screens/book-detail/book-info';
 import BookPayment from '~/components/screens/book-detail/book-payment';
 import CarInfo from '~/components/screens/book-detail/car-info';
@@ -30,58 +31,62 @@ const BookingScreen = () => {
   }
 
   return (
-    <View className="relative">
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View className=" flex-1 gap-2 p-2" style={{ paddingBottom: 100 }}>
-          <CarInfo
-            car={
-              bookDetail?.car || {
-                id: '',
-                modelName: '',
-                licensePlate: '',
-                color: '',
-                seat: 0,
-                transmissionType: '',
-                fuelType: '',
+    <View className="relative h-full">
+      <View>
+        <BookHeader id={id as string} />
+
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View className=" flex-1 gap-2 p-2" style={{ paddingBottom: 180 }}>
+            <CarInfo
+              car={
+                bookDetail?.car || {
+                  id: '',
+                  modelName: '',
+                  licensePlate: '',
+                  color: '',
+                  seat: 0,
+                  transmissionType: '',
+                  fuelType: '',
+                }
               }
-            }
-          />
-          <DriverInfo
-            driver={
-              bookDetail?.driver || {
-                email: '',
-                id: '',
-                name: '',
-                phone: '',
+            />
+            <DriverInfo
+              driver={
+                bookDetail?.driver || {
+                  email: '',
+                  id: '',
+                  name: '',
+                  phone: '',
+                }
               }
-            }
-          />
-          <BookInfo
-            booking={
-              bookDetail?.booking || {
-                startTime: new Date(),
-                endTime: new Date(),
-                note: '',
-                status: '',
-                totalDistance: 0,
-                actualReturnTime: new Date(),
+            />
+            <BookInfo
+              booking={
+                bookDetail?.booking || {
+                  startTime: new Date(),
+                  endTime: new Date(),
+                  note: '',
+                  status: '',
+                  totalDistance: 0,
+                  actualReturnTime: new Date(),
+                }
               }
-            }
-          />
-          <BookPayment
-            payment={
-              bookDetail?.payment || {
-                basePrice: 0,
-                platformFee: 0,
-                excessDay: 0,
-                excessDayFee: 0,
-                totalAmount: 0,
-                isPaid: false,
+            />
+            <BookPayment
+              payment={
+                bookDetail?.payment || {
+                  basePrice: 0,
+                  platformFee: 0,
+                  excessDay: 0,
+                  excessDayFee: 0,
+                  totalAmount: 0,
+                  isPaid: false,
+                }
               }
-            }
-          />
-        </View>
-      </ScrollView>
+            />
+          </View>
+        </ScrollView>
+      </View>
       <View className="absolute bottom-0 left-0 right-0 z-20 flex-row gap-2 bg-white p-4">
         {bookDetail?.booking.status === BookingStatusEnum.Pending && (
           <>

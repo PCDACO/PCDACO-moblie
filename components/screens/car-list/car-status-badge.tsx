@@ -55,7 +55,7 @@ const CarStatusBadge: FunctionComponent<CarStatusBadgeProps> = ({
   }
 
   return (
-    <View className={cn(className, 'rounded-full px-2 py-0.5', bgClass, className)}>
+    <View className={cn(className, 'rounded-full px-2 py-0.5', bgClass)}>
       <Text className={cn(textSize, fontWeight, textClass)}>{badgeText}</Text>
     </View>
   );

@@ -1,8 +1,8 @@
 import { BookingStatusEnum } from '../enums';
 
-export interface BookParams extends Partial<LastIdRootResquest> {
+export interface BookParams extends Partial<RootRequest> {
   search: string;
-  status: string[];
+  status: string | string[];
   isPaid: boolean;
 }
 
@@ -75,6 +75,7 @@ export interface BookResponseList {
   totalAmount: number;
   totalDistance: number;
   isPaid: boolean;
+  isRefund: boolean;
   status: BookingStatusEnum;
   startTime: Date;
   endTime: Date;

@@ -29,7 +29,7 @@ export interface ReportPayload {
   bookingId: string;
   title: string;
   description: string;
-  reportType: string;
+  reportType: number;
 }
 
 export interface ReportResponse {
@@ -43,8 +43,8 @@ export interface ReportListResponse {
   reportedName: string;
   title: string;
   description: string;
-  reportType: string;
-  status: string;
+  reportType: number;
+  status: number;
   resolvedAt: null;
   resolvedById: null;
   resolutionComments: null;
@@ -67,8 +67,8 @@ export interface ReportDetailResponse {
   reportedName: string;
   title: string;
   description: string;
-  reportType: string;
-  status: string;
+  reportType: number;
+  status: number;
   resolvedAt: null;
   resolvedById: null;
   resolutionComments: null;

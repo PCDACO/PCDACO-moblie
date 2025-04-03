@@ -15,6 +15,7 @@ interface BookHeaderProps {
   status: BookResponseList['status'];
   id: BookResponseList['id'];
   isPaid: BookResponseList['isPaid'];
+  isRefund: BookResponseList['isRefund'];
   ownerName: BookResponseList['ownerName'];
   driverName: BookResponseList['driverName'];
 }
@@ -24,9 +25,23 @@ const BookHeader: FunctionComponent<BookHeaderProps> = ({
   status,
   id,
   isPaid,
+  isRefund,
   ownerName,
   driverName,
 }) => {
+  let title = '';
+  let textColor = '';
+
+  if (isPaid && isRefund) {
+    title = 'hoàn tiền';
+    textColor = 'text-blue-400';
+  } else if (isPaid) {
+    title = 'đã thanh toán';
+    textColor = 'text-green-400';
+  } else {
+    title = 'chưa thanh toán';
+    textColor = 'text-red-400';
+  }
   return (
     <View className="gap-2">
       <View className="flex-row items-center justify-between">
@@ -37,10 +52,7 @@ const BookHeader: FunctionComponent<BookHeaderProps> = ({
         <Ionicons name="car-outline" size={24} color={COLORS.black} />
         <Description title={`ID: ${id.slice(0, 8).toUpperCase()}`} />
         <Subtitle title="-" />
-        <Subtitle
-          className={cn(isPaid ? 'text-green-500' : 'text-red-500')}
-          title={isPaid ? 'đã thanh toán' : 'chưa thanh toán'}
-        />
+        <Subtitle className={cn(textColor)} title={title} />
       </View>
       <View className="flex-row items-center justify-between">
         {/* <View className="flex-1 flex-row items-center gap-2">

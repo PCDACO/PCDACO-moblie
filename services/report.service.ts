@@ -91,7 +91,13 @@ export const ReportService = {
       payload: ReportImagePayload
     ): Promise<RootResponse<ReportImageReponse>> => {
       try {
-        const response = await axiosInstance.patch(`/api/reports/${reportId}/images`, payload);
+        const formData = new FormData();
+
+        payload.files.forEach((file) => {
+          formData.append('files', file);
+        });
+
+        const response = await axiosInstance.patchForm(`/api/reports/${reportId}/images`, formData);
         return response.data;
       } catch (error: any) {
         throw error.response.data;

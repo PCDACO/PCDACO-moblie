@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import MultiDatePicker from '~/components/plugins/multi-date-select';
+import MultiDateView from '~/components/plugins/multi-date-view';
 
 interface CarCalendarProps {
   unavailableDates: Date[];
@@ -16,7 +16,7 @@ const CarCalendar: React.FC<CarCalendarProps> = ({ unavailableDates, onMonthChan
   return (
     <View className="p-4">
       <Text className="mb-4 text-lg font-semibold">Thời gian không cho thuê xe</Text>
-      <MultiDatePicker
+      <MultiDateView
         initialDates={unavailableDates}
         themeColor="#ef4444"
         onDatesSelected={() => {}}

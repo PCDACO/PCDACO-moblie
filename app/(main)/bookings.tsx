@@ -8,42 +8,65 @@ import BookCard from '~/components/card/book/book-card';
 import Loading from '~/components/plugins/loading';
 import { SearchInput } from '~/components/plugins/search-input';
 import BookListParams from '~/components/screens/book-list/book-params';
-import { BookingStatusEnum } from '~/constants/enums';
-import { BookParams } from '~/constants/models/book.model';
+import { BookParams, BookResponseList } from '~/constants/models/book.model';
 import { useBookingListQuery } from '~/hooks/book/use-book';
 import { useBookingParamsStore } from '~/store/use-params';
 import { useSearchStore } from '~/store/use-search';
 import { COLORS } from '~/theme/colors';
 
+type InfiniteQueryPage = {
+  value: {
+    items: BookResponseList[];
+    totalItems: number;
+    pageNumber: number;
+    pageSize: number;
+    hasNext: boolean;
+  };
+};
+
 const BookingScreen: FunctionComponent = () => {
   const { searchKeyword } = useSearchStore();
   const [params, setParams] = React.useState<Partial<BookParams>>({});
   const { params: bookingParams } = useBookingParamsStore();
-  const { data: booking, isLoading } = useBookingListQuery(params);
+  const {
+    data: booking,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useBookingListQuery(params);
 
   React.useEffect(() => {
     if (searchKeyword || bookingParams) {
       setParams({
         search: searchKeyword || '',
-        limit: bookingParams?.limit || 20,
-        status: bookingParams?.status || [BookingStatusEnum.Pending, BookingStatusEnum.Approved],
+        status: bookingParams?.status,
         isPaid: bookingParams?.isPaid,
-        lastId: bookingParams?.lastId,
       });
     }
   }, [searchKeyword, bookingParams]);
 
-  const bookingList = booking?.value.items || [];
+  const bookingList = React.useMemo(() => {
+    if (!booking?.pages) return [];
+    return (booking.pages as InfiniteQueryPage[]).flatMap((page, pageIndex) =>
+      page.value.items.map((item) => ({
+        ...item,
+        pageIndex,
+      }))
+    );
+  }, [booking]);
+
+  const handleLoadMore = () => {
+    if (hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  };
 
   const sheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ['1%', '90%'], []);
 
   const handleSnapPress = React.useCallback((index: number) => {
     sheetRef.current?.snapToIndex(index);
-  }, []);
-
-  const handleSheetChange = React.useCallback((index: number) => {
-    console.log('handleSheetChange', index);
   }, []);
 
   const handleClosePress = React.useCallback(() => {
@@ -75,8 +98,17 @@ const BookingScreen: FunctionComponent = () => {
             data={bookingList}
             showsVerticalScrollIndicator={false}
             renderItem={({ item }) => <BookCard booking={item} />}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => `${item.id}-${item.pageIndex}`}
             className="gap-4"
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={1.5}
+            ListFooterComponent={() =>
+              isFetchingNextPage ? (
+                <View className="py-4">
+                  <Loading />
+                </View>
+              ) : null
+            }
             ListEmptyComponent={() => (
               <View className="h-96 flex-1 items-center justify-center gap-2">
                 <FontAwesome name="clipboard" size={42} color={COLORS.gray} />
@@ -89,11 +121,7 @@ const BookingScreen: FunctionComponent = () => {
         )}
       </View>
 
-      <BottomSheet
-        ref={sheetRef}
-        snapPoints={snapPoints}
-        enableDynamicSizing={false}
-        onChange={handleSheetChange}>
+      <BottomSheet ref={sheetRef} snapPoints={snapPoints} enableDynamicSizing={false}>
         <BottomSheetView className="relative flex-1 bg-white dark:bg-slate-300">
           <BookListParams close={handleClosePress} />
         </BottomSheetView>

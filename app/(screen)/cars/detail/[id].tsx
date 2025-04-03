@@ -48,15 +48,10 @@ const CarDetailScreen = () => {
   const contact = contactQuery.data;
   const isLoadingContact = contactQuery.isLoading;
 
-  const [isExpanded, setIsExpanded] = useState(false);
-
   const sheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ['1%', '20%'], []);
 
-  const { slideAnim, panResponder } = usePanResponder({
-    onExpand: () => setIsExpanded(true),
-    onCollapse: () => setIsExpanded(false),
-  });
+  const { slideAnim, panResponder } = usePanResponder();
 
   const handleSnapPress = React.useCallback((index: number) => {
     sheetRef.current?.snapToIndex(index);

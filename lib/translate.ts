@@ -46,6 +46,7 @@ export const translate = {
       Completed: 'Đã hoàn thành',
       Cancelled: 'Đã hủy',
       Expired: 'Đã hết hạn',
+      Done: 'Đã hoàn tất',
     },
     toast: {
       approve: 'Xác nhận đơn đặt xe thành công!',
@@ -76,6 +77,22 @@ export const translate = {
       error_compensation_proof: 'Cập nhật bằng chứng thất bại!',
       image: 'Cập nhật hình ảnh thành công!',
       error_image: 'Cập nhật hình ảnh thất bại!',
+    },
+
+    type: {
+      Conflict: 'Xung đột',
+      Accident: 'Tổn thất',
+      FineNotice: 'Vi phạm',
+      Damage: 'Hư hỏng',
+      Maintenance: 'Bảo trì',
+      Other: 'Khác',
+    },
+
+    status: {
+      Pending: 'Chờ xử lý',
+      UnderReview: 'Đang xử lý',
+      Resolved: 'Đã xử lý',
+      Rejected: 'Đã từ chối',
     },
   },
 };

@@ -1,16 +1,35 @@
-import { router } from 'expo-router';
-import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
-import { Button } from '~/components/nativewindui/Button';
-import { Text as TextUI } from '~/components/nativewindui/Text';
+import Loading from '~/components/plugins/loading';
+import HomeHeader from '~/components/screens/home-screen/home-header';
+import { UserResponse } from '~/constants/models/user.model';
+import { useUserQuery } from '~/hooks/user/use-user';
 
 const HomeScreen = () => {
+  const { currentUserQuery } = useUserQuery();
+
+  const { data: user, isLoading } = currentUserQuery;
+
+  if (isLoading) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Loading />
+      </View>
+    );
+  }
+
   return (
-    <View className="flex-1 items-center justify-center">
-      <Button onPress={() => router.push('/bank/edit')}>
-        <TextUI>Thêm tài khoản ngân hàng</TextUI>
-      </Button>
+    <View className="h-full flex-1">
+      <HomeHeader
+        user={
+          (user?.value as UserResponse) || {
+            id: '',
+            name: '',
+            email: '',
+            avatarUrl: '',
+          }
+        }
+      />
     </View>
   );
 };
