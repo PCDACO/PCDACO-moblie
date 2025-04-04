@@ -55,7 +55,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
 
       <View className="flex-row items-center gap-2">
         <Feather name="user" size={16} color={COLORS.gray} />
-        <Text className="text-sm text-gray-600 dark:text-gray-300">{report.reportedName}</Text>
+        <Text className="text-sm text-gray-600 dark:text-gray-300">{report.reporterName}</Text>
       </View>
 
       <Text className="text-sm text-black dark:text-white" numberOfLines={2}>

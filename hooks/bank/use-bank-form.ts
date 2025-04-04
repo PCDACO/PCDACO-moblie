@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { ToastAndroid } from 'react-native';
 
@@ -33,9 +34,13 @@ export const useBankForm = ({ id }: BankFormProps) => {
         { id, payload: values },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [QueryKey.Bank.Account] });
+            queryClient.invalidateQueries({ queryKey: [QueryKey.Bank.Account.List] });
             form.reset();
             ToastAndroid.show(translate.bank.toast.update, ToastAndroid.SHORT);
+
+            setTimeout(() => {
+              router.back();
+            }, 1000);
           },
           onError: (error: any) => {
             ToastAndroid.show(
@@ -48,9 +53,13 @@ export const useBankForm = ({ id }: BankFormProps) => {
     } else {
       createBankAccountMutation.mutate(values, {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: [QueryKey.Bank.Account] });
+          queryClient.invalidateQueries({ queryKey: [QueryKey.Bank.Account.List] });
           form.reset();
           ToastAndroid.show(translate.bank.toast.create, ToastAndroid.SHORT);
+
+          setTimeout(() => {
+            router.back();
+          }, 1000);
         },
         onError: (error: any) => {
           ToastAndroid.show(error.message || translate.bank.toast.error_create, ToastAndroid.SHORT);

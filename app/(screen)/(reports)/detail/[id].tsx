@@ -70,7 +70,7 @@ const ReportDetailScreen: FunctionComponent = () => {
               title={reportDetail?.title || ''}
               reportType={reportDetail?.reportType || 0}
               description={reportDetail?.description || ''}
-              reportName={reportDetail?.reportedName || ''}
+              reportName={reportDetail?.reporterName || ''}
               status={reportDetail?.status || 0}
             />
             <ReportGallery imageUrls={reportDetail?.imageUrls || []} />

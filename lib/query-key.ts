@@ -10,6 +10,12 @@ export const QueryKey = {
     Refresh: 'Refresh',
   },
 
+  Transaction: {
+    Withdraw: 'Withdraw',
+    Transaction: 'Transaction',
+    CreateWithdraw: 'CreateWithdraw',
+  },
+
   License: {
     List: 'LicenseList',
     Detail: 'LicenseDetail',

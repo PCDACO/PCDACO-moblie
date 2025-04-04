@@ -40,7 +40,7 @@ export interface ReportListResponse {
   id: string;
   bookingId: string;
   reporterId: string;
-  reportedName: string;
+  reporterName: string;
   title: string;
   description: string;
   reportType: number;
@@ -64,7 +64,7 @@ export interface ReportParams extends RootRequest {
 export interface ReportDetailResponse {
   id: string;
   reporterId: string;
-  reportedName: string;
+  reporterName: string;
   title: string;
   description: string;
   reportType: number;

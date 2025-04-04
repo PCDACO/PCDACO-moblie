@@ -60,8 +60,10 @@ export const translate = {
     toast: {
       create: 'Thêm tài khoản ngân hàng thành công!',
       update: 'Cập nhật tài khoản ngân hàng thành công!',
+      delete: 'Xóa tài khoản ngân hàng thành công!',
       error_create: 'Thêm tài khoản ngân hàng thất bại!',
       error_update: 'Cập nhật tài khoản ngân hàng thất bại!',
+      error_delete: 'Xóa tài khoản ngân hàng thất bại!',
     },
   },
 
@@ -93,6 +95,13 @@ export const translate = {
       UnderReview: 'Đang xử lý',
       Resolved: 'Đã xử lý',
       Rejected: 'Đã từ chối',
+    },
+  },
+
+  transaction: {
+    toast: {
+      withdraw_success: 'Rút tiền thành công!',
+      withdraw_error: 'Rút tiền thất bại!',
     },
   },
 };

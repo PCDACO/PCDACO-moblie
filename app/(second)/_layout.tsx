@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native';
 
 import BankAccount from './bank-account';
 import Transaction from './transaction';
-// import Wallet from './wallet';
+import Wallet from './wallet';
 
 import { COLORS } from '~/theme/colors';
 
@@ -54,14 +54,14 @@ export default function SecondLayout() {
         tabBarActiveTintColor: '#007AFF',
         tabBarInactiveTintColor: 'gray',
       })}>
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Wallet"
         component={Wallet}
         options={{
           tabBarLabel: 'Ví',
           title: 'Ví của tôi',
         }}
-      /> */}
+      />
       <Tab.Screen
         name="Transaction"
         component={Transaction}
