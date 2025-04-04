@@ -32,7 +32,7 @@ const ReportBookInfo: FunctionComponent<ReportBookInfoProps> = ({ bookingDetail 
   } = bookingDetail;
 
   return (
-    <CardBasic className="mb-4 gap-4">
+    <CardBasic className="gap-4">
       <View className="gap-2">
         <Subtitle title="Thông tin đặt xe" />
         <View className="flex-row items-center gap-2">

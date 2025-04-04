@@ -24,14 +24,16 @@ const MultiDatePicker: React.FC<MultiDatePickerProps> = ({
   // Convert dates to marked dates format
   const getMarkedDates = (dates: Date[]) => {
     const marked: { [key: string]: any } = {};
-    dates.forEach((date) => {
-      const dateString = date.toISOString().split('T')[0];
-      marked[dateString] = {
-        selected: true,
-        selectedColor: themeColor,
-        marked: true,
-        dotColor: themeColor,
-      };
+    dates?.forEach((date) => {
+      if (date) {
+        const dateString = date.toISOString().split('T')[0];
+        marked[dateString] = {
+          selected: true,
+          selectedColor: themeColor,
+          marked: true,
+          dotColor: themeColor,
+        };
+      }
     });
     return marked;
   };

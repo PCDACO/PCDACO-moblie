@@ -11,9 +11,9 @@ export const useModelQuery = ({ params }: IUseModelQuery) => {
   const modelListQuery = useQuery({
     queryKey: [QueryKey.Model.List, params],
     queryFn: () => ModelsService.get.list(params),
-    enabled: !!params?.keyword,
+    enabled: true,
     staleTime: 1000 * 60 * 2,
-    retry: 1,
+    retry: 2,
   });
 
   return modelListQuery;

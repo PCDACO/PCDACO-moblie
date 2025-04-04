@@ -83,8 +83,13 @@ export const useReportMutation = () => {
 
   const compensationProofMutation = useMutation({
     mutationKey: [QueryKey.Report.CompensationProof],
-    mutationFn: async ({ id, payload }: { id: string; payload: ReportCompensationProofPayload }) =>
-      await ReportService.patch.compensationProof(id, payload),
+    mutationFn: async ({
+      reportId,
+      payload,
+    }: {
+      reportId: string;
+      payload: ReportCompensationProofPayload;
+    }) => await ReportService.patch.compensationProof(reportId, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Report.Detail] });
       ToastAndroid.show(translate.report.toast.compensation_proof, ToastAndroid.SHORT);

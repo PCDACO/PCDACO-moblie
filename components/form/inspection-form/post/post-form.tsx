@@ -1,4 +1,4 @@
-import { Feather, Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { FunctionComponent, useState, useRef } from 'react';
 import { View, Text, LayoutChangeEvent } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -65,6 +65,8 @@ const PostForm: FunctionComponent<PostFormProps> = ({ form }) => {
           />
         ) : (
           <ImagePickerButton
+            maxImages={10}
+            multiple
             onChange={(data) => {
               setState(data.map((item) => item.uri));
               const imageCovert = data.map((item) => convertAssertToFile(item));

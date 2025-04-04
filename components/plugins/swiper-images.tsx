@@ -35,7 +35,7 @@ const SwiperImages: FunctionComponent<SwiperImagesProps> = ({ images }) => {
   };
 
   return (
-    <View className="relative w-screen">
+    <View className="relative z-0 w-screen">
       <FlatList
         className="w-screen rounded-lg"
         data={images}

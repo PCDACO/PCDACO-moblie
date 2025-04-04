@@ -66,6 +66,8 @@ const PreForm: FunctionComponent<PreFormProps> = ({ form }) => {
           />
         ) : (
           <ImagePickerButton
+            maxImages={10}
+            multiple
             onChange={(data) => {
               setState(data.map((item) => item.uri));
               const imageCovert = data.map((item) => convertAssertToFile(item));

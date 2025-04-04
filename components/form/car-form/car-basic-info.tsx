@@ -1,11 +1,8 @@
-import * as Location from 'expo-location';
 import { useRouter } from 'expo-router';
 import React, { FunctionComponent } from 'react';
 import { Controller } from 'react-hook-form';
-import { ToastAndroid, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Pressable, FlatList } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-import ModelSuggestionPopover from './model-suggestion-popover';
 
 import FieldLayout from '~/components/layouts/field-layout';
 import { Input } from '~/components/layouts/input-with-icon';
@@ -18,8 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '~/components/nativewindui/Select';
+import Loading from '~/components/plugins/loading';
 import Subtitle from '~/components/screens/car-editor/subtitle';
-import { ModelsResponse } from '~/constants/models/model.model';
 import { useCarForm } from '~/hooks/car/use-car-form';
 import { useFuelQuery } from '~/hooks/fuel/use-fuel';
 import { useModelQuery } from '~/hooks/models/use-model';
@@ -34,7 +31,6 @@ interface CarBasicInfoProps {
 const CarBasicInfo: FunctionComponent<CarBasicInfoProps> = ({ form }) => {
   const router = useRouter();
   const selectedLocation = useLocationStore((state) => state.selectedLocation);
-  const [location, setLocation] = React.useState<Location.LocationObject | null>(null);
   const [searchModel, setSearchModel] = React.useState<string>('');
   const [showSuggestions, setShowSuggestions] = React.useState(false);
 
@@ -42,7 +38,7 @@ const CarBasicInfo: FunctionComponent<CarBasicInfoProps> = ({ form }) => {
 
   // fetch data
   const { data: modelData, isLoading: isLoadingModel } = useModelQuery({
-    params: { index: 1, size: 50, keyword: searchModelDebounce },
+    params: { index: 1, size: 100, keyword: searchModelDebounce || undefined },
   });
 
   const { data: transmissionData, isLoading: isLoadingTransmission } = useTransmissionQuery({
@@ -62,43 +58,24 @@ const CarBasicInfo: FunctionComponent<CarBasicInfoProps> = ({ form }) => {
     right: 12,
   };
 
-  // get current location
   React.useEffect(() => {
-    async function getCurrentLocation() {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        ToastAndroid.show('Xin hãy cấp quyền truy cập vị trí', ToastAndroid.SHORT);
-        return;
+    const modelId = form.watch('modelId');
+
+    if (modelId && modelData?.value) {
+      const selectedModel = modelData.value.items.find((item) => item.id === modelId);
+
+      if (selectedModel) {
+        setSearchModel(selectedModel.name);
+        setShowSuggestions(false);
       }
-
-      const response = await Location.getCurrentPositionAsync({});
-      setLocation(response);
     }
 
-    getCurrentLocation();
-  }, []);
-
-  React.useEffect(() => {
-    if (form.watch('modelId')) {
-      setSearchModel(
-        modelData?.value.items.find((item) => item.id === form.watch('modelId'))?.name as any
-      );
-    }
-  }, [form.watch('modelId')]);
-
-  React.useEffect(() => {
     if (selectedLocation) {
       form.setValue('pickupAddress', selectedLocation.address);
       form.setValue('pickupLatitude', selectedLocation.latitude);
       form.setValue('pickupLongitude', selectedLocation.longitude);
     }
-  }, [selectedLocation]);
-
-  const handleModelSelect = (model: ModelsResponse) => {
-    setSearchModel(model.name);
-    form.setValue('modelId', model.id);
-    setShowSuggestions(false);
-  };
+  }, [selectedLocation, form.watch('modelId'), modelData?.value]);
 
   const handlePickupAddressPress = () => {
     router.push('/map');
@@ -109,26 +86,48 @@ const CarBasicInfo: FunctionComponent<CarBasicInfoProps> = ({ form }) => {
       {/* form car basic info */}
       <Subtitle title="Thông tin xe" />
       <View className="gap-4">
-        {/* need fix */}
-        <FieldLayout label="Mẫu xe">
-          <View className="relative">
-            <Input
-              value={searchModel}
-              className="text-sm"
-              placeholder="Nhập mẫu xe"
-              onChangeText={(text) => {
-                setSearchModel(text);
-                setShowSuggestions(true);
-              }}
-              onFocus={() => setShowSuggestions(true)}
-            />
-            <ModelSuggestionPopover
-              isLoading={isLoadingModel}
-              suggestions={modelData?.value.items || []}
-              onSelect={handleModelSelect}
-              visible={showSuggestions}
-            />
-          </View>
+        <FieldLayout label="Mẫu xe" className="relative">
+          <Input
+            value={searchModel}
+            className="text-sm"
+            placeholder="Nhập mẫu xe"
+            onChangeText={(text) => {
+              setSearchModel(text);
+              setShowSuggestions(!!text);
+            }}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 300)}
+          />
+          {showSuggestions && (
+            <View
+              className="absolute left-0 mt-1 w-full rounded-lg border border-gray-200 bg-white shadow-lg"
+              style={{ top: '100%', zIndex: 10 }}>
+              {isLoadingModel ? (
+                <View className="h-20 items-center justify-center">
+                  <Loading />
+                </View>
+              ) : (
+                <FlatList
+                  data={modelData?.value.items || []}
+                  scrollEnabled={false}
+                  keyboardShouldPersistTaps="handled"
+                  keyExtractor={(item) => item.id}
+                  renderItem={({ item }) => (
+                    <Pressable
+                      className="border-b border-gray-200"
+                      onPress={() => {
+                        form.setValue('modelId', item.id);
+                        setSearchModel(item.name);
+                        setShowSuggestions(false);
+                      }}>
+                      <View className="px-4 py-2">
+                        <Text>{item.name}</Text>
+                      </View>
+                    </Pressable>
+                  )}
+                />
+              )}
+            </View>
+          )}
 
           {form.formState.errors.modelId && (
             <Text className="text-red-500">{form.formState.errors.modelId.message}</Text>

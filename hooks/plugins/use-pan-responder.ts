@@ -27,9 +27,9 @@ export const usePanResponder = ({
       },
       onPanResponderRelease: (_, gestureState) => {
         if (gestureState.dy < screenHeight / 3) {
-          // If pulled up more than 1/3 of screen height, expand
+          // If pulled up more than 2/3 of screen height, expand
           Animated.spring(slideAnim, {
-            toValue: 60,
+            toValue: 100,
             useNativeDriver: true,
             tension: 65,
             friction: 10,

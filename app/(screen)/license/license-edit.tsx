@@ -21,7 +21,7 @@ const LicenseEdit = () => {
 
   if (isLoadingList) {
     return (
-      <View className="h-screen">
+      <View className="inline-block h-screen justify-center">
         <Loading />
       </View>
     );

@@ -156,6 +156,8 @@ const ReportForm: FunctionComponent<ReportFormProps> = ({
 
               {(images?.length === 0 || images?.length === undefined) && (
                 <ImagePickerButton
+                  maxImages={10}
+                  multiple
                   onChange={(image) => {
                     setImages(image.map((item) => item.uri));
 

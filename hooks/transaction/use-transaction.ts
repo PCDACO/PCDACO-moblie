@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useInfiniteQuery } from '@tanstack/react-query';
 
 import {
   TransactionParams,
@@ -32,4 +32,24 @@ export const useWithdrawMutation = () => {
     mutationFn: async (payload: WithdrawPayload) => await TransactionService.post.withdraw(payload),
   });
   return { createWithdrawQuery };
+};
+
+export const useInfiniteTransactions = (params: Partial<TransactionParams>) => {
+  return useInfiniteQuery({
+    queryKey: [QueryKey.Transaction.Transaction, 'infinite', params],
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await TransactionService.get.transaction({
+        ...params,
+        index: pageParam,
+        size: 10,
+      });
+      return response;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage.value?.hasNext) return undefined;
+      return allPages.length + 1;
+    },
+    enabled: !!params,
+  });
 };

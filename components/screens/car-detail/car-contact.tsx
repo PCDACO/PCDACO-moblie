@@ -20,7 +20,7 @@ const CarContact: FunctionComponent<CarContactProps> = ({ id, contract, carContr
   const { postAssignContractMutation } = useCarMutation();
 
   const handleAssignContract = () => {
-    postAssignContractMutation.mutate(carContract.id, {
+    postAssignContractMutation.mutate(id, {
       onSuccess: () => {
         ToastAndroid.show('Đã ký xác nhận', ToastAndroid.SHORT);
       },

@@ -52,7 +52,7 @@ const BankAccount: FunctionComponent = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [selectedBank, setSelectedBank] = useState<BankAccountResponseList | null>(null);
   const sheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ['1%', '35%', '70%'], []);
+  const snapPoints = useMemo(() => ['1%', '15%', '70%'], []);
   const { deleteBankAccountMutation } = useBankMutation();
   const [isWithdraw, setIsWithdraw] = useState(false);
   const { form, onSubmit, isLoading: isLoadingForm, isSuccess, isError } = useWithdrawForm();
@@ -63,9 +63,6 @@ const BankAccount: FunctionComponent = () => {
       size: 20,
     },
   });
-
-  console.log('watch', form.watch('amount'));
-  console.log('watch', form.watch('bankAccountId'));
 
   const bankData = data?.value.items;
 
@@ -201,22 +198,22 @@ const BankAccount: FunctionComponent = () => {
               </Button>
             </View>
           ) : (
-            <View className="gap-2 p-4">
+            <View className="flex-row gap-2 p-4">
               <Pressable
                 onPress={handleEdit}
-                className="flex-row items-center gap-2 rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                <Ionicons name="create-outline" size={20} color={COLORS.black} />
-                <Text>Chỉnh sửa</Text>
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-primary p-2 dark:border-primary">
+                <Ionicons name="create-outline" size={20} color={COLORS.light.primary} />
+                <Text className="text-primary">Chỉnh sửa</Text>
               </Pressable>
               <Pressable
                 onPress={handleWithdraw}
-                className="flex-row items-center gap-2 rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                <Ionicons name="cash-outline" size={20} color={COLORS.black} />
-                <Text>Rút tiền</Text>
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-green-400 p-2 dark:border-green-400">
+                <Ionicons name="cash-outline" size={20} color={COLORS.light.success} />
+                <Text className="text-green-400">Rút tiền</Text>
               </Pressable>
               <Pressable
                 onPress={handleDelete}
-                className="flex-row items-center gap-2 rounded-lg border border-red-200 p-4">
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-red-200 p-2">
                 <Ionicons name="trash-outline" size={20} color={COLORS.light.destructive} />
                 <Text className="text-red-500">Xóa</Text>
               </Pressable>

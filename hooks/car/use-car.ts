@@ -8,6 +8,7 @@ import {
   CarUnavailableParams,
 } from '~/constants/models/car.model';
 import { QueryKey } from '~/lib/query-key';
+import { translate } from '~/lib/translate';
 import { CarService } from '~/services/car.service';
 
 interface CarProps {
@@ -139,13 +140,12 @@ export const useCarMutation = () => {
   const deleteMutation = useMutation({
     mutationKey: [QueryKey.Car.Delete],
     mutationFn: async (id: string) => await CarService.delete.car(id),
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Car.List] });
-      ToastAndroid.show('Xóa xe thành công', ToastAndroid.SHORT);
+      ToastAndroid.show(response.message || translate.cars.toast.delete, ToastAndroid.SHORT);
     },
-    onError: (error) => {
-      console.log(error);
-      ToastAndroid.show('Xóa xe thất bại', ToastAndroid.SHORT);
+    onError: (error: any) => {
+      ToastAndroid.show(error.message || translate.cars.toast.error_delete, ToastAndroid.SHORT);
     },
   });
 

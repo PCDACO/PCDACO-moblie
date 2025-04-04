@@ -23,7 +23,7 @@ export const ReportService = {
         const response = await axiosInstance.get('/api/reports', { params });
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw error?.response.data;
       }
     },
     detail: async (id: string): Promise<RootResponse<ReportDetailResponse>> => {
@@ -31,7 +31,7 @@ export const ReportService = {
         const response = await axiosInstance.get(`/api/reports/${id}`);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw error?.response.data;
       }
     },
   },
@@ -41,7 +41,7 @@ export const ReportService = {
         const response = await axiosInstance.post('/api/reports', payload);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw error?.response.data;
       }
     },
   },
@@ -54,7 +54,7 @@ export const ReportService = {
         const response = await axiosInstance.put(`/api/reports/${reportId}/approve`, payload);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw error?.response.data;
       }
     },
     compensation: async (
@@ -65,7 +65,7 @@ export const ReportService = {
         const response = await axiosInstance.put(`/api/reports/${reportId}/compensation`, payload);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw error?.response.data;
       }
     },
   },
@@ -76,13 +76,17 @@ export const ReportService = {
       payload: ReportCompensationProofPayload
     ): Promise<RootResponse<ReportCompensationProofResponse>> => {
       try {
-        const response = await axiosInstance.patch(
+        const formData = new FormData();
+
+        formData.append('images', payload.images);
+
+        const response = await axiosInstance.patchForm(
           `/api/reports/${reportId}/compensation-proof`,
-          payload
+          formData
         );
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw error?.response.data;
       }
     },
 
@@ -100,7 +104,7 @@ export const ReportService = {
         const response = await axiosInstance.patchForm(`/api/reports/${reportId}/images`, formData);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw error?.response.data;
       }
     },
   },

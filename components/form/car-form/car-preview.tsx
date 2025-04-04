@@ -193,11 +193,6 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
             <Text className="text-foreground">{model?.name || ''}</Text>
           </View>
 
-          <View className="flex-row items-start justify-between">
-            <Text className="text-gray-500">Địa chỉ nhận xe</Text>
-            <Text className="text-end text-foreground">{address || ''}</Text>
-          </View>
-
           <View className="flex-row items-center justify-between">
             <Text className="text-gray-500">Màu sắc</Text>
             <Text className="text-foreground">{color || ''}</Text>
@@ -216,6 +211,12 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
           <View className="flex-row items-center justify-between">
             <Text className="text-gray-500">Tiêu thụ nhiên liệu</Text>
             <Text className="text-foreground">{fuelConsumption || 0} l/100km</Text>
+          </View>
+          <View className="flex-row items-start justify-between" style={{ gap: 40 }}>
+            <Text className="text-gray-500">Địa chỉ nhận xe</Text>
+            <Text className="w-40 flex-1 break-words text-right text-foreground" numberOfLines={2}>
+              {address || ''}
+            </Text>
           </View>
         </View>
       </FieldLayout>
@@ -265,7 +266,8 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
             renderItem={({ item }) => (
               <Image
                 source={{ uri: item }}
-                className="h-60"
+                className="h-60 rounded-lg"
+                resizeMode="cover"
                 style={{
                   width: viewWidthPaper,
                 }}

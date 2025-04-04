@@ -15,9 +15,9 @@ import { useUserQuery } from '~/hooks/user/use-user';
 const ProfileScreen = () => {
   const { currentUserQuery } = useUserQuery();
 
-  const { data, isLoading, error } = currentUserQuery;
+  const { data, isLoading } = currentUserQuery;
 
-  if (isLoading || error) {
+  if (isLoading) {
     return (
       <SafeAreaView className="gap-4 px-2">
         <Skeleton height={250} />

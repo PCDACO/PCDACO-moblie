@@ -40,11 +40,11 @@ const CarBasicInfo: React.FC<CarBasicInfoProps> = ({ car }) => {
             {car.requiresCollateral ? 'Có' : 'Không'}
           </Text>
         </View>
-        <View className="flex-row justify-between">
+        <View className="flex-row items-center justify-between">
           <Description className="text-sm" title="Màu:" />
           <Text className="flex-1 text-right text-foreground">{car.color}</Text>
         </View>
-        <View className="flex-row justify-between">
+        <View className="flex-row items-start justify-between" style={{ gap: 40 }}>
           <Description className="text-sm" title="Địa chỉ nhận xe:" />
           <Text className="flex-1 break-words text-right text-foreground" numberOfLines={2}>
             {car.pickupLocation.address}

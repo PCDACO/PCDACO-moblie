@@ -21,10 +21,10 @@ const CarAvailabilityScreen = () => {
   const { form, onSubmit, isLoading: isLoadingForm } = useCarAvalibilityForm(id as string);
 
   React.useEffect(() => {
-    if (data) {
+    if (data?.value && data.value.length > 0) {
       form.setValue('dates', [
-        data.value[0].date as unknown as string,
-        ...data.value.slice(1).map((item) => item.date as unknown as string),
+        new Date(data.value[0].date).toISOString(),
+        ...data.value.slice(1).map((item) => new Date(item.date).toISOString()),
       ]);
     }
   }, [data]);

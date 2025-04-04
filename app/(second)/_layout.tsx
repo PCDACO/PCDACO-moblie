@@ -1,15 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useRouter } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import { TouchableOpacity } from 'react-native';
 
-import BankAccount from './bank-account';
-import Transaction from './transaction';
-import Wallet from './wallet';
-
 import { COLORS } from '~/theme/colors';
-
-const Tab = createBottomTabNavigator();
 
 function HomeButton() {
   const router = useRouter();
@@ -31,21 +24,21 @@ function GoBackButton() {
 
 export default function SecondLayout() {
   return (
-    <Tab.Navigator
+    <Tabs
       screenOptions={({ route }) => ({
+        animation: 'shift',
         headerShown: true,
         headerTitleAlign: 'center',
-
         headerLeft: () => <GoBackButton />,
-        headerRight: () => <HomeButton />, // Thêm nút Home
+        headerRight: () => <HomeButton />,
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === 'Wallet') {
+          if (route.name === 'wallet') {
             iconName = 'wallet';
-          } else if (route.name === 'Transaction') {
+          } else if (route.name === 'transaction') {
             iconName = 'swap-horizontal';
-          } else if (route.name === 'BankAccount') {
+          } else if (route.name === 'bank-account') {
             iconName = 'card';
           }
 
@@ -54,30 +47,30 @@ export default function SecondLayout() {
         tabBarActiveTintColor: '#007AFF',
         tabBarInactiveTintColor: 'gray',
       })}>
-      <Tab.Screen
-        name="Wallet"
-        component={Wallet}
+      <Tabs.Screen
+        name="wallet"
         options={{
           tabBarLabel: 'Ví',
           title: 'Ví của tôi',
+          animation: 'shift',
         }}
       />
-      <Tab.Screen
-        name="Transaction"
-        component={Transaction}
+      <Tabs.Screen
+        name="transaction"
         options={{
           tabBarLabel: 'Giao dịch',
           title: 'Lịch sử giao dịch',
+          animation: 'shift',
         }}
       />
-      <Tab.Screen
-        name="BankAccount"
-        component={BankAccount}
+      <Tabs.Screen
+        name="bank-account"
         options={{
           tabBarLabel: 'Ngân hàng',
           title: 'Tài khoản ngân hàng',
+          animation: 'shift',
         }}
       />
-    </Tab.Navigator>
+    </Tabs>
   );
 }

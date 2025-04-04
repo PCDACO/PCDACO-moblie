@@ -9,6 +9,7 @@ import Backdrop from '~/components/plugins/back-drop';
 import Loading from '~/components/plugins/loading';
 import { SearchInput } from '~/components/plugins/search-input';
 import ReportParams from '~/components/screens/report-list/report-params';
+import { ReportParams as ReportParamsType } from '~/constants/models/report.model';
 import { useReportQuery } from '~/hooks/report/use-report';
 import { useReportParamsStore } from '~/store/use-params';
 import { useSearchStore } from '~/store/use-search';
@@ -17,13 +18,21 @@ import { COLORS } from '~/theme/colors';
 const ReportsScreen = () => {
   const { searchKeyword } = useSearchStore();
   const { params } = useReportParamsStore();
+  const [paramsReport, setParamsReport] = React.useState<Partial<ReportParamsType>>(params);
 
   const { data: reports, isLoading } = useReportQuery({
-    params: {
-      ...params,
-      keyword: searchKeyword,
-    },
+    params: paramsReport,
   });
+
+  React.useEffect(() => {
+    if (searchKeyword || params) {
+      setParamsReport({
+        keyword: searchKeyword,
+        type: params?.type,
+        status: params?.status,
+      });
+    }
+  }, [searchKeyword, params]);
 
   const reportList = reports?.value.items || [];
 

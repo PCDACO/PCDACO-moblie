@@ -7,20 +7,19 @@ import CarStatusBadge from './car-status-badge';
 
 import CardBasic from '~/components/plugins/card-basic';
 import { CarResponseList } from '~/constants/models/car.model';
-import { useCarMutation } from '~/hooks/car/use-car';
-
+import { COLORS } from '~/theme/colors';
 interface CarCardProps {
   car: CarResponseList;
+  onDelete?: (id: string) => void;
 }
 
-const CarCard: React.FC<CarCardProps> = ({ car }) => {
+const CarCard: React.FC<CarCardProps> = ({ car, onDelete }) => {
   const carImage = car.images.find((img) => img.type === 'Car')?.url;
-  const { deleteMutation } = useCarMutation();
 
   const router = useRouter();
 
-  const onDelete = () => {
-    deleteMutation.mutate(car.id);
+  const handleDelete = () => {
+    onDelete?.(car.id);
   };
 
   const onDetail = () => {
@@ -42,19 +41,24 @@ const CarCard: React.FC<CarCardProps> = ({ car }) => {
         </View>
         <View className="flex-row gap-2">
           <CarStatusBadge status={car.status} />
-          <TouchableOpacity onPress={onDelete}>
-            <Feather name="trash-2" size={20} color="red" />
+          <TouchableOpacity onPress={handleDelete}>
+            <Feather name="x-circle" size={16} color={COLORS.light.grey} />
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Body */}
-      {carImage && (
+      {carImage ? (
         <Image
           source={{ uri: carImage }}
           className=" h-40 w-full rounded-md border border-gray-200"
           resizeMode="cover"
         />
+      ) : (
+        <View className="h-40 w-full items-center justify-center rounded-md border border-gray-200">
+          <MaterialCommunityIcons name="image" size={24} color={COLORS.gray} />
+          <Text className="text-sm text-gray-500">Không có ảnh</Text>
+        </View>
       )}
 
       {/* Footer */}

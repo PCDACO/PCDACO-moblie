@@ -8,12 +8,16 @@ interface ImagePickerProps extends React.ComponentProps<typeof TouchableOpacity>
   onChange?: (file: ImagePicker.ImagePickerAsset[]) => void;
   contextInput: React.ReactNode;
   className?: string;
+  multiple?: boolean;
+  maxImages?: number;
 }
 
 const ImagePickerButton: React.FC<ImagePickerProps> = ({
   onChange,
   contextInput,
   className,
+  multiple = false,
+  maxImages = 1,
   ...props
 }) => {
   const pickImages = async () => {
@@ -24,14 +28,13 @@ const ImagePickerButton: React.FC<ImagePickerProps> = ({
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images', 'videos'],
-      allowsMultipleSelection: true,
-      //   selectionLimit: maxImages - imageUris.length,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: multiple,
+      selectionLimit: maxImages,
       quality: 1,
     });
 
     if (!result.canceled) {
-      // onChange?.(result.assets);
       onChange?.(result.assets);
     }
   };
@@ -40,7 +43,7 @@ const ImagePickerButton: React.FC<ImagePickerProps> = ({
     <View>
       <TouchableOpacity
         className={cn(
-          ' items-center justify-center rounded-lg border border-dashed border-gray-400 bg-white p-6 dark:bg-gray-900',
+          'items-center justify-center rounded-lg border border-dashed border-gray-400 bg-white p-6 dark:bg-gray-900',
           className
         )}
         {...props}

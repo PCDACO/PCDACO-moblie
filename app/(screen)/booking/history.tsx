@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { FlatList, ScrollView, Text, View } from 'react-native';
 
-import BookHistoryCard from '~/components/card/book-history.tsx/book-history-card';
+import BookHistoryCard from '~/components/card/book-history/book-history-card';
 import Loading from '~/components/plugins/loading';
 import BookCategory from '~/components/screens/book-history/book-category';
 import { BookingStatusEnum } from '~/constants/enums';

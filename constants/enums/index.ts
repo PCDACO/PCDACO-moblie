@@ -78,3 +78,10 @@ export enum BookingStatusEnum {
   Expired = 'Expired',
   Done = 'Done',
 }
+
+export enum TransactionStatus {
+  Pending = 'Pending',
+  Completed = 'Completed',
+  Failed = 'Failed',
+  Cancelled = 'Cancelled',
+}

@@ -19,7 +19,9 @@ export const TransactionService = {
       }
     },
 
-    transaction: async (params: Partial<TransactionParams>): Promise<TransactionResponse> => {
+    transaction: async (
+      params: Partial<TransactionParams>
+    ): Promise<RootResponse<Pagination<TransactionResponse>>> => {
       try {
         const response = await axiosInstance.get('/api/transactions', { params });
         return response.data;

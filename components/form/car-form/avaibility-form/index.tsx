@@ -25,7 +25,7 @@ export const CarAvailabilityForm = ({ form }: CarAvailabilityFormProps) => {
         render={({ field }) => (
           <View className="gap-2">
             <MultiDatePicker
-              initialDates={field.value.map((date) => new Date(date))}
+              initialDates={field.value?.map((date) => new Date(date)) || []}
               themeColor={COLORS.light.primary}
               onDatesSelected={(dates) => {
                 field.onChange(dates.map((date) => date.toISOString()));
