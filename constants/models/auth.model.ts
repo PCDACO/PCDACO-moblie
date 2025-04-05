@@ -21,3 +21,16 @@ export type LoginRequest = {
 };
 
 export type PayloadAuth = RegisterRequest | LoginRequest;
+
+export type SendOtpRequest = {
+  email: string;
+};
+
+export type VerifyOtpRequest = {
+  email: string;
+  otp: string;
+};
+
+export type ResetPasswordRequest = {
+  newPassword: string;
+};

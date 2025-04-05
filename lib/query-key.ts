@@ -8,6 +8,9 @@ export const QueryKey = {
     Register: 'Register',
     Validate: 'Validate',
     Refresh: 'Refresh',
+    SendOtp: 'SendOtp',
+    VerifyOtp: 'VerifyOtp',
+    ResetPassword: 'ResetPassword',
   },
 
   Transaction: {
@@ -106,5 +109,11 @@ export const QueryKey = {
     Compensation: 'ReportCompensation',
     CompensationProof: 'ReportCompensationProof',
     Image: 'ReportImage',
+  },
+
+  Feedback: {
+    Current: 'FeedbackCurrent',
+    ByBooking: 'FeedbackByBooking',
+    Create: 'FeedbackCreate',
   },
 };
