@@ -1,7 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-import { useStepStore } from '~/store/use-step';
 import { translate } from '~/lib/translate';
 
 interface ErrorScreenProps {
@@ -9,7 +8,6 @@ interface ErrorScreenProps {
 }
 
 export default function ErrorScreen({ id }: ErrorScreenProps) {
-  const { setStep } = useStepStore();
   const handleRetry = () => {};
 
   const handleContactSupport = () => {

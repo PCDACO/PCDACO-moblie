@@ -4,10 +4,10 @@ import { View, Text, Pressable, FlatList } from 'react-native';
 import { Loading } from '@/components/loading';
 
 interface ModelSuggestionPopoverProps {
-  suggestions: Array<{
+  suggestions: {
     id: string;
     name: string;
-  }>;
+  }[];
   onSelect: (model: { id: string; name: string }) => void;
   visible: boolean;
   isLoading: boolean;

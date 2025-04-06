@@ -130,6 +130,8 @@ const CarDetailScreen = () => {
           id={car?.value.id || ''}
           contract={contact}
           carContract={car?.value.contract as CarDetailResponse['contract']}
+          month={currentMonth}
+          year={currentYear}
         />
       ),
       key: 'contract',

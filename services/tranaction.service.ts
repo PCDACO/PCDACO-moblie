@@ -29,6 +29,15 @@ export const TransactionService = {
         throw error.response.data;
       }
     },
+
+    check: async (orderCode: string): Promise<RootResponse<null>> => {
+      try {
+        const response = await axiosInstance.get(`/api/transactions/${orderCode}/check`);
+        return response.data;
+      } catch (error: any) {
+        throw error.response.data;
+      }
+    },
   },
 
   post: {

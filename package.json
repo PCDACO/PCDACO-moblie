@@ -21,6 +21,8 @@
     "@expo/react-native-action-sheet": "^4.1.1",
     "@expo/vector-icons": "^14.0.0",
     "@gorhom/bottom-sheet": "^5.1.2",
+    "@hookform/resolvers": "^5.0.1",
+    "@microsoft/signalr": "^8.0.7",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/cli": "^18.0.0",
     "@react-native-community/datetimepicker": "8.2.0",

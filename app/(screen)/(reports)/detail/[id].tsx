@@ -19,7 +19,7 @@ const ReportDetailScreen: FunctionComponent = () => {
   const { id } = useLocalSearchParams();
   const { data: report } = useReportDetailQuery({ id: id as string });
 
-  const { form, onSubmit, isLoading, isError, isSuccess } = useReportProofForm({
+  const { form, onSubmit, isLoading } = useReportProofForm({
     id: id as string,
   });
 

@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { FunctionComponent, useState } from 'react';
 import { Text, TouchableOpacity, View, FlatList } from 'react-native';
-import FieldLayout from '~/components/layouts/field-layout';
 
+import FieldLayout from '~/components/layouts/field-layout';
 import { BookingStatusEnum } from '~/constants/enums';
 import { translate } from '~/lib/translate';
 import { useBookingParamsStore } from '~/store/use-params';

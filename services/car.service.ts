@@ -112,7 +112,7 @@ export const CarService = {
     assign_contract: async (id: string): Promise<RootResponse<null>> => {
       try {
         const response = await axiosInstance.post<RootResponse<null>>(
-          `/api/cars/contracts/${id}/sign`
+          `/api/cars/${id}/contract/sign`
         );
         return response.data;
       } catch (error: any) {

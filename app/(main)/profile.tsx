@@ -1,6 +1,5 @@
 import { Feather } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import * as React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
