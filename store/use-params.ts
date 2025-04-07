@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { BookingStatusEnum } from '~/constants/enums';
+import { BookingStatusNumber } from '~/constants/enums';
 import { BookParams } from '~/constants/models/book.model';
 import { CarParams } from '~/constants/models/car.model';
 import { ReportParams } from '~/constants/models/report.model';
@@ -20,7 +20,7 @@ export function createParamsStore<T>(initialParams: T) {
 }
 
 export const useBookingParamsStore = createParamsStore<Partial<BookParams>>({
-  status: [BookingStatusEnum.Pending, BookingStatusEnum.Approved],
+  status: [BookingStatusNumber.Pending, BookingStatusNumber.Approved],
 });
 export const useCarParamsStore = createParamsStore<Partial<CarParams>>({});
 export const useReportParamsStore = createParamsStore<Partial<ReportParams>>({});

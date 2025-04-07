@@ -1,6 +1,6 @@
 import { Feather, Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import React, { FunctionComponent, useState, useRef } from 'react';
-import { View, Text, LayoutChangeEvent } from 'react-native';
+import { View, Text, LayoutChangeEvent, Pressable } from 'react-native';
 import Animated from 'react-native-reanimated';
 import Carousel from 'react-native-reanimated-carousel';
 
@@ -53,15 +53,25 @@ const PreForm: FunctionComponent<PreFormProps> = ({ form }) => {
             autoPlay={false}
             data={state}
             renderItem={({ item }) => (
-              <Animated.Image
-                source={{ uri: item }}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: 10,
-                }}
-                resizeMode="cover"
-              />
+              <View className="relative">
+                <Animated.Image
+                  source={{ uri: item }}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 10,
+                  }}
+                  resizeMode="cover"
+                />
+                <Pressable
+                  className="absolute right-3 top-3 rounded-full bg-gray-200/50 "
+                  onPress={() => {
+                    setState([]);
+                    form.setValue(formKey as any, undefined);
+                  }}>
+                  <Feather name="x-circle" size={20} color={COLORS.light.destructive} />
+                </Pressable>
+              </View>
             )}
           />
         ) : (
