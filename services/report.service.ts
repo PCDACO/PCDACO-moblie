@@ -31,7 +31,7 @@ export const ReportService = {
         const response = await axiosInstance.get(`/api/reports/${id}`);
         return response.data;
       } catch (error: any) {
-        throw error?.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -41,7 +41,7 @@ export const ReportService = {
         const response = await axiosInstance.post('/api/reports', payload);
         return response.data;
       } catch (error: any) {
-        throw error?.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -54,7 +54,7 @@ export const ReportService = {
         const response = await axiosInstance.put(`/api/reports/${reportId}/approve`, payload);
         return response.data;
       } catch (error: any) {
-        throw error?.response.data;
+        throw new Error(error);
       }
     },
     compensation: async (
@@ -65,7 +65,7 @@ export const ReportService = {
         const response = await axiosInstance.put(`/api/reports/${reportId}/compensation`, payload);
         return response.data;
       } catch (error: any) {
-        throw error?.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -86,7 +86,7 @@ export const ReportService = {
         );
         return response.data;
       } catch (error: any) {
-        throw error?.response.data;
+        throw new Error(error);
       }
     },
 
@@ -104,7 +104,7 @@ export const ReportService = {
         const response = await axiosInstance.patchForm(`/api/reports/${reportId}/images`, formData);
         return response.data;
       } catch (error: any) {
-        throw error?.response.data;
+        throw new Error(error);
       }
     },
   },

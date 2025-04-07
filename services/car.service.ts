@@ -22,7 +22,7 @@ export const CarService = {
         );
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
 
@@ -31,7 +31,7 @@ export const CarService = {
         const response = await axiosInstance.get<RootResponse<CarDetailResponse>>(`/api/car/${id}`);
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
 
@@ -40,7 +40,7 @@ export const CarService = {
         const response = await axiosInstance.get<RootResponse<null>>(`/api/cars/${id}/contract`);
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
 
@@ -54,7 +54,7 @@ export const CarService = {
         );
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
   },
@@ -68,7 +68,7 @@ export const CarService = {
         );
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
 
@@ -79,7 +79,7 @@ export const CarService = {
         );
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
 
@@ -90,7 +90,7 @@ export const CarService = {
         );
         return response.data;
       } catch (error: any) {
-        return error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -105,7 +105,7 @@ export const CarService = {
         );
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
 
@@ -116,7 +116,7 @@ export const CarService = {
         );
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
   },
@@ -130,7 +130,7 @@ export const CarService = {
         );
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
   },
@@ -141,7 +141,7 @@ export const CarService = {
         const response = await axiosInstance.delete<RootResponse<null>>(`/api/cars/${id}`);
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
   },
@@ -163,7 +163,7 @@ export const CarService = {
 
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
 
@@ -182,7 +182,7 @@ export const CarService = {
         });
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
 
@@ -199,7 +199,7 @@ export const CarService = {
         );
         return response.data;
       } catch (error: any) {
-        return error.response.data.message;
+        throw new Error(error);
       }
     },
   },

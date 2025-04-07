@@ -13,8 +13,8 @@ export const FuelService = {
         }
       );
       return response.data;
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      throw new Error(error);
     }
   },
 };

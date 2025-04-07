@@ -2,17 +2,10 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { FunctionComponent } from 'react';
-// import { TouchableOpacity, View } from 'react-native';
-
-import AuthProvider from '~/components/permission/auth-provider';
-// import Description from '~/components/screens/car-editor/description';
-// import Subtitle from '~/components/screens/car-editor/subtitle';
 
 const MainLayout: FunctionComponent = () => {
-  // const router = useRouter();
-
   return (
-    <AuthProvider>
+    <>
       <StatusBar hidden />
 
       <Tabs screenOptions={{ headerShown: false }}>
@@ -78,7 +71,7 @@ const MainLayout: FunctionComponent = () => {
           }}
         />
       </Tabs>
-    </AuthProvider>
+    </>
   );
 };
 

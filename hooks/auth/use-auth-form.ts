@@ -110,7 +110,7 @@ export const useAuthForm = ({ type }: UseAuthFormProps) => {
             }
           },
           onError: (error: any) => {
-            ToastAndroid.show(`${error.message}`, ToastAndroid.SHORT);
+            ToastAndroid.show(`${error.response.data.message}`, ToastAndroid.SHORT);
           },
         });
         break;

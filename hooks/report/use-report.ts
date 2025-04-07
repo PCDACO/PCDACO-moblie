@@ -47,9 +47,11 @@ export const useReportMutation = () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Report.List] });
       ToastAndroid.show(translate.report.toast.create, ToastAndroid.SHORT);
     },
-    onError: (error) => {
-      console.log(error);
-      ToastAndroid.show(translate.report.toast.error_create, ToastAndroid.SHORT);
+    onError: (error: any) => {
+      ToastAndroid.show(
+        error.response.data.message || translate.report.toast.error_create,
+        ToastAndroid.SHORT
+      );
     },
   });
 
@@ -61,9 +63,11 @@ export const useReportMutation = () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Report.List] });
       ToastAndroid.show(translate.report.toast.approve, ToastAndroid.SHORT);
     },
-    onError: (error) => {
-      console.log(error);
-      ToastAndroid.show(translate.report.toast.error_approve, ToastAndroid.SHORT);
+    onError: (error: any) => {
+      ToastAndroid.show(
+        error.response.data.message || translate.report.toast.error_approve,
+        ToastAndroid.SHORT
+      );
     },
   });
 
@@ -75,9 +79,11 @@ export const useReportMutation = () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Report.Detail] });
       ToastAndroid.show(translate.report.toast.compensation, ToastAndroid.SHORT);
     },
-    onError: (error) => {
-      console.log(error);
-      ToastAndroid.show(translate.report.toast.error_compensation, ToastAndroid.SHORT);
+    onError: (error: any) => {
+      ToastAndroid.show(
+        error.response.data.message || translate.report.toast.error_compensation,
+        ToastAndroid.SHORT
+      );
     },
   });
 
@@ -94,9 +100,11 @@ export const useReportMutation = () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Report.Detail] });
       ToastAndroid.show(translate.report.toast.compensation_proof, ToastAndroid.SHORT);
     },
-    onError: (error) => {
-      console.log(error);
-      ToastAndroid.show(translate.report.toast.error_compensation_proof, ToastAndroid.SHORT);
+    onError: (error: any) => {
+      ToastAndroid.show(
+        error.response.data.message || translate.report.toast.error_compensation_proof,
+        ToastAndroid.SHORT
+      );
     },
   });
 
@@ -108,9 +116,11 @@ export const useReportMutation = () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Report.Detail] });
       ToastAndroid.show(translate.report.toast.image, ToastAndroid.SHORT);
     },
-    onError: (error) => {
-      console.log(error);
-      ToastAndroid.show(translate.report.toast.error_image, ToastAndroid.SHORT);
+    onError: (error: any) => {
+      ToastAndroid.show(
+        error.response.data.message || translate.report.toast.error_image,
+        ToastAndroid.SHORT
+      );
     },
   });
 

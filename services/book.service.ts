@@ -39,7 +39,7 @@ export const BookService = {
         });
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -49,7 +49,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -59,7 +59,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -69,7 +69,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -80,7 +80,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -90,7 +90,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -100,7 +100,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        return error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -110,7 +110,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -144,7 +144,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -182,7 +182,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response?.data || error.message;
+        throw new Error(error);
       }
     },
   },
@@ -192,7 +192,7 @@ export const BookService = {
         const response = await axiosInstance.put(`/api/bookings/${id}/complete`);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -202,7 +202,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -212,7 +212,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -222,7 +222,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
     return: async (id: string) => {
@@ -231,7 +231,7 @@ export const BookService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },

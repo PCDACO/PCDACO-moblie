@@ -13,27 +13,11 @@ export const handleApiError = async (error: any) => {
   if (error.response?.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true;
 
-    try {
-      const refreshToken = await storage.getItem('refreshToken');
-      if (!refreshToken) {
-        throw new Error('No refresh token available');
-      }
+    const refreshToken = await storage.getItem('refreshToken');
 
-      // Attempt to refresh the token
-      const response = await AuthService.refreshToken(refreshToken);
-
-      // Store new tokens using Zustand store
-      await setTokens(response.value.accessToken, response.value.refreshToken);
-
-      // Update the original request with new token
-      originalRequest.headers.Authorization = `Bearer ${response.value.accessToken}`;
-
-      // Retry the original request
-      return axiosInstance(originalRequest);
-    } catch (refreshError) {
-      // If refresh token fails, clear tokens using Zustand store
+    if (!refreshToken) {
       await removeTokens();
-      return Promise.reject(refreshError);
+      throw new Error('No refresh token available');
     }
   }
 

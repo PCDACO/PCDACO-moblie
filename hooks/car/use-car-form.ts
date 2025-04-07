@@ -168,7 +168,7 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
                             },
                             onError: (error: any) => {
                               ToastAndroid.show(
-                                error || translate.cars.toast.error_update,
+                                error.response.data.message || translate.cars.toast.error_update,
                                 ToastAndroid.SHORT
                               );
                             },
@@ -176,9 +176,8 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
                         );
                       },
                       onError: (error: any) => {
-                        console.log('error', error);
                         ToastAndroid.show(
-                          error || translate.cars.toast.error_update,
+                          error.response.data.message || translate.cars.toast.error_update,
                           ToastAndroid.SHORT
                         );
                       },
@@ -186,16 +185,20 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
                   );
                 },
                 onError: (error: any) => {
-                  console.log('error', error);
-                  ToastAndroid.show(error || translate.cars.toast.error_update, ToastAndroid.SHORT);
+                  ToastAndroid.show(
+                    error.response.data.message || translate.cars.toast.error_update,
+                    ToastAndroid.SHORT
+                  );
                 },
               }
             );
           },
 
           onError: (error: any) => {
-            console.log('error', error);
-            ToastAndroid.show(error || translate.cars.toast.error_update, ToastAndroid.SHORT);
+            ToastAndroid.show(
+              error.response.data.message || translate.cars.toast.error_update,
+              ToastAndroid.SHORT
+            );
           },
         }
       );
@@ -218,9 +221,8 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
                       form.reset();
                     },
                     onError: (error: any) => {
-                      console.log('error', error);
                       ToastAndroid.show(
-                        error || translate.cars.toast.error_create,
+                        error.response.data.message || translate.cars.toast.error_create,
                         ToastAndroid.SHORT
                       );
                     },
@@ -228,15 +230,19 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
                 );
               },
               onError: (error: any) => {
-                console.log('error', error);
-                ToastAndroid.show(error || translate.cars.toast.error_create, ToastAndroid.SHORT);
+                ToastAndroid.show(
+                  error.response.data.message || translate.cars.toast.error_create,
+                  ToastAndroid.SHORT
+                );
               },
             }
           );
         },
         onError: (error: any) => {
-          console.log('error', error);
-          ToastAndroid.show(error || translate.cars.toast.error_create, ToastAndroid.SHORT);
+          ToastAndroid.show(
+            error.response.data.message || translate.cars.toast.error_create,
+            ToastAndroid.SHORT
+          );
         },
       });
     }

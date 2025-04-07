@@ -44,7 +44,7 @@ export const useBankForm = ({ id }: BankFormProps) => {
           },
           onError: (error: any) => {
             ToastAndroid.show(
-              error.message || translate.bank.toast.error_update,
+              error.response.data.message || translate.bank.toast.error_update,
               ToastAndroid.SHORT
             );
           },
@@ -62,7 +62,10 @@ export const useBankForm = ({ id }: BankFormProps) => {
           }, 1000);
         },
         onError: (error: any) => {
-          ToastAndroid.show(error.message || translate.bank.toast.error_create, ToastAndroid.SHORT);
+          ToastAndroid.show(
+            error.response.data.message || translate.bank.toast.error_create,
+            ToastAndroid.SHORT
+          );
         },
       });
     }

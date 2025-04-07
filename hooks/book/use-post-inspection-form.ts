@@ -48,7 +48,10 @@ export const usePostInspectionForm = (id: string) => {
           }, 1000);
         },
         onError: (error: any) => {
-          ToastAndroid.show(error?.message || translate.booking.failed.message, ToastAndroid.SHORT);
+          ToastAndroid.show(
+            error.response.data.message || translate.booking.failed.message,
+            ToastAndroid.SHORT
+          );
         },
       }
     );

@@ -26,7 +26,7 @@ export const useToggleCarStatus = ({ id }: ToggleCarStatusProps) => {
           },
           onError: (error: any) => {
             ToastAndroid.show(
-              error?.message || translate.cars.toast.error_enable,
+              error.response.data.message || translate.cars.toast.error_enable,
               ToastAndroid.SHORT
             );
           },
@@ -41,7 +41,7 @@ export const useToggleCarStatus = ({ id }: ToggleCarStatusProps) => {
           },
           onError: (error: any) => {
             ToastAndroid.show(
-              error?.message || translate.cars.toast.error_disable,
+              error.response.data.message || translate.cars.toast.error_disable,
               ToastAndroid.SHORT
             );
           },

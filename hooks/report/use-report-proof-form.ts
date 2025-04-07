@@ -43,7 +43,7 @@ export const useReportProofForm = ({ id }: UseReportProofFormProps) => {
         },
         onError: (error: any) => {
           ToastAndroid.show(
-            error?.message || translate.report.toast.error_compensation_proof,
+            error.response.data.message || translate.report.toast.error_compensation_proof,
             ToastAndroid.SHORT
           );
         },

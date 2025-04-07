@@ -94,12 +94,6 @@ export const useCarMutation = () => {
   const createMutation = useMutation({
     mutationKey: [QueryKey.Car.Create],
     mutationFn: async (payload: CarPayload) => await CarService.post.car(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QueryKey.Car.List] });
-    },
-    onError: () => {
-      ToastAndroid.show('Tạo xe thất bại', ToastAndroid.SHORT);
-    },
   });
 
   const postAvailabilityMutation = useMutation({
@@ -129,11 +123,13 @@ export const useCarMutation = () => {
       await CarService.put.car(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Car.List] });
-      ToastAndroid.show('Cập nhật xe thành công', ToastAndroid.SHORT);
+      ToastAndroid.show(translate.cars.toast.update, ToastAndroid.SHORT);
     },
-    onError: (error) => {
-      console.log(error);
-      ToastAndroid.show('Cập nhật xe thất bại', ToastAndroid.SHORT);
+    onError: (error: any) => {
+      ToastAndroid.show(
+        error.response.data.message || translate.cars.toast.error_update,
+        ToastAndroid.SHORT
+      );
     },
   });
 
@@ -145,7 +141,10 @@ export const useCarMutation = () => {
       ToastAndroid.show(response.message || translate.cars.toast.delete, ToastAndroid.SHORT);
     },
     onError: (error: any) => {
-      ToastAndroid.show(error.message || translate.cars.toast.error_delete, ToastAndroid.SHORT);
+      ToastAndroid.show(
+        error.response.data.message || translate.cars.toast.error_delete,
+        ToastAndroid.SHORT
+      );
     },
   });
 
@@ -153,36 +152,18 @@ export const useCarMutation = () => {
     mutationKey: [QueryKey.Car.PatchImage],
     mutationFn: async ({ payload, id }: { payload: File[]; id: string }) =>
       await CarService.patch.carImages(id, payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QueryKey.Car.Detail] });
-    },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 
   const patchPaperImageMutation = useMutation({
     mutationKey: [QueryKey.Car.PatchPaperImage],
     mutationFn: async ({ payload, id }: { payload: File[]; id: string }) =>
       await CarService.patch.paperImages(id, payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QueryKey.Car.Detail] });
-    },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 
   const patchAmenitiesMutation = useMutation({
     mutationKey: [QueryKey.Car.PatchAmenities],
     mutationFn: async ({ payload, id }: { payload: { amenityId: string[] }; id: string }) =>
       await CarService.patch.carAmenities(id, payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QueryKey.Car.Detail] });
-    },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 
   return {

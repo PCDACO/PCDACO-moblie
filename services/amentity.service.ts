@@ -9,9 +9,8 @@ export const AmenityService = {
       try {
         const response = await axiosInstance.get('/api/amenities', { params });
         return response.data;
-      } catch (error) {
-        console.error('API Error:', error);
-        throw error;
+      } catch (error: any) {
+        throw new Error(error);
       }
     },
   },

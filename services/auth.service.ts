@@ -14,7 +14,7 @@ export const AuthService = {
       const response = await axiosInstance.post('/api/auth/signup', req);
       return response.data;
     } catch (error: any) {
-      throw error.response.data;
+      throw new Error(error);
     }
   },
 
@@ -23,16 +23,17 @@ export const AuthService = {
       const response = await axiosInstance.post('/api/auth/login', data);
       return response.data;
     } catch (error: any) {
-      throw error.response.data;
+      throw new Error(error);
     }
   },
 
   refreshToken: async (refreshToken: string): Promise<RootResponse<Token>> => {
     try {
       const response = await axiosInstance.post('/api/auth/refresh-token', { refreshToken });
+
       return response.data;
     } catch (error: any) {
-      throw error.response.data;
+      throw new Error(error);
     }
   },
 
@@ -41,7 +42,7 @@ export const AuthService = {
       const response = await axiosInstance.post('/api/auth/validate-token');
       return response.data;
     } catch (error: any) {
-      throw error.response;
+      throw new Error(error);
     }
   },
 
@@ -50,7 +51,7 @@ export const AuthService = {
       const response = await axiosInstance.post('/api/auth/send-otp', data);
       return response.data;
     } catch (error: any) {
-      throw error.response.data;
+      throw new Error(error);
     }
   },
 
@@ -59,7 +60,7 @@ export const AuthService = {
       const response = await axiosInstance.post('/api/auth/verify-otp', data);
       return response.data;
     } catch (error: any) {
-      throw error.response.data;
+      throw new Error(error);
     }
   },
 
@@ -68,7 +69,7 @@ export const AuthService = {
       const response = await axiosInstance.post('/api/auth/reset-password', data);
       return response.data;
     } catch (error: any) {
-      throw error.response.data;
+      throw new Error(error);
     }
   },
 };

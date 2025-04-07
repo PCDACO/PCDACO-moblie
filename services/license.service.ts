@@ -13,8 +13,8 @@ export const LiccenseService = {
       try {
         const response = await axiosInstance.get('/api/licenses/users/current');
         return response.data;
-      } catch (error) {
-        throw error;
+      } catch (error: any) {
+        throw new Error(error);
       }
     },
   },
@@ -23,8 +23,8 @@ export const LiccenseService = {
       try {
         const response = await axiosInstance.post('/api/users/license', payload);
         return response.data;
-      } catch (error) {
-        throw error;
+      } catch (error: any) {
+        throw new Error(error);
       }
     },
   },
@@ -33,8 +33,8 @@ export const LiccenseService = {
       try {
         const response = await axiosInstance.put(`/api/users/license`, payload);
         return response.data;
-      } catch (error) {
-        throw error;
+      } catch (error: any) {
+        throw new Error(error);
       }
     },
   },
@@ -56,8 +56,8 @@ export const LiccenseService = {
         });
 
         return response.data;
-      } catch (error) {
-        throw error;
+      } catch (error: any) {
+        throw new Error(error);
       }
     },
   },

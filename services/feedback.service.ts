@@ -14,7 +14,7 @@ export const FeebackService = {
         const response = await axiosInstance.get('/api/feedbacks/current-user', { params });
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -25,7 +25,7 @@ export const FeebackService = {
         const response = await axiosInstance.get('/api/feedbacks/by-booking', { params });
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -39,7 +39,7 @@ export const FeebackService = {
         const response = await axiosInstance.post(`/api/booking/${id}/feedback`, payload);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },

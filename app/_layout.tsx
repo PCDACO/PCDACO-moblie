@@ -13,7 +13,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-// import { ThemeToggle } from '~/components/ThemeToggle';
+import AuthProvider from '~/components/permission/auth-provider';
 import { useColorScheme, useInitialAndroidBarSync } from '~/lib/useColorScheme';
 import { NAV_THEME } from '~/theme';
 
@@ -52,13 +52,15 @@ export default function RootLayout() {
         <BottomSheetModalProvider>
           <ActionSheetProvider>
             <NavThemeProvider value={NAV_THEME[colorScheme]}>
-              <Stack screenOptions={SCREEN_OPTIONS}>
-                <Stack.Screen name="index" options={TAB_OPTIONS} />
-                <Stack.Screen name="(main)" options={TAB_OPTIONS} />
-                <Stack.Screen name="(auth)" options={TAB_OPTIONS} />
-                <Stack.Screen name="(screen)" options={TAB_OPTIONS} />
-                <Stack.Screen name="(second)" options={TAB_OPTIONS} />
-              </Stack>
+              <AuthProvider>
+                <Stack screenOptions={SCREEN_OPTIONS}>
+                  <Stack.Screen name="index" options={TAB_OPTIONS} />
+                  <Stack.Screen name="(main)" options={TAB_OPTIONS} />
+                  <Stack.Screen name="(auth)" options={TAB_OPTIONS} />
+                  <Stack.Screen name="(screen)" options={TAB_OPTIONS} />
+                  <Stack.Screen name="(second)" options={TAB_OPTIONS} />
+                </Stack>
+              </AuthProvider>
             </NavThemeProvider>
           </ActionSheetProvider>
         </BottomSheetModalProvider>

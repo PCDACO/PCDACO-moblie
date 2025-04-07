@@ -27,9 +27,9 @@ export const useWithdrawForm = () => {
         ToastAndroid.show(translate.transaction.toast.withdraw_success, ToastAndroid.SHORT);
         form.reset();
       },
-      onError: (error) => {
+      onError: (error: any) => {
         ToastAndroid.show(
-          error.message || translate.transaction.toast.withdraw_error,
+          error.response.data.message || translate.transaction.toast.withdraw_error,
           ToastAndroid.SHORT
         );
       },

@@ -15,7 +15,7 @@ export const TransactionService = {
         const response = await axiosInstance.get('/api/withdrawals', { params });
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -26,7 +26,7 @@ export const TransactionService = {
         const response = await axiosInstance.get('/api/transactions', { params });
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -35,7 +35,7 @@ export const TransactionService = {
         const response = await axiosInstance.get(`/api/transactions/${orderCode}/check`);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -46,7 +46,7 @@ export const TransactionService = {
         const response = await axiosInstance.post('/api/withdrawals', payload);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },

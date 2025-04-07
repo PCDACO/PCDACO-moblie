@@ -13,7 +13,7 @@ export const BankService = {
         const response = await axiosInstance.get('/api/bank-info', { params: { search } });
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -24,7 +24,7 @@ export const BankService = {
         const response = await axiosInstance.get('/api/bank-accounts', { params });
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -33,7 +33,7 @@ export const BankService = {
         const response = await axiosInstance.get(`/api/bank-accounts/${id}`);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -46,7 +46,7 @@ export const BankService = {
         const response = await axiosInstance.post('/api/bank-accounts', payload);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -60,7 +60,7 @@ export const BankService = {
         const response = await axiosInstance.put(`/api/bank-accounts/${id}`, payload);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -71,7 +71,7 @@ export const BankService = {
         const response = await axiosInstance.delete(`/api/bank-accounts/${id}`);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },

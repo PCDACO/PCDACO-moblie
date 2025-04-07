@@ -44,7 +44,7 @@ export const useCarAvalibilityForm = (id: string) => {
         },
         onError: (error: any) => {
           ToastAndroid.show(
-            error.message || translate.cars.toast.error_availability,
+            error.response.data.message || translate.cars.toast.error_availability,
             ToastAndroid.SHORT
           );
         },

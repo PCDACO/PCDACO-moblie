@@ -8,7 +8,7 @@ export const UserService = {
         const response = await axiosInstance.get('/api/users/current');
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
 
@@ -17,7 +17,7 @@ export const UserService = {
         const response = await axiosInstance.get(`/api/users/${id}`);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -28,7 +28,7 @@ export const UserService = {
         const response = await axiosInstance.put(`/api/users/${id}`, payload);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },
@@ -49,7 +49,7 @@ export const UserService = {
 
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
     password: async (id: string, payload: UserPasswordPayload): Promise<RootResponse<any>> => {
@@ -57,7 +57,7 @@ export const UserService = {
         const response = await axiosInstance.patch(`/api/users/${id}/password`, payload);
         return response.data;
       } catch (error: any) {
-        throw error.response.data;
+        throw new Error(error);
       }
     },
   },

@@ -73,8 +73,11 @@ export const useBankMutation = () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.Bank.Account.List] });
       ToastAndroid.show(translate.bank.toast.delete, ToastAndroid.SHORT);
     },
-    onError: (error) => {
-      ToastAndroid.show(error.message || translate.bank.toast.error_delete, ToastAndroid.SHORT);
+    onError: (error: any) => {
+      ToastAndroid.show(
+        error.response.data.message || translate.bank.toast.error_delete,
+        ToastAndroid.SHORT
+      );
     },
   });
 

@@ -37,7 +37,7 @@ export const useApproveOrRejectBooking = ({ id }: UseApproveOrRejectBooking) => 
           );
         },
         onError: (error: any) => {
-          ToastAndroid.show(error.message || 'Xác nhận lỗi', ToastAndroid.SHORT);
+          ToastAndroid.show(error.response.data.message || 'Xác nhận lỗi', ToastAndroid.SHORT);
         },
       }
     );
