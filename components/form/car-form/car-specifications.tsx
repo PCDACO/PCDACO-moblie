@@ -101,7 +101,11 @@ const CarSpecifications: FunctionComponent<CarSpecificationsProps> = ({ form }) 
                       </SelectItem>
                     ) : (
                       fuelData?.value.items?.map((item) => (
-                        <SelectItem key={item.id} value={item.id} label={item.name}>
+                        <SelectItem
+                          key={item.id}
+                          value={item.id}
+                          label={item.name}
+                          className="data-[state=checked]:bg-blue-100 dark:data-[state=checked]:bg-blue-900">
                           {item.name}
                         </SelectItem>
                       ))

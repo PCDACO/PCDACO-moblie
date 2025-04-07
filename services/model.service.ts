@@ -1,5 +1,5 @@
 import axiosInstance from '~/configs/axios.config';
-import { ModelsResponse } from '~/constants/models/model.model';
+import { ModelDetailReponse, ModelsResponse } from '~/constants/models/model.model';
 
 export const ModelsService = {
   get: {
@@ -9,6 +9,12 @@ export const ModelsService = {
       const response = await axiosInstance.get<RootResponse<Pagination<ModelsResponse>>>(
         `/api/models`,
         { params }
+      );
+      return response.data;
+    },
+    detail: async (id: string): Promise<RootResponse<ModelDetailReponse>> => {
+      const response = await axiosInstance.get<RootResponse<ModelDetailReponse>>(
+        `/api/models/${id}`
       );
       return response.data;
     },

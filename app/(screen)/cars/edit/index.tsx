@@ -18,6 +18,7 @@ import { ProgressIndicator } from '~/components/nativewindui/ProgressIndicator';
 import { Text } from '~/components/nativewindui/Text';
 import Backdrop from '~/components/plugins/back-drop';
 import HeaderTitle from '~/components/screens/car-editor/header-title';
+import SelectModel from '~/components/screens/car-editor/select-model';
 import ErrorScreen from '~/components/screens/car-editor/status/error-screen';
 import LoadingScreen from '~/components/screens/car-editor/status/loading-screen';
 import SuccessScreen from '~/components/screens/car-editor/status/success-screen';
@@ -46,7 +47,7 @@ const EditCarScreen: React.FC = () => {
   }, [step]);
 
   const sheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['1%', '45%'], []);
+  const snapPoints = React.useMemo(() => ['1%', '75%'], []);
 
   const handleSnapPress = React.useCallback((index: number) => {
     sheetRef.current?.snapToIndex(index);
@@ -61,6 +62,10 @@ const EditCarScreen: React.FC = () => {
     sheetRef.current?.close();
     setIsSheetOpen(false);
   }, []);
+
+  const handleShowSheetModal = (value: string) => {
+    handleSnapPress(1);
+  };
 
   React.useEffect(() => {
     if (data && data.value) {
@@ -126,7 +131,7 @@ const EditCarScreen: React.FC = () => {
       <ScrollView className="h-screen px-2">
         <View className=" rounded-lg" style={{ paddingBottom: 100 }}>
           {step === 1 && <CarImage form={form} />}
-          {step === 2 && <CarBasicInfo form={form} />}
+          {step === 2 && <CarBasicInfo form={form} onShowSheet={handleShowSheetModal} />}
           {step === 3 && <CarSpecifications form={form} />}
           {step === 4 && <CarAmenity form={form} />}
           {step === 5 && <CarDescription form={form} />}
@@ -167,7 +172,7 @@ const EditCarScreen: React.FC = () => {
             <Feather name="check" size={18} color="white" />
           </TouchableOpacity>
         )}
-        {step < 7 && (
+        {step < 8 && (
           <TouchableOpacity
             onPress={() => {
               checkConditionOfEachStep(step, id as string);
@@ -191,9 +196,7 @@ const EditCarScreen: React.FC = () => {
         }
         onChange={handleSheetChange}>
         <BottomSheetView className="relative flex-1 bg-white dark:bg-slate-300">
-          <View>
-            <Text>Mẫu xe</Text>
-          </View>
+          <SelectModel onClose={handleClosePress} form={form} />
         </BottomSheetView>
       </BottomSheet>
     </SafeAreaView>

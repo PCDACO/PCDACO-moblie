@@ -99,6 +99,7 @@ export const QueryKey = {
 
   Model: {
     List: 'ModelList',
+    Detail: 'ModelDetail',
   },
 
   Report: {

@@ -18,3 +18,18 @@ export const useModelQuery = ({ params }: IUseModelQuery) => {
 
   return modelListQuery;
 };
+
+interface IUseModelDetailQuery {
+  id: string;
+}
+
+export const useModelDetailQuery = ({ id }: IUseModelDetailQuery) => {
+  const modelDetailQuery = useQuery({
+    queryKey: [QueryKey.Model.Detail, id],
+    queryFn: () => ModelsService.get.detail(id),
+    enabled: !!id,
+    staleTime: 1000 * 60 * 2,
+  });
+
+  return modelDetailQuery;
+};
