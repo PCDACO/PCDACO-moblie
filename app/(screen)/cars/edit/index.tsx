@@ -1,4 +1,5 @@
 import { Entypo, Feather } from '@expo/vector-icons';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
@@ -11,9 +12,11 @@ import CarDescription from '~/components/form/car-form/car-description';
 import CarImage from '~/components/form/car-form/car-image';
 import CarPreview from '~/components/form/car-form/car-preview';
 import CarPriceTerm from '~/components/form/car-form/car-price-term';
+import CarSpecifications from '~/components/form/car-form/car-specifications';
 import VehicleRegistration from '~/components/form/car-form/vehicle-registration';
 import { ProgressIndicator } from '~/components/nativewindui/ProgressIndicator';
 import { Text } from '~/components/nativewindui/Text';
+import Backdrop from '~/components/plugins/back-drop';
 import HeaderTitle from '~/components/screens/car-editor/header-title';
 import ErrorScreen from '~/components/screens/car-editor/status/error-screen';
 import LoadingScreen from '~/components/screens/car-editor/status/loading-screen';
@@ -30,16 +33,34 @@ const EditCarScreen: React.FC = () => {
 
   const { step, prevStep } = useStepStore();
   const [progress, setProgress] = React.useState<number>(0);
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
 
   const { form, checkConditionOfEachStep, isError, isSuccess, isLoading, onSubmit } = useCarForm({
     id: id as string,
   });
 
-  const totalStep = 7;
+  const totalStep = 8;
 
   React.useEffect(() => {
     setProgress((step / totalStep) * 100);
   }, [step]);
+
+  const sheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => ['1%', '45%'], []);
+
+  const handleSnapPress = React.useCallback((index: number) => {
+    sheetRef.current?.snapToIndex(index);
+    setIsSheetOpen(index === snapPoints.length - 1);
+  }, []);
+
+  const handleSheetChange = React.useCallback((index: number) => {
+    setIsSheetOpen(index === snapPoints.length - 1);
+  }, []);
+
+  const handleClosePress = React.useCallback(() => {
+    sheetRef.current?.close();
+    setIsSheetOpen(false);
+  }, []);
 
   React.useEffect(() => {
     if (data && data.value) {
@@ -106,11 +127,12 @@ const EditCarScreen: React.FC = () => {
         <View className=" rounded-lg" style={{ paddingBottom: 100 }}>
           {step === 1 && <CarImage form={form} />}
           {step === 2 && <CarBasicInfo form={form} />}
-          {step === 3 && <CarAmenity form={form} />}
-          {step === 4 && <CarDescription form={form} />}
-          {step === 5 && <CarPriceTerm form={form} />}
-          {step === 6 && <VehicleRegistration form={form} />}
-          {step === 7 && <CarPreview form={form} />}
+          {step === 3 && <CarSpecifications form={form} />}
+          {step === 4 && <CarAmenity form={form} />}
+          {step === 5 && <CarDescription form={form} />}
+          {step === 6 && <CarPriceTerm form={form} />}
+          {step === 7 && <VehicleRegistration form={form} />}
+          {step === 8 && <CarPreview form={form} />}
         </View>
       </ScrollView>
 
@@ -159,6 +181,21 @@ const EditCarScreen: React.FC = () => {
           </TouchableOpacity>
         )}
       </View>
+
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={snapPoints}
+        enableDynamicSizing={false}
+        backdropComponent={
+          isSheetOpen ? (props) => <Backdrop {...props} onPress={handleClosePress} /> : null
+        }
+        onChange={handleSheetChange}>
+        <BottomSheetView className="relative flex-1 bg-white dark:bg-slate-300">
+          <View>
+            <Text>Mẫu xe</Text>
+          </View>
+        </BottomSheetView>
+      </BottomSheet>
     </SafeAreaView>
   );
 };

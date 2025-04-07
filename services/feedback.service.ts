@@ -10,23 +10,15 @@ export const FeebackService = {
     current: async (
       params?: Partial<RootRequest>
     ): Promise<RootResponse<Pagination<FeedbackResponse>>> => {
-      try {
-        const response = await axiosInstance.get('/api/feedbacks/current-user', { params });
-        return response.data;
-      } catch (error: any) {
-        throw new Error(error);
-      }
+      const response = await axiosInstance.get('/api/feedbacks/current-user', { params });
+      return response.data;
     },
 
     byBooking: async (
       params?: Partial<FeedbackParams>
     ): Promise<RootResponse<Pagination<FeedbackResponse>>> => {
-      try {
-        const response = await axiosInstance.get('/api/feedbacks/by-booking', { params });
-        return response.data;
-      } catch (error: any) {
-        throw new Error(error);
-      }
+      const response = await axiosInstance.get('/api/feedbacks/by-booking', { params });
+      return response.data;
     },
   },
 
@@ -35,12 +27,8 @@ export const FeebackService = {
       id: string,
       payload: FeedbackPayload
     ): Promise<RootResponse<FeedbackResponse>> => {
-      try {
-        const response = await axiosInstance.post(`/api/booking/${id}/feedback`, payload);
-        return response.data;
-      } catch (error: any) {
-        throw new Error(error);
-      }
+      const response = await axiosInstance.post(`/api/booking/${id}/feedback`, payload);
+      return response.data;
     },
   },
 };

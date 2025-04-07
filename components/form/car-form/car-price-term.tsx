@@ -1,11 +1,11 @@
 import { Entypo } from '@expo/vector-icons';
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Controller } from 'react-hook-form';
 import { Text, View, TextInput } from 'react-native';
 
 import FieldLayout from '~/components/layouts/field-layout';
 import { Input } from '~/components/layouts/input-with-icon';
-import { Switch } from '~/components/nativewindui/Switch';
+// import { Switch } from '~/components/nativewindui/Switch';
 import Description from '~/components/screens/car-editor/description';
 import Subtitle from '~/components/screens/car-editor/subtitle';
 import { useCarForm } from '~/hooks/car/use-car-form';
@@ -16,6 +16,10 @@ interface CarPriceTermProps {
 }
 
 const CarPriceTerm: FunctionComponent<CarPriceTermProps> = ({ form }) => {
+  React.useEffect(() => {
+    form.setValue('requiresCollateral', true);
+  }, []);
+
   return (
     <View className=" gap-4 bg-white px-2 py-4 dark:bg-gray-900">
       <Subtitle title="Giá thuê" />
@@ -46,7 +50,7 @@ const CarPriceTerm: FunctionComponent<CarPriceTermProps> = ({ form }) => {
         )}
       </FieldLayout>
 
-      <View className="flex-row items-center justify-between rounded-lg border border-gray-200 p-4 dark:border-gray-800">
+      {/* <View className="flex-row items-center justify-between rounded-lg border border-gray-200 p-4 dark:border-gray-800">
         <View>
           <Text className="text-lg font-bold">Yêu cầu thế chấp</Text>
           <Description className="text-sm" title="Người thuê cần đặt cọc khi thuê xe" />
@@ -63,7 +67,7 @@ const CarPriceTerm: FunctionComponent<CarPriceTermProps> = ({ form }) => {
             )}
           />
         </View>
-      </View>
+      </View> */}
       <Subtitle title="Điều khoản" />
       <Description
         className="text-sm"

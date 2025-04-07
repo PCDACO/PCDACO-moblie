@@ -52,15 +52,15 @@ export default function RootLayout() {
         <BottomSheetModalProvider>
           <ActionSheetProvider>
             <NavThemeProvider value={NAV_THEME[colorScheme]}>
-              <AuthProvider>
-                <Stack screenOptions={SCREEN_OPTIONS}>
+              <Stack screenOptions={SCREEN_OPTIONS}>
+                <AuthProvider>
                   <Stack.Screen name="index" options={TAB_OPTIONS} />
                   <Stack.Screen name="(main)" options={TAB_OPTIONS} />
                   <Stack.Screen name="(auth)" options={TAB_OPTIONS} />
                   <Stack.Screen name="(screen)" options={TAB_OPTIONS} />
                   <Stack.Screen name="(second)" options={TAB_OPTIONS} />
-                </Stack>
-              </AuthProvider>
+                </AuthProvider>
+              </Stack>
             </NavThemeProvider>
           </ActionSheetProvider>
         </BottomSheetModalProvider>
@@ -72,6 +72,7 @@ export default function RootLayout() {
 
 const SCREEN_OPTIONS = {
   animation: 'ios_from_right',
+  headerShown: false,
 } as const;
 
 const TAB_OPTIONS = {

@@ -14,10 +14,17 @@ interface AuthProviderProps {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
   const { isValidating, validateToken } = useTokenValidation();
+  const [shouldRedirect, setShouldRedirect] = React.useState(false);
 
   React.useEffect(() => {
     validateToken();
   }, [validateToken]);
+
+  React.useEffect(() => {
+    if (!isAuthenticated && !isValidating) {
+      setShouldRedirect(true);
+    }
+  }, [isAuthenticated, isValidating]);
 
   if (isValidating) {
     return (
@@ -27,8 +34,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     );
   }
 
-  if (!isAuthenticated) {
-    return <Redirect href="/login" />;
+  if (shouldRedirect) {
+    return <Redirect href="/(auth)/login" />;
   }
 
   return <>{children}</>;

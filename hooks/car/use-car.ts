@@ -80,6 +80,7 @@ export const useCarQueries = ({ id, month, year }: UseCarQueriesParams) => {
           const response = await CarService.get.contact(id);
           return response || null;
         },
+        retry: 1,
         enabled: !!id,
       },
     ],

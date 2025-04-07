@@ -6,12 +6,8 @@ export const AmenityService = {
     list: async (
       params?: Partial<RootRequest>
     ): Promise<RootResponse<Pagination<AmenityResponseList>>> => {
-      try {
-        const response = await axiosInstance.get('/api/amenities', { params });
-        return response.data;
-      } catch (error: any) {
-        throw new Error(error);
-      }
+      const response = await axiosInstance.get('/api/amenities', { params });
+      return response.data;
     },
   },
 };

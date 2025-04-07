@@ -5,16 +5,12 @@ export const FuelService = {
   listFuel: async (
     request?: Partial<RootRequest>
   ): Promise<RootResponse<Pagination<FuelResponseList>>> => {
-    try {
-      const response = await axiosInstance.get<RootResponse<Pagination<FuelResponseList>>>(
-        `/api/fuel-types`,
-        {
-          params: request,
-        }
-      );
-      return response.data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    const response = await axiosInstance.get<RootResponse<Pagination<FuelResponseList>>>(
+      `/api/fuel-types`,
+      {
+        params: request,
+      }
+    );
+    return response.data;
   },
 };

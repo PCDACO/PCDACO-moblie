@@ -10,66 +10,39 @@ import {
 
 export const AuthService = {
   register: async (req: RegisterRequest): Promise<RootResponse<Token>> => {
-    try {
-      const response = await axiosInstance.post('/api/auth/signup', req);
-      return response.data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    const response = await axiosInstance.post('/api/auth/signup', req);
+    return response.data;
   },
 
   login: async (data: LoginRequest): Promise<RootResponse<Token>> => {
-    try {
-      const response = await axiosInstance.post('/api/auth/login', data);
-      return response.data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    const response = await axiosInstance.post('/api/auth/login', data);
+    return response.data;
   },
 
   refreshToken: async (refreshToken: string): Promise<RootResponse<Token>> => {
-    try {
-      const response = await axiosInstance.post('/api/auth/refresh-token', { refreshToken });
-
-      return response.data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    console.log('gọi api refresh token nè');
+    const response = await axiosInstance.post('/api/auth/refresh-token', { refreshToken });
+    console.log('trả dưới service nè', response);
+    return response.data;
   },
 
   validationToken: async (): Promise<RootResponse<null>> => {
-    try {
-      const response = await axiosInstance.post('/api/auth/validate-token');
-      return response.data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    const response = await axiosInstance.post('/api/auth/validate-token');
+    return response.data;
   },
 
   sendOtp: async (data: SendOtpRequest): Promise<RootResponse<null>> => {
-    try {
-      const response = await axiosInstance.post('/api/auth/send-otp', data);
-      return response.data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    const response = await axiosInstance.post('/api/auth/send-otp', data);
+    return response.data;
   },
 
   verifyOtp: async (data: VerifyOtpRequest): Promise<RootResponse<Token>> => {
-    try {
-      const response = await axiosInstance.post('/api/auth/verify-otp', data);
-      return response.data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    const response = await axiosInstance.post('/api/auth/verify-otp', data);
+    return response.data;
   },
 
   resetPassword: async (data: ResetPasswordRequest): Promise<RootResponse<null>> => {
-    try {
-      const response = await axiosInstance.post('/api/auth/reset-password', data);
-      return response.data;
-    } catch (error: any) {
-      throw new Error(error);
-    }
+    const response = await axiosInstance.post('/api/auth/reset-password', data);
+    return response.data;
   },
 };

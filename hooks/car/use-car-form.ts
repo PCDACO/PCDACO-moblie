@@ -51,12 +51,8 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
             'pickupAddress',
             'pickupLongitude',
             'pickupLatitude',
-            'fuelTypeId',
-            'transmissionTypeId',
             'licensePlate',
             'color',
-            'seat',
-            'fuelConsumption',
           ])
         );
         if (isValidate) {
@@ -65,34 +61,43 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
         return isValidate;
       }
       case 3: {
-        const isValidate = await validField(form.trigger(['amenityIds']));
+        const isValidate = await validField(
+          form.trigger(['fuelTypeId', 'transmissionTypeId', 'seat', 'fuelConsumption'])
+        );
         if (isValidate) {
           nextStep();
         }
         return isValidate;
       }
       case 4: {
-        const isValidate = await validField(form.trigger(['description']));
+        const isValidate = await validField(form.trigger(['amenityIds']));
         if (isValidate) {
           nextStep();
         }
         return isValidate;
       }
       case 5: {
-        const isValidate = await validField(form.trigger(['price', 'terms', 'requiresCollateral']));
+        const isValidate = await validField(form.trigger(['description']));
         if (isValidate) {
           nextStep();
         }
         return isValidate;
       }
       case 6: {
-        const isValidate = await validField(form.trigger(['paperImages']));
+        const isValidate = await validField(form.trigger(['price', 'terms', 'requiresCollateral']));
         if (isValidate) {
           nextStep();
         }
         return isValidate;
       }
       case 7: {
+        const isValidate = await validField(form.trigger(['paperImages']));
+        if (isValidate) {
+          nextStep();
+        }
+        return isValidate;
+      }
+      case 8: {
         nextStep();
       }
     }
