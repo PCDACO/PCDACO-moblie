@@ -1,22 +1,37 @@
-import * as SignalR from '@microsoft/signalr';
 import { useEffect } from 'react';
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+import { CarLocationResponse } from '~/constants/models/car.model';
+import SignalRService from '~/lib/signalr/location-hub';
 
-export const useSignalRLocation = (userId: string) => {
+export const useGetLocationCar = (
+  carId: string,
+  onReceive: (value: CarLocationResponse) => void
+) => {
   useEffect(() => {
-    const connection = new SignalR.HubConnectionBuilder()
-      .withUrl(`${API_URL}/location-hub`)
-      .withAutomaticReconnect()
-      .build();
-    connection.on('ReceiveLocation', (carId: string, latitude: number, longitude: number) => {
-      console.log(carId, latitude, longitude);
-    });
+    const signalR = SignalRService.getInstance();
+    const connection = signalR.getConnection();
 
-    connection.start();
+    const handleReceive = (value: CarLocationResponse) => {
+      if (value) {
+        onReceive(value);
+      }
+    };
+
+    connection.on('ReceiveCarLocation', handleReceive);
+
+    const start = async () => {
+      try {
+        await signalR.startConnection();
+        await connection.invoke('GetCarLocation', carId);
+      } catch (error) {
+        console.log('🚨 SignalR error:', error);
+      }
+    };
+
+    start();
 
     return () => {
-      connection.stop();
+      connection.off('ReceiveCarLocation', handleReceive);
     };
-  }, []);
+  }, [carId, onReceive]);
 };

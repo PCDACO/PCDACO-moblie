@@ -8,8 +8,7 @@ import { SearchInput } from '~/components/plugins/search-input';
 import { useLocationStore } from '~/store/use-location';
 import { useSearchStore } from '~/store/use-search';
 
-const accessToken =
-  'pk.eyJ1IjoiYW5odGh0MTM4IiwiYSI6ImNtOGExOHI2bDEwb2cybHF1M2l4aWxnNmsifQ.zqi0B4G5-tDF2HG0qSTk3Q';
+const accessToken = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 const MapScreen: FunctionComponent = () => {
   const router = useRouter();

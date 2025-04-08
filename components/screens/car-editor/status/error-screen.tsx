@@ -2,13 +2,17 @@ import { Feather } from '@expo/vector-icons';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import { translate } from '~/lib/translate';
+import { useStepStore } from '~/store/use-step';
 
 interface ErrorScreenProps {
   id?: string;
 }
 
 export default function ErrorScreen({ id }: ErrorScreenProps) {
-  const handleRetry = () => {};
+  const { setStep } = useStepStore();
+  const handleRetry = () => {
+    setStep(1);
+  };
 
   const handleContactSupport = () => {
     // In a real app, this would open a support chat or email

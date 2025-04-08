@@ -71,7 +71,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ image, name, role, user }
           {role && (
             <View className="flex-row items-center gap-2">
               <Feather size={20} name="user" color="#8E8E93" />
-              <Text className="text-base text-muted">Tài xế</Text>
+              <Text className="text-base text-muted">Chủ xe</Text>
             </View>
           )}
           <Text className="mt-2 italic text-gray-500">"Chọn xe chuẩn, hành trình trọn vẹn"</Text>

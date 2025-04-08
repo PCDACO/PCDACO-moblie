@@ -2,16 +2,22 @@ import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { useCarForm } from '~/hooks/car/use-car-form';
 
 import { translate } from '~/lib/translate';
+import { useStepStore } from '~/store/use-step';
 
 interface SuccessScreenProps {
   id?: string;
+  form: ReturnType<typeof useCarForm>['form'];
 }
 
-export default function SuccessScreen({ id }: SuccessScreenProps) {
+export default function SuccessScreen({ id, form }: SuccessScreenProps) {
+  const { setStep } = useStepStore();
   const router = useRouter();
   const handleNewCar = () => {
+    setStep(1);
+    form.reset();
     router.replace('/cars/edit');
   };
 

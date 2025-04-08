@@ -97,9 +97,6 @@ export const useCarForm = ({ id }: UseCarFormProps) => {
         }
         return isValidate;
       }
-      case 8: {
-        nextStep();
-      }
     }
   };
 
