@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import React, { FunctionComponent } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import { AddressSuggestions } from '~/components/plugins/address-suggestions';
 import { MapComponent } from '~/components/plugins/map-view';
@@ -10,6 +10,8 @@ import { useSearchStore } from '~/store/use-search';
 
 const accessToken =
   'pk.eyJ1IjoiYW5odGh0MTM4IiwiYSI6ImNtOGExOHI2bDEwb2cybHF1M2l4aWxnNmsifQ.zqi0B4G5-tDF2HG0qSTk3Q';
+
+const GeoApify = '102afaeaecf440baaaadfb78f8036389';
 
 const MapScreen: FunctionComponent = () => {
   const router = useRouter();
@@ -32,19 +34,42 @@ const MapScreen: FunctionComponent = () => {
 
   // Format address from feature
   const formatAddress = (feature: any): string => {
+    if (!feature) return '';
+
+    // For POIs and businesses, prioritize their names
+    const placeName = feature.text || '';
+    const properties = feature.properties || {};
+    const address = feature.address || '';
+
+    // Get all context elements
     const context = feature.context || [];
-    const streetNumber = feature.housenumber || '';
+    const streetNumber = feature.address || '';
     const street = feature.text || '';
     const district = context.find((c: any) => c.id.includes('district'))?.text || '';
     const commune = context.find((c: any) => c.id.includes('neighborhood'))?.text || '';
     const city = context.find((c: any) => c.id.includes('place'))?.text || '';
+    const region = context.find((c: any) => c.id.includes('region'))?.text || '';
 
+    // If it's a POI or business
+    if (feature.place_type?.includes('poi')) {
+      const parts = [placeName];
+      if (address) parts.push(address);
+      if (street && street !== placeName) parts.push(street);
+      if (commune) parts.push(commune);
+      if (district) parts.push(district);
+      if (city) parts.push(city);
+      if (region) parts.push(region);
+      return parts.join(', ');
+    }
+
+    // For regular addresses
     const parts = [];
     if (streetNumber) parts.push(streetNumber);
-    if (street) parts.push(street);
+    if (street && !parts.includes(street)) parts.push(street);
     if (commune) parts.push(commune);
     if (district) parts.push(district);
     if (city) parts.push(city);
+    if (region) parts.push(region);
 
     return parts.join(', ');
   };
@@ -60,23 +85,23 @@ const MapScreen: FunctionComponent = () => {
 
       setIsLoading(true);
       try {
-        console.log('Searching for:', searchKeyword);
         const response = await fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+          `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
             searchKeyword
-          )}.json?access_token=${accessToken}&country=VN&language=vi&types=address,place,locality,neighborhood&limit=10&autocomplete=true`
+          )}&format=json&filter=countrycode:vn&bias=proximity:106.6297,10.8231&limit=10&apiKey=${GeoApify}`
         );
-        const data = await response.json();
-        console.log('Search response:', data);
 
-        if (data.features && data.features.length > 0) {
-          const newSuggestions = data.features.map((feature: any) => ({
-            address: formatAddress(feature),
-            latitude: feature.center[1],
-            longitude: feature.center[0],
+        const data = await response.json();
+
+        if (data.results && data.results.length > 0) {
+          const newSuggestions = data.results.map((result: any) => ({
+            address: formatGeoapifyAddress(result),
+            latitude: result.lat,
+            longitude: result.lon,
+            placeName: result.formatted,
+            placeType: result.result_type,
           }));
 
-          console.log('New suggestions:', newSuggestions);
           setSuggestions(newSuggestions);
           setShowSuggestions(true);
         } else {
@@ -99,6 +124,20 @@ const MapScreen: FunctionComponent = () => {
 
     return () => clearTimeout(timeoutId);
   }, [searchKeyword]);
+
+  // Add this helper function to format the address
+  const formatGeoapifyAddress = (result: any): string => {
+    const parts = [];
+
+    if (result.name) parts.push(result.name);
+    if (result.street) parts.push(result.street);
+    if (result.district) parts.push(result.district);
+    if (result.city) parts.push(result.city);
+    if (result.state) parts.push(result.state);
+    if (result.country) parts.push(result.country);
+
+    return parts.join(', ');
+  };
 
   const handleLocationSelect = async (location: {
     latitude: number;
