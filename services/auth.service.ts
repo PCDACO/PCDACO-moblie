@@ -20,9 +20,7 @@ export const AuthService = {
   },
 
   refreshToken: async (refreshToken: string): Promise<RootResponse<Token>> => {
-    console.log('gọi api refresh token nè');
     const response = await axiosInstance.post('/api/auth/refresh-token', { refreshToken });
-    console.log('trả dưới service nè', response);
     return response.data;
   },
 
@@ -37,7 +35,7 @@ export const AuthService = {
   },
 
   verifyOtp: async (data: VerifyOtpRequest): Promise<RootResponse<Token>> => {
-    const response = await axiosInstance.post('/api/auth/verify-otp', data);
+    const response = await axiosInstance.post('/api/auth/validate-otp', data);
     return response.data;
   },
 

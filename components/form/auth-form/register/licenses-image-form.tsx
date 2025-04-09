@@ -5,6 +5,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 import FieldLayout from '~/components/layouts/field-layout';
 import CameraTakePicture from '~/components/plugins/camera-take-picture';
+import CardBasic from '~/components/plugins/card-basic';
 import { useLicenseForm } from '~/hooks/license/use-license-form';
 import { convertAssertToFile } from '~/lib/convert';
 import { useApiStore } from '~/store/check-endpoint';
@@ -18,7 +19,7 @@ interface RenderLicense {
 
 const renderLicense: React.FC<RenderLicense> = ({ image, onClear, isEdit = false, id }) => {
   return (
-    <View className="relative h-60">
+    <View className="relative h-60 rounded-lg border border-gray-200 shadow-lg">
       {(isEdit || !id) && (
         <TouchableOpacity className="absolute right-2 top-2 z-10" onPress={onClear}>
           <Icon name="x-circle" size={20} color="red" />
@@ -58,7 +59,7 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
   }, [licenseImageFront, licenseImageBack]);
 
   return (
-    <View className="gap-2">
+    <CardBasic className="gap-2">
       <View className="flex-row items-center gap-2">
         <Text className="text-2xl font-bold">Hình ảnh giấy phép lái xe</Text>
         {id && (
@@ -71,7 +72,7 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
                 removeEndpoint('edit-image');
               }
             }}>
-            <Feather name="edit" size={24} color={isEdit ? 'blue' : 'gray'} />
+            <Feather name="edit" size={16} color={isEdit ? 'blue' : 'gray'} />
           </TouchableOpacity>
         )}
       </View>
@@ -144,7 +145,7 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
           )}
         </FieldLayout>
       </View>
-    </View>
+    </CardBasic>
   );
 };
 

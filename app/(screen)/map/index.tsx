@@ -8,10 +8,8 @@ import { SearchInput } from '~/components/plugins/search-input';
 import { useLocationStore } from '~/store/use-location';
 import { useSearchStore } from '~/store/use-search';
 
-const accessToken =
-  'pk.eyJ1IjoiYW5odGh0MTM4IiwiYSI6ImNtOGExOHI2bDEwb2cybHF1M2l4aWxnNmsifQ.zqi0B4G5-tDF2HG0qSTk3Q';
-
-const GeoApify = '102afaeaecf440baaaadfb78f8036389';
+const GeoApifyUrl = process.env.EXPO_PUBLIC_GEOAPIFY_URL;
+const GeoApify = process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY;
 
 const MapScreen: FunctionComponent = () => {
   const router = useRouter();
@@ -32,48 +30,6 @@ const MapScreen: FunctionComponent = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const searchKeyword = useSearchStore((state) => state.searchKeyword);
 
-  // Format address from feature
-  const formatAddress = (feature: any): string => {
-    if (!feature) return '';
-
-    // For POIs and businesses, prioritize their names
-    const placeName = feature.text || '';
-    const properties = feature.properties || {};
-    const address = feature.address || '';
-
-    // Get all context elements
-    const context = feature.context || [];
-    const streetNumber = feature.address || '';
-    const street = feature.text || '';
-    const district = context.find((c: any) => c.id.includes('district'))?.text || '';
-    const commune = context.find((c: any) => c.id.includes('neighborhood'))?.text || '';
-    const city = context.find((c: any) => c.id.includes('place'))?.text || '';
-    const region = context.find((c: any) => c.id.includes('region'))?.text || '';
-
-    // If it's a POI or business
-    if (feature.place_type?.includes('poi')) {
-      const parts = [placeName];
-      if (address) parts.push(address);
-      if (street && street !== placeName) parts.push(street);
-      if (commune) parts.push(commune);
-      if (district) parts.push(district);
-      if (city) parts.push(city);
-      if (region) parts.push(region);
-      return parts.join(', ');
-    }
-
-    // For regular addresses
-    const parts = [];
-    if (streetNumber) parts.push(streetNumber);
-    if (street && !parts.includes(street)) parts.push(street);
-    if (commune) parts.push(commune);
-    if (district) parts.push(district);
-    if (city) parts.push(city);
-    if (region) parts.push(region);
-
-    return parts.join(', ');
-  };
-
   // Handle search location
   React.useEffect(() => {
     async function searchAddress() {
@@ -86,7 +42,7 @@ const MapScreen: FunctionComponent = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(
+          `${GeoApifyUrl}/geocode/autocomplete?text=${encodeURIComponent(
             searchKeyword
           )}&format=json&filter=countrycode:vn&bias=proximity:106.6297,10.8231&limit=10&apiKey=${GeoApify}`
         );

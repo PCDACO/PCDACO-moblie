@@ -40,6 +40,7 @@ const CarDetailScreen = () => {
   };
 
   const { id } = useLocalSearchParams();
+
   const { detailQuery, unavailableQuery, contactQuery } = useCarQueries({
     id: id as string,
     month: currentMonth,
@@ -58,7 +59,7 @@ const CarDetailScreen = () => {
   const isLoadingContact = contactQuery.isLoading;
 
   const sheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['1%', '13%'], []);
+  const snapPoints = React.useMemo(() => ['1%', car?.value.location ? '20%' : '13%'], [car]);
 
   const { slideAnim, panResponder } = usePanResponder();
 
@@ -172,55 +173,80 @@ const CarDetailScreen = () => {
         }
         onChange={handleSheetChange}>
         <BottomSheetView className="relative flex-1 bg-white dark:bg-slate-300">
-          <View className="absolute bottom-10 left-0 right-0 flex-row justify-between gap-2 px-4">
-            <Pressable
-              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2"
-              onPress={() => {
-                handleClosePress();
-                resetStep();
-                router.push({
-                  pathname: '/(screen)/cars/edit',
-                  params: {
-                    id: car?.value.id,
-                  },
-                });
-              }}>
-              <Ionicons name="create-outline" size={20} color="black" />
-              <Text>Thay đổi xe</Text>
-            </Pressable>
-            <Pressable
-              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-black p-2"
-              onPress={() => {
-                handleClosePress();
-                router.push({
-                  pathname: '/(screen)/cars/availability/[id]',
-                  params: {
-                    id: car?.value.id || '',
-                  },
-                });
-              }}>
-              <Ionicons name="time-outline" size={20} color="white" />
-              <Text className="text-white">Thời gian</Text>
-            </Pressable>
-            <Pressable
-              className={cn(
-                'flex-row items-center justify-center gap-2 rounded-full border border-gray-400 p-2',
-                car?.value.status === CarStatus.Available ? 'bg-red-400' : 'bg-green-400'
-              )}
-              onPress={() => {
-                handleClosePress();
-                handleToggleCarStatus(
-                  car?.value.status === CarStatus.Available
-                    ? CarStatus.Inactive
-                    : CarStatus.Available
-                );
-              }}>
-              <Ionicons
-                name={car?.value.status === CarStatus.Available ? 'power-outline' : 'power'}
-                size={20}
-                color={COLORS.white}
-              />
-            </Pressable>
+          <View className="absolute bottom-10 left-0 right-0 gap-2 px-4">
+            <View className="flex-1 flex-row justify-between gap-2 ">
+              <Pressable
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2"
+                onPress={() => {
+                  handleClosePress();
+                  resetStep();
+                  router.push({
+                    pathname: '/(screen)/cars/edit',
+                    params: {
+                      id: car?.value.id,
+                    },
+                  });
+                }}>
+                <Ionicons name="create-outline" size={20} color="black" />
+                <Text>Thay đổi xe</Text>
+              </Pressable>
+              <Pressable
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-black p-2"
+                onPress={() => {
+                  handleClosePress();
+                  router.push({
+                    pathname: '/(screen)/cars/availability/[id]',
+                    params: {
+                      id: car?.value.id || '',
+                    },
+                  });
+                }}>
+                <Ionicons name="time-outline" size={20} color="white" />
+                <Text className="text-white">Thời gian</Text>
+              </Pressable>
+              <Pressable
+                className={cn(
+                  'flex-row items-center justify-center gap-2 rounded-full border border-gray-400 p-2',
+                  car?.value.status === CarStatus.Available && 'bg-red-400',
+                  car?.value.status === CarStatus.Inactive && 'bg-green-400',
+                  car?.value.status !== CarStatus.Available &&
+                    car?.value.status !== CarStatus.Inactive &&
+                    'bg-gray-200'
+                )}
+                disabled={
+                  car?.value.status === CarStatus.Available ||
+                  car?.value.status === CarStatus.Inactive
+                }
+                onPress={() => {
+                  handleClosePress();
+                  handleToggleCarStatus(
+                    car?.value.status === CarStatus.Available
+                      ? CarStatus.Inactive
+                      : CarStatus.Available
+                  );
+                }}>
+                <Ionicons
+                  name={car?.value.status === CarStatus.Available ? 'power-outline' : 'power'}
+                  size={20}
+                  color={COLORS.white}
+                />
+              </Pressable>
+            </View>
+            {car?.value.location && (
+              <Pressable
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2"
+                onPress={() => {
+                  router.push({
+                    pathname: '/(screen)/map/view',
+                    params: {
+                      id: car?.value.id,
+                    },
+                  });
+                }}>
+                <Ionicons name="map-outline" size={20} color="black" />
+                <Text>Kiểm tra vị trí xe</Text>
+              </Pressable>
+            )}
           </View>
         </BottomSheetView>
       </BottomSheet>

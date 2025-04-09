@@ -45,6 +45,12 @@ export const useAuth = () => {
     mutationKey: [QueryKey.Auth.ResetPassword],
     mutationFn: async (payload: ResetPasswordRequest) => await AuthService.resetPassword(payload),
   });
+
+  const forgetPasswordMutation = useMutation({
+    mutationKey: [QueryKey.Auth.ForgetPassword],
+    mutationFn: async (payload: ResetPasswordRequest) => await AuthService.resetPassword(payload),
+  });
+
   return {
     loginMutation,
     registerMutation,
@@ -53,5 +59,6 @@ export const useAuth = () => {
     sendOtpMutation,
     verifyOtpMutation,
     resetPasswordMutation,
+    forgetPasswordMutation,
   };
 };

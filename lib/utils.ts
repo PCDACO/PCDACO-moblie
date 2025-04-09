@@ -17,3 +17,9 @@ export const createFormData = (payload: Record<string, File[]>) => {
   });
   return formData;
 };
+
+export const getImageUrl = (url: string) => {
+  if (!url) return '';
+  const timestamp = new Date().getTime();
+  return `${url}${url.includes('?') ? '&' : '?'}_=${timestamp}`;
+};

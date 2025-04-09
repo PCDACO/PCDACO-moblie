@@ -19,7 +19,6 @@ import { Text } from '~/components/nativewindui/Text';
 import Backdrop from '~/components/plugins/back-drop';
 import HeaderTitle from '~/components/screens/car-editor/header-title';
 import SelectModel from '~/components/screens/car-editor/select-model';
-import ErrorScreen from '~/components/screens/car-editor/status/error-screen';
 import LoadingScreen from '~/components/screens/car-editor/status/loading-screen';
 import SuccessScreen from '~/components/screens/car-editor/status/success-screen';
 import { useCarDetailQuery } from '~/hooks/car/use-car';
@@ -36,7 +35,7 @@ const EditCarScreen: React.FC = () => {
   const [progress, setProgress] = React.useState<number>(0);
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
 
-  const { form, checkConditionOfEachStep, isError, isSuccess, isLoading, onSubmit } = useCarForm({
+  const { form, checkConditionOfEachStep, isSuccess, isLoading, onSubmit } = useCarForm({
     id: id as string,
   });
 
@@ -45,6 +44,14 @@ const EditCarScreen: React.FC = () => {
   React.useEffect(() => {
     setProgress((step / totalStep) * 100);
   }, [step]);
+
+  // React.useEffect(() => {
+  //   if (step === 9 && isError) {
+  //     setError(true);
+  //   } else {
+  //     setError(false);
+  //   }
+  // }, [isError, step]);
 
   const sheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ['1%', '75%'], []);
@@ -108,12 +115,12 @@ const EditCarScreen: React.FC = () => {
     return <LoadingScreen />;
   }
 
-  if (isError) {
-    return <ErrorScreen id={id as string} />;
-  }
+  // if (error) {
+  //   return <ErrorScreen id={id as string} />;
+  // }
 
   if (isSuccess) {
-    return <SuccessScreen id={id as string} />;
+    return <SuccessScreen id={id as string} form={form} />;
   }
 
   return (

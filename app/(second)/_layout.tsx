@@ -34,9 +34,10 @@ export default function SecondLayout() {
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === 'wallet') {
-            iconName = 'wallet';
-          } else if (route.name === 'transaction') {
+          // if (route.name === 'wallet') {
+          //   iconName = 'wallet';
+          // } else
+          if (route.name === 'transaction') {
             iconName = 'swap-horizontal';
           } else if (route.name === 'bank-account') {
             iconName = 'card';
@@ -47,14 +48,14 @@ export default function SecondLayout() {
         tabBarActiveTintColor: '#007AFF',
         tabBarInactiveTintColor: 'gray',
       })}>
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="wallet"
         options={{
           tabBarLabel: 'Ví',
           title: 'Ví của tôi',
           animation: 'shift',
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="transaction"
         options={{

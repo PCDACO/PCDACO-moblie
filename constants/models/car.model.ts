@@ -5,6 +5,12 @@ export interface CarContactAssignResponse {
   status: string;
 }
 
+export interface CarLocationResponse {
+  latitude: number;
+  longitude: number;
+  updatedAt: Date;
+}
+
 export interface CarStatusResponse {
   id: string;
   status: string;
