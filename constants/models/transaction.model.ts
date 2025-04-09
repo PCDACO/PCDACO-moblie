@@ -19,7 +19,7 @@ export interface TransactionResponse {
   createdAt: Date;
   status: string;
   details: Details;
-  proofUrl: string;
+  prooUrl: string;
 }
 
 export interface Details {

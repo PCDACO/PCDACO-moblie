@@ -22,7 +22,6 @@ import { CarStatus } from '~/constants/enums';
 import { CarDetailResponse } from '~/constants/models/car.model';
 import { useCarQueries } from '~/hooks/car/use-car';
 import { useToggleCarStatus } from '~/hooks/car/use-toggle-car-status';
-import { useGetLocationCar } from '~/hooks/plugins/use-get-location';
 import { usePanResponder } from '~/hooks/plugins/use-pan-responder';
 import { cn } from '~/lib/cn';
 import { useStepStore } from '~/store/use-step';
@@ -30,11 +29,6 @@ import { COLORS } from '~/theme/colors';
 
 const CarDetailScreen = () => {
   const { resetStep } = useStepStore();
-  // const [locationData, setLocationData] = React.useState<{
-  //   carId: string;
-  //   latitude: number;
-  //   longitude: number;
-  // } | null>(null);
 
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
@@ -47,9 +41,6 @@ const CarDetailScreen = () => {
 
   const { id } = useLocalSearchParams();
 
-  useGetLocationCar(id as string, (value) => {
-    console.log('value', value);
-  });
   const { detailQuery, unavailableQuery, contactQuery } = useCarQueries({
     id: id as string,
     month: currentMonth,
@@ -68,7 +59,7 @@ const CarDetailScreen = () => {
   const isLoadingContact = contactQuery.isLoading;
 
   const sheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['1%', '20%'], []);
+  const snapPoints = React.useMemo(() => ['1%', car?.value.location ? '20%' : '13%'], [car]);
 
   const { slideAnim, panResponder } = usePanResponder();
 
@@ -216,8 +207,16 @@ const CarDetailScreen = () => {
               <Pressable
                 className={cn(
                   'flex-row items-center justify-center gap-2 rounded-full border border-gray-400 p-2',
-                  car?.value.status === CarStatus.Available ? 'bg-red-400' : 'bg-green-400'
+                  car?.value.status === CarStatus.Available && 'bg-red-400',
+                  car?.value.status === CarStatus.Inactive && 'bg-green-400',
+                  car?.value.status !== CarStatus.Available &&
+                    car?.value.status !== CarStatus.Inactive &&
+                    'bg-gray-200'
                 )}
+                disabled={
+                  car?.value.status === CarStatus.Available ||
+                  car?.value.status === CarStatus.Inactive
+                }
                 onPress={() => {
                   handleClosePress();
                   handleToggleCarStatus(
@@ -233,21 +232,21 @@ const CarDetailScreen = () => {
                 />
               </Pressable>
             </View>
-            <Pressable
-              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2"
-              onPress={() => {
-                handleClosePress();
-                resetStep();
-                router.push({
-                  pathname: '/(screen)/cars/edit',
-                  params: {
-                    id: car?.value.id,
-                  },
-                });
-              }}>
-              <Ionicons name="map-outline" size={20} color="black" />
-              <Text>Kiểm tra vị trí xe</Text>
-            </Pressable>
+            {car?.value.location && (
+              <Pressable
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2"
+                onPress={() => {
+                  router.push({
+                    pathname: '/(screen)/map/view',
+                    params: {
+                      id: car?.value.id,
+                    },
+                  });
+                }}>
+                <Ionicons name="map-outline" size={20} color="black" />
+                <Text>Kiểm tra vị trí xe</Text>
+              </Pressable>
+            )}
           </View>
         </BottomSheetView>
       </BottomSheet>

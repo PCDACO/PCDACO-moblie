@@ -10,7 +10,9 @@ import {
 
 export const TransactionService = {
   get: {
-    withdraw: async (params: Partial<WithdrawParams>): Promise<WithdrawResponse> => {
+    withdraw: async (
+      params: Partial<WithdrawParams>
+    ): Promise<RootResponse<Pagination<WithdrawResponse>>> => {
       const response = await axiosInstance.get('/api/withdrawals', { params });
       return response.data;
     },

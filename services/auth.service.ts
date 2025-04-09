@@ -35,7 +35,7 @@ export const AuthService = {
   },
 
   verifyOtp: async (data: VerifyOtpRequest): Promise<RootResponse<Token>> => {
-    const response = await axiosInstance.post('/api/auth/verify-otp', data);
+    const response = await axiosInstance.post('/api/auth/validate-otp', data);
     return response.data;
   },
 

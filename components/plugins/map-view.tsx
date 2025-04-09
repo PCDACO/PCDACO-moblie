@@ -4,18 +4,17 @@ import * as Location from 'expo-location';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-const accessToken =
-  'pk.eyJ1IjoiYW5odGh0MTM4IiwiYSI6ImNtOGExOHI2bDEwb2cybHF1M2l4aWxnNmsifQ.zqi0B4G5-tDF2HG0qSTk3Q';
+const accessToken = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
-Mapbox.setAccessToken(accessToken);
+Mapbox.setAccessToken(accessToken ?? '');
 
 interface MapComponentProps {
   onLocationSelect: (location: { latitude: number; longitude: number; address: string }) => void;
-  selectedLocation: {
+  selectedLocation: Partial<{
     latitude: number;
     longitude: number;
     address: string;
-  } | null;
+  }> | null;
   enabled?: boolean;
   pointerEvents?: 'none' | 'auto' | 'box-none' | 'box-only';
 }
@@ -114,8 +113,8 @@ export const MapComponent: FunctionComponent<MapComponentProps> = ({
   useEffect(() => {
     if (selectedLocation) {
       setRegion({
-        latitude: selectedLocation.latitude,
-        longitude: selectedLocation.longitude,
+        latitude: selectedLocation.latitude ?? 10.762622,
+        longitude: selectedLocation.longitude ?? 106.660172,
         zoomLevel: 12,
       });
     }
@@ -159,7 +158,10 @@ export const MapComponent: FunctionComponent<MapComponentProps> = ({
         {selectedLocation && (
           <PointAnnotation
             id="selectedLocation"
-            coordinate={[selectedLocation.longitude, selectedLocation.latitude]}
+            coordinate={[
+              selectedLocation.longitude ?? 106.660172,
+              selectedLocation.latitude ?? 10.762622,
+            ]}
             title={selectedLocation.address}>
             <Ionicons name="location-sharp" size={24} color="red" />
           </PointAnnotation>

@@ -8,6 +8,7 @@ import Subtitle from '~/components/screens/car-editor/subtitle';
 import { CarDetailResponse } from '~/constants/models/car.model';
 import { useCarForm } from '~/hooks/car/use-car-form';
 import { convertAssertToFile } from '~/lib/convert';
+import { getImageUrl } from '~/lib/utils';
 
 interface CarImageProps {
   form: ReturnType<typeof useCarForm>['form'];
@@ -67,7 +68,7 @@ const CarImage: FunctionComponent<CarImageProps> = ({ form, carImages }) => {
             renderItem={({ item }) => (
               <View className="relative h-60">
                 <Image
-                  source={{ uri: item }}
+                  source={{ uri: getImageUrl(item) }}
                   style={{ width: viewWidth }}
                   className="h-60 rounded-lg object-cover shadow-lg"
                 />

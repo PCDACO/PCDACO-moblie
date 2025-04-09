@@ -11,6 +11,7 @@ export const QueryKey = {
     SendOtp: 'SendOtp',
     VerifyOtp: 'VerifyOtp',
     ResetPassword: 'ResetPassword',
+    ForgetPassword: 'ForgetPassword',
   },
 
   Transaction: {

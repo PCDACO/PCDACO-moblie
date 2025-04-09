@@ -53,3 +53,23 @@ export const useInfiniteTransactions = (params: Partial<TransactionParams>) => {
     enabled: !!params,
   });
 };
+
+export const useInfiniteWithdraw = (params: Partial<WithdrawParams>) => {
+  return useInfiniteQuery({
+    queryKey: [QueryKey.Transaction.Withdraw, 'infinite', params],
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await TransactionService.get.withdraw({
+        ...params,
+        index: pageParam,
+        size: 10,
+      });
+      return response;
+    },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      if (!lastPage.value?.hasNext) return undefined;
+      return allPages.length + 1;
+    },
+    enabled: !!params,
+  });
+};

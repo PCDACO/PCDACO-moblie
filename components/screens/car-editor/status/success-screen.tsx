@@ -2,8 +2,8 @@ import { Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useCarForm } from '~/hooks/car/use-car-form';
 
+import { useCarForm } from '~/hooks/car/use-car-form';
 import { translate } from '~/lib/translate';
 import { useStepStore } from '~/store/use-step';
 

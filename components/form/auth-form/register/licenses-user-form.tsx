@@ -7,6 +7,7 @@ import { Platform, Text, TouchableOpacity, View } from 'react-native';
 
 import FieldLayout from '~/components/layouts/field-layout';
 import { Input } from '~/components/layouts/input-with-icon';
+import CardBasic from '~/components/plugins/card-basic';
 import { useLicenseForm } from '~/hooks/license/use-license-form';
 import { cn } from '~/lib/cn';
 import { DateFormat, formatDateToString } from '~/lib/format';
@@ -39,7 +40,7 @@ const LicensesUserForm: React.FC<LicensesUserFormProps> = ({
   }, [licenseNumber, expirationDate]);
 
   return (
-    <View className="gap-2">
+    <CardBasic className="gap-2">
       <View className="flex-row items-center gap-2">
         <Text className="text-2xl font-bold">Thông tin giấy phép lái xe</Text>
         {id && (
@@ -52,7 +53,7 @@ const LicensesUserForm: React.FC<LicensesUserFormProps> = ({
                 removeEndpoint('edit-info');
               }
             }}>
-            <Feather name="edit" size={24} color={isEdit ? 'blue' : 'gray'} />
+            <Feather name="edit" size={16} color={isEdit ? 'blue' : 'gray'} />
           </TouchableOpacity>
         )}
       </View>
@@ -138,7 +139,7 @@ const LicensesUserForm: React.FC<LicensesUserFormProps> = ({
           )}
         </FieldLayout>
       </View>
-    </View>
+    </CardBasic>
   );
 };
 

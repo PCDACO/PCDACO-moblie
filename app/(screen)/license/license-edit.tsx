@@ -33,7 +33,11 @@ const LicenseEdit = () => {
         <Header title={data?.value?.userId ? 'Chỉnh sửa bằng lái xe' : 'Thêm bằng lái xe'} />
         <ScrollView className="h-screen ">
           {/* form */}
-          <View className="w-full gap-6 p-4">
+          <View
+            className="w-full gap-6 p-2"
+            style={{
+              paddingBottom: 50,
+            }}>
             <LicensesUserForm
               form={form}
               licenseNumber={data?.value?.licenseNumber}
