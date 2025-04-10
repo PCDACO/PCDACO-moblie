@@ -1,5 +1,5 @@
 import { FunctionComponent, useState, useCallback } from 'react';
-import { Text, View, Animated, Image, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { Text, View, Image, LayoutAnimation, Platform, UIManager } from 'react-native';
 
 import CardBasic from '~/components/plugins/card-basic';
 import { TransactionResponse } from '~/constants/models/transaction.model';

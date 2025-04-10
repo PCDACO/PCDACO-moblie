@@ -110,4 +110,10 @@ export const translate = {
       withdraw_error: 'Rút tiền thất bại!',
     },
   },
+
+  user: {
+    toast: {
+      update_avatar: 'Cập nhật ảnh đại diện thành công!',
+    },
+  },
 };
