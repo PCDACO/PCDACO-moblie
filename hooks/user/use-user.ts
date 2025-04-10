@@ -1,7 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { ToastAndroid } from 'react-native';
 
 import { UserPasswordPayload, UserPayload } from '~/constants/models/user.model';
 import { QueryKey } from '~/lib/query-key';
+import { translate } from '~/lib/translate';
 import { UserService } from '~/services/user.service';
 
 export const useUserQuery = () => {
@@ -36,8 +38,8 @@ export const useUserMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.User.Current] });
     },
-    onError: (error) => {
-      console.log(error);
+    onError: (error: any) => {
+      ToastAndroid.show(error.response.data.message, ToastAndroid.SHORT);
     },
   });
 
@@ -48,8 +50,8 @@ export const useUserMutation = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.User.Current] });
     },
-    onError: (error) => {
-      console.log(error);
+    onError: (error: any) => {
+      ToastAndroid.show(error.response.data.message, ToastAndroid.SHORT);
     },
   });
 
@@ -59,9 +61,10 @@ export const useUserMutation = () => {
       await UserService.patch.avatar(id, avatar),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: [QueryKey.User.Current] });
+      ToastAndroid.show(translate.user.toast.update_avatar, ToastAndroid.SHORT);
     },
-    onError: (error) => {
-      console.error(error);
+    onError: (error: any) => {
+      ToastAndroid.show(error.response.data.message, ToastAndroid.SHORT);
     },
   });
 
