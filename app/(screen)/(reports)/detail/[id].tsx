@@ -11,7 +11,7 @@ import ReportBasicInfo from '~/components/screens/report-detail/report-basic-inf
 import ReportBookInfo from '~/components/screens/report-detail/report-book-info';
 import ReportCarInfo from '~/components/screens/report-detail/report-car-info';
 import ReportGallery from '~/components/screens/report-detail/report-gallery';
-import { Role } from '~/constants/enums';
+import { BookingReportStatusNumber, Role } from '~/constants/enums';
 import { useReportDetailQuery } from '~/hooks/report/use-report';
 import { useReportProofForm } from '~/hooks/report/use-report-proof-form';
 
@@ -89,25 +89,33 @@ const ReportDetailScreen: FunctionComponent = () => {
               status={reportDetail?.status || 0}
             />
             <ReportGallery imageUrls={reportDetail?.imageUrls || []} />
-            {reportDetail?.reporterRole !== Role.Owner && <ReportProofForm form={form} />}
+            <ReportProofForm
+              form={form}
+              role={reportDetail?.reporterRole || ''}
+              imageUrl={reportDetail?.compensationDetail?.imageUrl || ''}
+              compensationReason={reportDetail?.compensationDetail?.compensationReason || ''}
+              compensationAmount={reportDetail?.compensationDetail?.compensationAmount || 0}
+              isPaid={reportDetail?.compensationDetail?.isPaid || false}
+            />
           </View>
         </View>
       </ScrollView>
 
-      {reportDetail?.reporterRole !== Role.Owner && (
-        <View className="absolute bottom-0 left-0 right-0 z-20 bg-white p-4 dark:bg-slate-900">
-          <Button onPress={onSubmit} disabled={isLoading}>
-            {isLoading ? (
-              <>
-                <Loading size="small" />
-                <Text>Đang xử lý...</Text>
-              </>
-            ) : (
-              <Text>Xác nhận</Text>
-            )}
-          </Button>
-        </View>
-      )}
+      {reportDetail?.reporterRole !== Role.Owner &&
+        reportDetail?.compensationDetail?.imageUrl === '' && (
+          <View className="absolute bottom-0 left-0 right-0 z-20 bg-white p-4 dark:bg-slate-900">
+            <Button onPress={onSubmit} disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loading size="small" />
+                  <Text>Đang xử lý...</Text>
+                </>
+              ) : (
+                <Text>Xác nhận</Text>
+              )}
+            </Button>
+          </View>
+        )}
     </View>
   );
 };
