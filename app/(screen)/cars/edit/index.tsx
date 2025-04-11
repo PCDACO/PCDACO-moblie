@@ -115,10 +115,6 @@ const EditCarScreen: React.FC = () => {
     return <LoadingScreen />;
   }
 
-  // if (error) {
-  //   return <ErrorScreen id={id as string} />;
-  // }
-
   if (isSuccess) {
     return <SuccessScreen id={id as string} form={form} />;
   }
@@ -131,7 +127,7 @@ const EditCarScreen: React.FC = () => {
           className="absolute bottom-1 left-2 z-10 p-2">
           <Feather name="arrow-left" size={24} color="black" />
         </TouchableOpacity>
-        <HeaderTitle title={id ? 'Chỉnh sửa xe' : 'Tạo xe'} />
+        <HeaderTitle title={id ? 'Chỉnh sửa hồ sơ xe' : 'Tạo hồ sơ xe'} />
         <ProgressIndicator value={progress} />
       </View>
 

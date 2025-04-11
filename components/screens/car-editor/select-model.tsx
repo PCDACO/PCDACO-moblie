@@ -7,6 +7,7 @@ import Loading from '~/components/plugins/loading';
 import { useCarForm } from '~/hooks/car/use-car-form';
 import { useModelQuery } from '~/hooks/models/use-model';
 import useDebounce from '~/hooks/plugins/use-debounce';
+import { cn } from '~/lib/cn';
 
 interface SelectModelProps {
   onClose: () => void;
@@ -23,7 +24,7 @@ const SelectModel: FunctionComponent<SelectModelProps> = ({ onClose, form }) => 
   });
 
   return (
-    <View className="p-4">
+    <View className="relative flex-1 gap-2 p-4">
       <Input
         placeholder="Tìm kiếm mẫu xe"
         value={searchModel}
@@ -34,17 +35,31 @@ const SelectModel: FunctionComponent<SelectModelProps> = ({ onClose, form }) => 
       {isLoadingModel ? (
         <Loading />
       ) : (
-        <View className="rounded-lg border border-gray-300">
+        <View className="rounded-lg border border-gray-300 ">
           <FlatList
             data={modelData?.value.items}
             renderItem={({ item }) => (
               <Pressable
-                className={`p-2 ${selectedModel === item.id ? 'bg-primary' : ''}`}
+                className={cn(
+                  'flex-row items-center gap-2 p-2',
+                  selectedModel === item.id && 'bg-primary'
+                )}
                 onPress={() => {
                   setSelectedModel(item.id);
                   setSearchModel(item.name);
                 }}>
-                <Text className="text-foreground">{item.name}</Text>
+                <Text
+                  className={cn(selectedModel === item.id ? 'text-background' : 'text-foreground')}>
+                  {item.name}
+                </Text>
+                <Text
+                  className={cn(selectedModel === item.id ? 'text-background' : 'text-gray-500')}>
+                  -
+                </Text>
+                <Text
+                  className={cn(selectedModel === item.id ? 'text-background' : 'text-gray-500')}>
+                  {item.manufacturer.name}
+                </Text>
               </Pressable>
             )}
             keyExtractor={(item) => item.id}
@@ -53,14 +68,17 @@ const SelectModel: FunctionComponent<SelectModelProps> = ({ onClose, form }) => 
         </View>
       )}
 
-      <TouchableOpacity
-        className="rounded-lg bg-primary p-2"
-        onPress={() => {
-          form.setValue('modelId', selectedModel);
-          onClose();
-        }}>
-        <Text className="text-background">Chọn mẫu xe</Text>
-      </TouchableOpacity>
+      <View className="absolute bottom-2 left-0 right-0 z-10 p-4 dark:bg-slate-900">
+        <TouchableOpacity
+          className="flex-row items-center justify-center gap-2 rounded-lg bg-primary p-2"
+          onPress={() => {
+            form.setValue('modelId', selectedModel);
+            onClose();
+          }}>
+          <Feather name="check" size={20} color="white" />
+          <Text className="text-background">Chọn mẫu xe</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

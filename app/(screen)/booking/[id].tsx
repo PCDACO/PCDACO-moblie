@@ -1,7 +1,7 @@
 import { Feather } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as React from 'react';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View, RefreshControl } from 'react-native';
 
 import { Text } from '~/components/nativewindui/Text';
 import Loading from '~/components/plugins/loading';
@@ -17,8 +17,19 @@ import { COLORS } from '~/theme/colors';
 
 const BookingScreen = () => {
   const { id } = useLocalSearchParams();
-  const { data: bookingDetail, isLoading } = useBookingDetailQuery(id as string);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+
+  const { data: bookingDetail, isLoading, refetch } = useBookingDetailQuery(id as string);
   const { handleApproveOrRejectBooking } = useApproveOrRejectBooking({ id: id as string });
+
+  const handleRefresh = async () => {
+    try {
+      setIsRefreshing(true);
+      await refetch();
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   const bookDetail = bookingDetail?.value;
 
@@ -35,7 +46,9 @@ const BookingScreen = () => {
       <View>
         <BookHeader id={id as string} />
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}>
           <View className=" flex-1 gap-2 p-2" style={{ paddingBottom: 180 }}>
             <CarInfo
               car={

@@ -7,6 +7,7 @@ import { useLicenseMutation } from './use-license';
 import { LicenseImagesPayload, LicensePayload } from '~/constants/models/license.model';
 import { LicensePayloadSchema, licenseSchema } from '~/constants/schemas/license.schema';
 import { useApiStore } from '~/store/check-endpoint';
+import { router } from 'expo-router';
 
 interface LicenseFormProps {
   id?: string;
@@ -54,6 +55,10 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
                       'Cập nhật thành công hình ảnh giấy phép lái xe',
                       ToastAndroid.SHORT
                     );
+
+                    setTimeout(() => {
+                      router.back();
+                    }, 3000);
                   },
                   onError: (error: any) => {
                     removeEndpoint('edit-image');
@@ -74,6 +79,10 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
             onSuccess: () => {
               resetEndpoints();
               ToastAndroid.show('Cập nhật thành công giấy phép lái xe', ToastAndroid.SHORT);
+
+              setTimeout(() => {
+                router.back();
+              }, 3000);
             },
             onError: (error: any) => {
               ToastAndroid.show(`${error.response.data.message}`, ToastAndroid.SHORT);
@@ -90,6 +99,10 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
                 'Cập nhật thành công hình ảnh giấy phép lái xe',
                 ToastAndroid.SHORT
               );
+
+              setTimeout(() => {
+                router.back();
+              }, 3000);
             },
             onError: (error: any) => {
               ToastAndroid.show(`${error.response.data.message}`, ToastAndroid.SHORT);
@@ -107,6 +120,10 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
               onSuccess: () => {
                 resetEndpoints();
                 ToastAndroid.show('Tạo thành công hình ảnh giấy phép lái xe', ToastAndroid.SHORT);
+
+                setTimeout(() => {
+                  router.back();
+                }, 3000);
               },
               onError: (error: any) => {
                 removeEndpoint('create-image');

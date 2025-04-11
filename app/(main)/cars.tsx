@@ -22,13 +22,27 @@ const CarsScreen = () => {
   const { resetStep } = useStepStore();
   const { params } = useCarParamsStore();
   const { searchKeyword } = useSearchStore();
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
 
-  const { data: cars, isLoading } = useCarQuery({
+  const {
+    data: cars,
+    isLoading,
+    refetch,
+  } = useCarQuery({
     params: {
       ...params,
       keyword: searchKeyword,
     },
   });
+
+  const handleRefresh = async () => {
+    try {
+      setIsRefreshing(true);
+      await refetch();
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   const { deleteMutation } = useCarMutation();
 
@@ -84,6 +98,8 @@ const CarsScreen = () => {
             data={cars?.value.items}
             renderItem={({ item }) => <CarCard car={item} onDelete={handleAskDelete} />}
             keyExtractor={(item) => item.id}
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
             contentContainerStyle={{
               paddingHorizontal: 16,
               paddingTop: 16,

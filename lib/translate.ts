@@ -10,7 +10,7 @@ export const translate = {
       contract: {
         pending: 'Chờ ký',
         owner_signed: 'Chủ xe ký',
-        technician_signed: 'Chờ kỹ sư ký',
+        technician_signed: 'Chờ kỹ thuật viên ký',
         completed: 'Đã ký',
         rejected: 'Đã từ chối',
       },

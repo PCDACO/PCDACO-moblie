@@ -159,10 +159,12 @@ export const useAuthForm = ({ type }: UseAuthFormProps) => {
       case 'register':
         registerMutation.mutate(data as RegisterPayload, {
           onSuccess: async (data) => {
-            nextStep();
             await setTokens(data.value.accessToken, data.value.refreshToken);
             setIsAuthenticated(true);
             ToastAndroid.show('Đăng ký thành công', ToastAndroid.SHORT);
+            setTimeout(() => {
+              nextStep();
+            }, 1000);
           },
           onError: (error: any) => {
             setIsAuthenticated(false);
