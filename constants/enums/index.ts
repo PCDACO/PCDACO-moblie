@@ -97,3 +97,21 @@ export enum TransactionStatus {
   Failed = 'Failed',
   Cancelled = 'Cancelled',
 }
+
+export enum ScheduleStatus {
+  Pending = 'Pending',
+  Approved = 'Approved',
+  Rejected = 'Rejected',
+  InProgress = 'InProgress',
+  Expired = 'Expired',
+  Signed = 'Signed',
+}
+
+export enum ScheduleStatusNumber {
+  Pending = 0,
+  Approved = 1,
+  Rejected = 2,
+  InProgress = 3,
+  Expired = 4,
+  Signed = 5,
+}

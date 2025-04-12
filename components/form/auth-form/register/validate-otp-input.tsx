@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { FunctionComponent } from 'react';
 import { Controller } from 'react-hook-form';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import { OTPInput } from '~/components/nativewindui/OTPInput';
 import { useAuthForm } from '~/hooks/auth/use-auth-form';

@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Controller } from 'react-hook-form';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

@@ -10,7 +10,7 @@ export const translate = {
       contract: {
         pending: 'Chờ ký',
         owner_signed: 'Chủ xe ký',
-        technician_signed: 'Chờ kỹ sư ký',
+        technician_signed: 'Chờ kỹ thuật viên ký',
         completed: 'Đã ký',
         rejected: 'Đã từ chối',
       },
@@ -108,6 +108,17 @@ export const translate = {
     toast: {
       withdraw_success: 'Rút tiền thành công!',
       withdraw_error: 'Rút tiền thất bại!',
+    },
+  },
+
+  schedule: {
+    status: {
+      Pending: 'Chờ xác nhận',
+      Approved: 'Đã xác nhận',
+      Rejected: 'Đã từ chối',
+      InProgress: 'Đang diễn ra',
+      Expired: 'Đã hết hạn',
+      Signed: 'Đã ký',
     },
   },
 

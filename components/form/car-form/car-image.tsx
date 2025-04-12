@@ -1,12 +1,14 @@
 import { Feather } from '@expo/vector-icons';
 import React, { FunctionComponent } from 'react';
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, Platform, Text, TouchableOpacity, View } from 'react-native';
+import CardBasic from '~/components/plugins/card-basic';
 
 import ImagePickerButton from '~/components/plugins/image-picker';
 import Description from '~/components/screens/car-editor/description';
 import Subtitle from '~/components/screens/car-editor/subtitle';
 import { CarDetailResponse } from '~/constants/models/car.model';
 import { useCarForm } from '~/hooks/car/use-car-form';
+import { cn } from '~/lib/cn';
 import { convertAssertToFile } from '~/lib/convert';
 import { getImageUrl } from '~/lib/utils';
 
@@ -42,7 +44,23 @@ const CarImage: FunctionComponent<CarImageProps> = ({ form, carImages }) => {
   }, [form.watch('carImages')]);
 
   return (
-    <View className=" gap-6 bg-white px-2 py-4 dark:bg-gray-900">
+    <View
+      className={cn(
+        'gap-6 rounded-lg bg-white p-4 dark:bg-gray-900',
+        Platform.OS === 'ios' ? 'shadow-md' : 'elevation-3'
+      )}
+      style={
+        Platform.OS === 'ios'
+          ? {
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.1,
+              shadowRadius: 4,
+            }
+          : {
+              elevation: 3,
+            }
+      }>
       <Subtitle title="Hình ảnh xe" />
       <Description title="Hãy chụp ảnh xe của bạn từ nhiều góc độ khác nhau để người thuê có thể xem chi tiết." />
 
@@ -70,7 +88,7 @@ const CarImage: FunctionComponent<CarImageProps> = ({ form, carImages }) => {
                 <Image
                   source={{ uri: getImageUrl(item) }}
                   style={{ width: viewWidth }}
-                  className="h-60 rounded-lg object-cover shadow-lg"
+                  className="h-60 rounded-lg object-cover"
                 />
                 <TouchableOpacity
                   className="absolute right-2 top-2"

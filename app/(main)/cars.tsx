@@ -11,6 +11,7 @@ import Loading from '~/components/plugins/loading';
 import { SearchInput } from '~/components/plugins/search-input';
 import CarCard from '~/components/screens/car-list/car-card';
 import CarParams from '~/components/screens/car-list/car-params';
+import CarCardSkeleton from '~/components/screens/car-list/car-skeleton';
 import { useCarMutation, useCarQuery } from '~/hooks/car/use-car';
 import { useCarParamsStore } from '~/store/use-params';
 import { useSearchStore } from '~/store/use-search';
@@ -22,13 +23,27 @@ const CarsScreen = () => {
   const { resetStep } = useStepStore();
   const { params } = useCarParamsStore();
   const { searchKeyword } = useSearchStore();
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
 
-  const { data: cars, isLoading } = useCarQuery({
+  const {
+    data: cars,
+    isLoading,
+    refetch,
+  } = useCarQuery({
     params: {
       ...params,
       keyword: searchKeyword,
     },
   });
+
+  const handleRefresh = async () => {
+    try {
+      setIsRefreshing(true);
+      await refetch();
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   const { deleteMutation } = useCarMutation();
 
@@ -74,9 +89,13 @@ const CarsScreen = () => {
       </View>
       <View className="flex-1">
         {isLoading && (
-          <View className="flex-1 items-center justify-center">
-            <Loading />
-          </View>
+          <FlatList
+            data={[1, 2, 3, 4]}
+            keyExtractor={(item) => item.toString()}
+            renderItem={() => <CarCardSkeleton />}
+            contentContainerStyle={{ padding: 16 }}
+            ItemSeparatorComponent={() => <View className="h-2" />}
+          />
         )}
 
         {!isLoading && (
@@ -84,6 +103,8 @@ const CarsScreen = () => {
             data={cars?.value.items}
             renderItem={({ item }) => <CarCard car={item} onDelete={handleAskDelete} />}
             keyExtractor={(item) => item.id}
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
             contentContainerStyle={{
               paddingHorizontal: 16,
               paddingTop: 16,

@@ -14,7 +14,7 @@ const CardBasic: FunctionComponent<CardBasicProps> = ({ className, children, onP
     <TouchableOpacity activeOpacity={0.9} onPress={onPress}>
       <View
         className={cn(
-          'rounded-lg bg-white p-4', // base card styles
+          'rounded-lg bg-white p-4 dark:bg-gray-900', // base card styles
           Platform.OS === 'ios' ? 'shadow-md' : 'elevation-3', // platform-specific shadow
           className
         )}

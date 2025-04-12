@@ -1,13 +1,13 @@
 import { Feather } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as React from 'react';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View, RefreshControl } from 'react-native';
 
 import { Text } from '~/components/nativewindui/Text';
-import Loading from '~/components/plugins/loading';
 import BookHeader from '~/components/screens/book-detail/book-header';
 import BookInfo from '~/components/screens/book-detail/book-info';
 import BookPayment from '~/components/screens/book-detail/book-payment';
+import BookingDetailSkeleton from '~/components/screens/book-detail/book-skeleton';
 import CarInfo from '~/components/screens/book-detail/car-info';
 import DriverInfo from '~/components/screens/book-detail/driver-info';
 import { BookingStatusEnum } from '~/constants/enums';
@@ -17,17 +17,24 @@ import { COLORS } from '~/theme/colors';
 
 const BookingScreen = () => {
   const { id } = useLocalSearchParams();
-  const { data: bookingDetail, isLoading } = useBookingDetailQuery(id as string);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+
+  const { data: bookingDetail, isLoading, refetch } = useBookingDetailQuery(id as string);
   const { handleApproveOrRejectBooking } = useApproveOrRejectBooking({ id: id as string });
+
+  const handleRefresh = async () => {
+    try {
+      setIsRefreshing(true);
+      await refetch();
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   const bookDetail = bookingDetail?.value;
 
   if (isLoading || !bookingDetail) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <Loading />
-      </View>
-    );
+    return <BookingDetailSkeleton />;
   }
 
   return (
@@ -35,7 +42,9 @@ const BookingScreen = () => {
       <View>
         <BookHeader id={id as string} />
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />}>
           <View className=" flex-1 gap-2 p-2" style={{ paddingBottom: 180 }}>
             <CarInfo
               car={

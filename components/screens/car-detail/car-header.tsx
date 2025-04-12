@@ -10,7 +10,7 @@ const CarHeader: FunctionComponent<CarHeaderProps> = ({ onEdit }) => {
   return (
     <View className="absolute left-0 right-0 top-0 z-10 flex h-16 flex-row items-center justify-between p-4 dark:bg-black/0 ">
       <Pressable
-        onPress={() => router.back()}
+        onPress={() => router.push('/(main)/cars')}
         className="size-10 items-center justify-center rounded-full bg-black/20 dark:bg-white/20">
         <Feather name="arrow-left" size={20} color="white" />
       </Pressable>

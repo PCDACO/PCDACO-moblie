@@ -28,12 +28,15 @@ const BookingScreen: FunctionComponent = () => {
   const { searchKeyword } = useSearchStore();
   const [params, setParams] = React.useState<Partial<BookParams>>({});
   const { params: bookingParams } = useBookingParamsStore();
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
+
   const {
     data: booking,
     isLoading,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    refetch,
   } = useBookingListQuery(params);
 
   React.useEffect(() => {
@@ -59,6 +62,15 @@ const BookingScreen: FunctionComponent = () => {
   const handleLoadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
+    }
+  };
+
+  const handleRefresh = async () => {
+    try {
+      setIsRefreshing(true);
+      await refetch();
+    } finally {
+      setIsRefreshing(false);
     }
   };
 
@@ -100,6 +112,8 @@ const BookingScreen: FunctionComponent = () => {
             renderItem={({ item }) => <BookCard booking={item} />}
             keyExtractor={(item) => `${item.id}-${item.pageIndex}`}
             className="gap-4"
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={1.5}
             ListFooterComponent={() =>

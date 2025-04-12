@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { View, Animated, Pressable, Text } from 'react-native';
 
 import Backdrop from '~/components/plugins/back-drop';
-import Loading from '~/components/plugins/loading';
 import { SwiperImageItem } from '~/components/plugins/swiper-images';
 import TabView, { Tab } from '~/components/plugins/tab-view';
 import CarAmentity from '~/components/screens/car-detail/car-amentity';
@@ -16,6 +15,7 @@ import CarContact from '~/components/screens/car-detail/car-contact';
 import CarDescription from '~/components/screens/car-detail/car-description';
 import CarHeader from '~/components/screens/car-detail/car-header';
 import CarImages from '~/components/screens/car-detail/car-image';
+import CarDetailSkeleton from '~/components/screens/car-detail/car-skeleton';
 import CarTerm from '~/components/screens/car-detail/car-term';
 import CarVehicalRegistration from '~/components/screens/car-detail/car-vehical-registation';
 import { CarStatus } from '~/constants/enums';
@@ -86,11 +86,7 @@ const CarDetailScreen = () => {
       })) || [];
 
   if (isLoading || isLoadingContact || isLoadingUnavailable) {
-    return (
-      <View className="h-full flex-1 items-center justify-center">
-        <Loading />
-      </View>
-    );
+    return <CarDetailSkeleton />;
   }
 
   const paperImages = car?.value.images.filter((item) => item.type === 'Paper');

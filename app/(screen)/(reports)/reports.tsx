@@ -19,10 +19,24 @@ const ReportsScreen = () => {
   const { searchKeyword } = useSearchStore();
   const { params } = useReportParamsStore();
   const [paramsReport, setParamsReport] = React.useState<Partial<ReportParamsType>>(params);
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
 
-  const { data: reports, isLoading } = useReportQuery({
+  const {
+    data: reports,
+    isLoading,
+    refetch,
+  } = useReportQuery({
     params: paramsReport,
   });
+
+  const handleRefresh = async () => {
+    try {
+      setIsRefreshing(true);
+      await refetch();
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
 
   React.useEffect(() => {
     if (searchKeyword || params) {
@@ -72,6 +86,8 @@ const ReportsScreen = () => {
             data={reportList}
             renderItem={({ item }) => <ReportCard report={item} />}
             keyExtractor={(item) => item.id}
+            refreshing={isRefreshing}
+            onRefresh={handleRefresh}
             contentContainerStyle={{
               paddingHorizontal: 16,
               paddingTop: 16,
