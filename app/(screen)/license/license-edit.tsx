@@ -1,4 +1,3 @@
-import React from 'react';
 import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,7 +7,7 @@ import LicensesUserForm from '~/components/form/auth-form/register/licenses-user
 import { Button } from '~/components/nativewindui/Button';
 import { Text } from '~/components/nativewindui/Text';
 import Header from '~/components/plugins/header';
-import Loading from '~/components/plugins/loading';
+import LicenseFormSkeleton from '~/components/screens/license/license-sekeleton';
 import { useLicensesListQuery } from '~/hooks/license/use-license';
 import { useLicenseForm } from '~/hooks/license/use-license-form';
 
@@ -21,9 +20,10 @@ const LicenseEdit = () => {
 
   if (isLoadingList) {
     return (
-      <View className="inline-block h-screen justify-center">
-        <Loading />
-      </View>
+      <SafeAreaView className="h-full flex-1 bg-slate-50 dark:bg-slate-800">
+        <Header title="Đang tải bằng lái..." />
+        <LicenseFormSkeleton />
+      </SafeAreaView>
     );
   }
 

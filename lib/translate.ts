@@ -111,6 +111,17 @@ export const translate = {
     },
   },
 
+  schedule: {
+    status: {
+      Pending: 'Chờ xác nhận',
+      Approved: 'Đã xác nhận',
+      Rejected: 'Đã từ chối',
+      InProgress: 'Đang diễn ra',
+      Expired: 'Đã hết hạn',
+      Signed: 'Đã ký',
+    },
+  },
+
   user: {
     toast: {
       update_avatar: 'Cập nhật ảnh đại diện thành công!',

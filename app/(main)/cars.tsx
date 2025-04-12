@@ -11,6 +11,7 @@ import Loading from '~/components/plugins/loading';
 import { SearchInput } from '~/components/plugins/search-input';
 import CarCard from '~/components/screens/car-list/car-card';
 import CarParams from '~/components/screens/car-list/car-params';
+import CarCardSkeleton from '~/components/screens/car-list/car-skeleton';
 import { useCarMutation, useCarQuery } from '~/hooks/car/use-car';
 import { useCarParamsStore } from '~/store/use-params';
 import { useSearchStore } from '~/store/use-search';
@@ -88,9 +89,13 @@ const CarsScreen = () => {
       </View>
       <View className="flex-1">
         {isLoading && (
-          <View className="flex-1 items-center justify-center">
-            <Loading />
-          </View>
+          <FlatList
+            data={[1, 2, 3, 4]}
+            keyExtractor={(item) => item.toString()}
+            renderItem={() => <CarCardSkeleton />}
+            contentContainerStyle={{ padding: 16 }}
+            ItemSeparatorComponent={() => <View className="h-2" />}
+          />
         )}
 
         {!isLoading && (

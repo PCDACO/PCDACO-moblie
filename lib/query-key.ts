@@ -113,6 +113,14 @@ export const QueryKey = {
     Image: 'ReportImage',
   },
 
+  Schedule: {
+    List: 'ScheduleList',
+    Detail: 'ScheduleDetail',
+    Create: 'ScheduleCreate',
+    Update: 'ScheduleUpdate',
+    Delete: 'ScheduleDelete',
+  },
+
   Feedback: {
     Current: 'FeedbackCurrent',
     ByBooking: 'FeedbackByBooking',

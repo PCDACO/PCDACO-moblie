@@ -4,10 +4,10 @@ import * as React from 'react';
 import { ScrollView, TouchableOpacity, View, RefreshControl } from 'react-native';
 
 import { Text } from '~/components/nativewindui/Text';
-import Loading from '~/components/plugins/loading';
 import BookHeader from '~/components/screens/book-detail/book-header';
 import BookInfo from '~/components/screens/book-detail/book-info';
 import BookPayment from '~/components/screens/book-detail/book-payment';
+import BookingDetailSkeleton from '~/components/screens/book-detail/book-skeleton';
 import CarInfo from '~/components/screens/book-detail/car-info';
 import DriverInfo from '~/components/screens/book-detail/driver-info';
 import { BookingStatusEnum } from '~/constants/enums';
@@ -34,11 +34,7 @@ const BookingScreen = () => {
   const bookDetail = bookingDetail?.value;
 
   if (isLoading || !bookingDetail) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <Loading />
-      </View>
-    );
+    return <BookingDetailSkeleton />;
   }
 
   return (

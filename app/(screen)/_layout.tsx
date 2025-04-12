@@ -1,5 +1,7 @@
-import { Stack } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
+import { router, Stack } from 'expo-router';
 import React from 'react';
+import { Pressable } from 'react-native';
 
 const ScreenLayout: React.FC = () => {
   return (
@@ -150,6 +152,31 @@ const ScreenLayout: React.FC = () => {
           presentation: 'modal',
           headerTitle: 'Danh sách báo cáo',
           headerTitleAlign: 'center',
+        }}
+      />
+
+      {/* Schedule - Lịch */}
+      <Stack.Screen
+        name="(schedule)/schedules"
+        options={{
+          headerShown: true,
+          animation: 'fade_from_bottom',
+          headerTitle: 'Lịch đặt xe',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="(schedule)/schedule/[id]"
+        options={{
+          headerShown: true,
+          animation: 'slide_from_right',
+          headerTitle: 'Chi tiết lịch đặt xe',
+          headerTitleAlign: 'center',
+          headerRight: () => (
+            <Pressable onPress={() => router.push('/(main)')}>
+              <Feather name="home" size={24} color="black" />
+            </Pressable>
+          ),
         }}
       />
     </Stack>

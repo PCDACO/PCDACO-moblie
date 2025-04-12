@@ -1,5 +1,7 @@
-import { View } from 'react-native';
+import { router } from 'expo-router';
+import { Text, View } from 'react-native';
 
+import { Button } from '~/components/nativewindui/Button';
 import Loading from '~/components/plugins/loading';
 import HomeHeader from '~/components/screens/home-screen/home-header';
 import { UserResponse } from '~/constants/models/user.model';
@@ -30,6 +32,10 @@ const HomeScreen = () => {
           }
         }
       />
+
+      <Button onPress={() => router.push('/(schedule)/schedules')}>
+        <Text>Schedules</Text>
+      </Button>
     </View>
   );
 };
