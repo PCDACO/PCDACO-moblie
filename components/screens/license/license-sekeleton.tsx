@@ -1,4 +1,5 @@
 import { ScrollView, View } from 'react-native';
+
 import Skeleton from '~/components/nativewindui/Skeleton';
 
 const LicenseFormSkeleton = () => {

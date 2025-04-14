@@ -48,7 +48,7 @@ const LoginScreen = () => {
           <View className="w-80">
             <Text className="text-center text-muted">
               Để đảm bảo quyền lợi của bạn, xin vui lòng xem kỹ{' '}
-              <Link className="text-primary" href="/">
+              <Link className="text-primary" href="/(screen)/privacy">
                 chính sách của chúng tôi
               </Link>
             </Text>

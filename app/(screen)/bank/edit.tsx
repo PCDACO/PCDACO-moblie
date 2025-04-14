@@ -94,7 +94,7 @@ const Edit: FunctionComponent = () => {
           style={{ backgroundColor: COLORS.black }}>
           {isLoading ? (
             <>
-              <Loading />
+              <Loading size="small" />
               <Text className="font-bold text-background">Đang lưu...</Text>
             </>
           ) : (

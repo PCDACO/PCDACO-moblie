@@ -65,7 +65,11 @@ const ProfileMenu = ({ id }: ProfileMenuProps) => {
       <ProfileMenuItem
         icon={<Ionicons size={20} name="shield-outline" />}
         text="Chính sách bảo hành & Tài liệu tham khảo"
-        onPress={() => console.log('Warranty policy pressed')}
+        onPress={() =>
+          router.push({
+            pathname: '/(screen)/privacy',
+          })
+        }
       />
 
       <ProfileMenuItem

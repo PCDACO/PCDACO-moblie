@@ -59,7 +59,7 @@ const CarDetailScreen = () => {
   const isLoadingContact = contactQuery.isLoading;
 
   const sheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['1%', car?.value.location ? '20%' : '13%'], [car]);
+  const snapPoints = React.useMemo(() => ['1%', car?.value.location ? '20%' : '13%', '60%'], [car]);
 
   const { slideAnim, panResponder } = usePanResponder();
 
@@ -210,8 +210,8 @@ const CarDetailScreen = () => {
                     'bg-gray-200'
                 )}
                 disabled={
-                  car?.value.status === CarStatus.Available ||
-                  car?.value.status === CarStatus.Inactive
+                  car?.value.status !== CarStatus.Available &&
+                  car?.value.status !== CarStatus.Inactive
                 }
                 onPress={() => {
                   handleClosePress();

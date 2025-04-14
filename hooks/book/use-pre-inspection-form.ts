@@ -31,11 +31,11 @@ export const usePreInspectionForm = ({ id }: UsePreInspectionForm) => {
 
   const onSubmit = form.handleSubmit((values) => {
     const data: BookPreInspectionPayload = {
-      exteriorPhotos: values.exteriorPhotos,
-      fuelGaugePhotos: values.fuelGaugePhotos,
-      carKeyPhotos: values.carKeyPhotos,
-      trunkPhotos: values.trunkPhotos,
-      parkingLocationPhotos: values.parkingLocationPhotos,
+      exteriorPhotos: values.exteriorPhotos || [],
+      fuelGaugePhotos: values.fuelGaugePhotos || [],
+      carKeyPhotos: values.carKeyPhotos || [],
+      trunkPhotos: values.trunkPhotos || [],
+      parkingLocationPhotos: values.parkingLocationPhotos || [],
     };
 
     inspectionBooking.mutate(

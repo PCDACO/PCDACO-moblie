@@ -1,15 +1,13 @@
 import { Feather } from '@expo/vector-icons';
-import { useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
 import { FunctionComponent } from 'react';
-import { Text, ToastAndroid, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import CardContract from '~/components/card/car/contract/card';
 import { Button } from '~/components/nativewindui/Button';
 import { Text as TextUI } from '~/components/nativewindui/Text';
 import { CarContractStatus } from '~/constants/enums';
 import { CarDetailResponse } from '~/constants/models/car.model';
-import { useCarMutation } from '~/hooks/car/use-car';
-import { QueryKey } from '~/lib/query-key';
 import { COLORS } from '~/theme/colors';
 
 interface CarContactProps {
@@ -21,19 +19,11 @@ interface CarContactProps {
 }
 
 const CarContact: FunctionComponent<CarContactProps> = ({ id, contract, carContract }) => {
-  const queryClient = useQueryClient();
-  const { postAssignContractMutation } = useCarMutation();
-
   const handleAssignContract = () => {
-    postAssignContractMutation.mutate(id, {
-      onSuccess: () => {
-        ToastAndroid.show('Đã ký xác nhận', ToastAndroid.SHORT);
-        queryClient.invalidateQueries({
-          queryKey: [QueryKey.Car.Contact, id],
-        });
-      },
-      onError: () => {
-        ToastAndroid.show('Ký xác nhận thất bại', ToastAndroid.SHORT);
+    router.push({
+      pathname: '/(screen)/(signature)/car/[id]',
+      params: {
+        id,
       },
     });
   };
@@ -49,7 +39,7 @@ const CarContact: FunctionComponent<CarContactProps> = ({ id, contract, carContr
           </Text>
           {carContract.status === CarContractStatus.TechnicianSigned && (
             <Button onPress={handleAssignContract}>
-              <TextUI>Ký xác nhận</TextUI>
+              <TextUI>Nhấn để ký xác nhận</TextUI>
             </Button>
           )}
         </View>

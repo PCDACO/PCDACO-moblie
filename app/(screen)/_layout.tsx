@@ -41,6 +41,25 @@ const ScreenLayout: React.FC = () => {
           },
         }}
       />
+      <Stack.Screen
+        name="booking/contract/[id]"
+        options={{
+          headerShown: true,
+          animation: 'fade_from_bottom',
+          headerTitle: 'Hợp đồng',
+          headerTitleAlign: 'center',
+        }}
+      />
+
+      <Stack.Screen
+        name="booking/inspection/view"
+        options={{
+          headerShown: true,
+          animation: 'fade_from_bottom',
+          headerTitle: 'Kiểm tra xe',
+          headerTitleAlign: 'center',
+        }}
+      />
 
       {/* Inspection - Kiểm tra xe */}
       <Stack.Screen
@@ -57,6 +76,28 @@ const ScreenLayout: React.FC = () => {
           headerShown: false,
           animation: 'fade_from_bottom',
           presentation: 'modal',
+        }}
+      />
+
+      {/* Signature */}
+      <Stack.Screen
+        name="(signature)/car/[id]"
+        options={{
+          headerShown: true,
+          animation: 'slide_from_right',
+          presentation: 'modal',
+          headerTitle: 'Ký hợp đồng xe',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="(signature)/booking/[id]"
+        options={{
+          headerShown: true,
+          animation: 'slide_from_right',
+          presentation: 'modal',
+          headerTitle: 'Ký hợp đồng đặt xe',
+          headerTitleAlign: 'center',
         }}
       />
 
@@ -133,6 +174,17 @@ const ScreenLayout: React.FC = () => {
         options={{ headerShown: false, presentation: 'modal', animation: 'fade_from_bottom' }}
       />
 
+      <Stack.Screen
+        name="map/view"
+        options={{
+          headerShown: true,
+          animation: 'fade_from_bottom',
+          presentation: 'modal',
+          headerTitle: 'Bản đồ',
+          headerTitleAlign: 'center',
+        }}
+      />
+
       {/* Reports - Báo cáo */}
       <Stack.Screen
         name="(reports)/detail/[id]"
@@ -156,7 +208,7 @@ const ScreenLayout: React.FC = () => {
       />
 
       {/* Schedule - Lịch */}
-      <Stack.Screen
+      {/* <Stack.Screen
         name="(schedule)/schedules"
         options={{
           headerShown: true,
@@ -164,7 +216,7 @@ const ScreenLayout: React.FC = () => {
           headerTitle: 'Lịch đặt xe',
           headerTitleAlign: 'center',
         }}
-      />
+      /> */}
       <Stack.Screen
         name="(schedule)/schedule/[id]"
         options={{
@@ -177,6 +229,16 @@ const ScreenLayout: React.FC = () => {
               <Feather name="home" size={24} color="black" />
             </Pressable>
           ),
+        }}
+      />
+      <Stack.Screen
+        name="privacy/index"
+        options={{
+          headerShown: true,
+          animation: 'fade_from_bottom',
+          presentation: 'modal',
+          headerTitle: '',
+          headerTitleAlign: 'center',
         }}
       />
     </Stack>

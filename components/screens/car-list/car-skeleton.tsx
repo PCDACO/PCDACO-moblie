@@ -1,4 +1,5 @@
 import { View } from 'react-native';
+
 import Skeleton from '~/components/nativewindui/Skeleton';
 
 const CarCardSkeleton = () => {

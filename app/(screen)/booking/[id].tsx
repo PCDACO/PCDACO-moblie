@@ -1,9 +1,11 @@
-import { Feather } from '@expo/vector-icons';
+import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as React from 'react';
-import { ScrollView, TouchableOpacity, View, RefreshControl } from 'react-native';
+import { ScrollView, TouchableOpacity, View, RefreshControl, Pressable } from 'react-native';
 
 import { Text } from '~/components/nativewindui/Text';
+import Backdrop from '~/components/plugins/back-drop';
 import BookHeader from '~/components/screens/book-detail/book-header';
 import BookInfo from '~/components/screens/book-detail/book-info';
 import BookPayment from '~/components/screens/book-detail/book-payment';
@@ -17,6 +19,7 @@ import { COLORS } from '~/theme/colors';
 
 const BookingScreen = () => {
   const { id } = useLocalSearchParams();
+  const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
   const { data: bookingDetail, isLoading, refetch } = useBookingDetailQuery(id as string);
@@ -33,6 +36,23 @@ const BookingScreen = () => {
 
   const bookDetail = bookingDetail?.value;
 
+  const sheetRef = React.useRef<BottomSheet>(null);
+  const snapPoints = React.useMemo(() => ['1%', '20%'], []);
+
+  const handleSnapPress = React.useCallback((index: number) => {
+    sheetRef.current?.snapToIndex(index);
+    setIsSheetOpen(index === snapPoints.length - 1);
+  }, []);
+
+  const handleSheetChange = React.useCallback((index: number) => {
+    setIsSheetOpen(index === snapPoints.length - 1);
+  }, []);
+
+  const handleClosePress = React.useCallback(() => {
+    sheetRef.current?.close();
+    setIsSheetOpen(false);
+  }, []);
+
   if (isLoading || !bookingDetail) {
     return <BookingDetailSkeleton />;
   }
@@ -40,7 +60,7 @@ const BookingScreen = () => {
   return (
     <View className="relative h-full">
       <View>
-        <BookHeader id={id as string} />
+        <BookHeader onPress={() => handleSnapPress(1)} />
 
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -56,6 +76,7 @@ const BookingScreen = () => {
                   seat: 0,
                   transmissionType: '',
                   fuelType: '',
+                  carImageUrl: [],
                 }
               }
             />
@@ -78,6 +99,19 @@ const BookingScreen = () => {
                   status: '',
                   totalDistance: 0,
                   actualReturnTime: new Date(),
+                  preInspectionPhotos: {
+                    exteriorPhotos: [],
+                    fuelGaugePhotos: [],
+                    carKeyPhotos: [],
+                    trunkPhotos: [],
+                    parkingLocationPhotos: [],
+                  },
+                  postInspectionPhotos: {
+                    fuelGaugeFinalPhotos: [],
+                    cleanlinessPhotos: [],
+                    scratchesPhotos: [],
+                    tollFeesPhotos: [],
+                  },
                 }
               }
             />
@@ -96,12 +130,12 @@ const BookingScreen = () => {
           </View>
         </ScrollView>
       </View>
-      <View className="absolute bottom-0 left-0 right-0 z-20 flex-row gap-2 bg-white p-4">
+      <View className="z-1 absolute bottom-0 left-0 right-0 flex-row gap-2 bg-white p-4">
         {bookDetail?.booking.status === BookingStatusEnum.Pending && (
           <>
             <TouchableOpacity
               onPress={() => {
-                handleApproveOrRejectBooking(false);
+                handleApproveOrRejectBooking(false, '');
               }}
               className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-background p-4 dark:border-gray-700">
               <Feather name="x-circle" size={20} color={COLORS.black} />
@@ -109,7 +143,10 @@ const BookingScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                handleApproveOrRejectBooking(true);
+                router.push({
+                  pathname: '/(screen)/(signature)/booking/[id]',
+                  params: { id: id as string },
+                });
               }}
               className="flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-primary p-4">
               <Feather name="check-circle" size={20} color={COLORS.white} />
@@ -148,6 +185,54 @@ const BookingScreen = () => {
           </TouchableOpacity>
         )}
       </View>
+      <BottomSheet
+        ref={sheetRef}
+        snapPoints={snapPoints}
+        enableDynamicSizing={false}
+        backdropComponent={
+          isSheetOpen ? (props) => <Backdrop {...props} onPress={handleClosePress} /> : null
+        }
+        onChange={handleSheetChange}>
+        <BottomSheetView className="relative z-30 flex-1 bg-white dark:bg-slate-300">
+          <View className="gap-2 px-4">
+            <Pressable
+              onPress={() => {
+                router.push({
+                  pathname: '/booking/report/[id]',
+                  params: { id: id as string },
+                });
+              }}
+              className="flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 p-2 dark:border-gray-700">
+              <FontAwesome5 name="car" size={20} color={COLORS.black} />
+              <Text className=" text-foreground">Trạng thái xe</Text>
+            </Pressable>
+            <View className="flex-row items-center justify-center gap-2">
+              <Pressable
+                onPress={() => {
+                  router.push({
+                    pathname: '/(screen)/booking/contract/[id]',
+                    params: { id: id as string },
+                  });
+                }}
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-blue-600 p-2 dark:border-gray-700">
+                <Ionicons name="document-text-outline" size={20} color={COLORS.white} />
+                <Text className=" text-background">Xem hợp đồng</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  router.push({
+                    pathname: '/booking/report/[id]',
+                    params: { id: id as string },
+                  });
+                }}
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 p-2 dark:border-gray-700">
+                <FontAwesome5 name="flag" size={20} color={COLORS.black} />
+                <Text className=" text-foreground">Báo cáo</Text>
+              </Pressable>
+            </View>
+          </View>
+        </BottomSheetView>
+      </BottomSheet>
     </View>
   );
 };

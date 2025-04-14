@@ -14,6 +14,13 @@ export const QueryKey = {
     ForgetPassword: 'ForgetPassword',
   },
 
+  Contact: {
+    get: {
+      approval_preview: 'ContactApprovalPreview',
+      preview: 'ContactPreview',
+    },
+  },
+
   Transaction: {
     Withdraw: 'Withdraw',
     Transaction: 'Transaction',
