@@ -74,9 +74,10 @@ export const CarService = {
       return response.data;
     },
 
-    assign_contract: async (id: string): Promise<RootResponse<null>> => {
+    assign_contract: async (id: string, signature: string): Promise<RootResponse<null>> => {
       const response = await axiosInstance.post<RootResponse<null>>(
-        `/api/cars/${id}/contract/sign`
+        `/api/cars/${id}/contract/sign`,
+        { signature }
       );
       return response.data;
     },

@@ -44,6 +44,7 @@ export interface BookCancelPayload {
 
 export interface BookApprovePayload {
   isApproved: boolean;
+  signature?: string;
 }
 
 export interface BookStartTripPayload {
@@ -110,6 +111,23 @@ export interface Booking {
   totalDistance: number;
   status: string;
   note: string;
+  preInspectionPhotos: PreInspectionPhotos;
+  postInspectionPhotos: PostInspectionPhotos;
+}
+
+export interface PreInspectionPhotos {
+  exteriorPhotos: string[];
+  fuelGaugePhotos: string[];
+  carKeyPhotos: string[];
+  trunkPhotos: string[];
+  parkingLocationPhotos: string[];
+}
+
+export interface PostInspectionPhotos {
+  fuelGaugeFinalPhotos: string[];
+  cleanlinessPhotos: string[];
+  scratchesPhotos: string[];
+  tollFeesPhotos: string[];
 }
 
 export interface Car {
@@ -120,6 +138,7 @@ export interface Car {
   seat: number;
   transmissionType: string;
   fuelType: string;
+  carImageUrl: string[];
 }
 
 export interface BookCompleteResponse {

@@ -1,7 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import React, { FunctionComponent } from 'react';
 import { FlatList, Image, Platform, Text, TouchableOpacity, View } from 'react-native';
-import CardBasic from '~/components/plugins/card-basic';
 
 import ImagePickerButton from '~/components/plugins/image-picker';
 import Description from '~/components/screens/car-editor/description';

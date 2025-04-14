@@ -34,7 +34,7 @@ const PreInspection: FunctionComponent = () => {
           disabled={isLoading}>
           {isLoading ? (
             <>
-              <Loading />
+              <Loading size="small" />
               <Text>Đang gửi...</Text>
             </>
           ) : (

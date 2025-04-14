@@ -2,8 +2,8 @@ import React, { FunctionComponent } from 'react';
 import { Controller } from 'react-hook-form';
 import { View, Text, FlatList, Pressable } from 'react-native';
 import { SvgUri } from 'react-native-svg';
-import CardBasic from '~/components/plugins/card-basic';
 
+import CardBasic from '~/components/plugins/card-basic';
 import Loading from '~/components/plugins/loading';
 import Description from '~/components/screens/car-editor/description';
 import Subtitle from '~/components/screens/car-editor/subtitle';

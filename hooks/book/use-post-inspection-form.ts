@@ -26,10 +26,10 @@ export const usePostInspectionForm = (id: string) => {
 
   const onSubmit = form.handleSubmit((values) => {
     const data: BookPostInspectionPayload = {
-      fuelGaugeFinalPhotos: values.fuelGaugeFinalPhotos,
-      cleanlinessPhotos: values.cleanlinessPhotos,
-      scratchesPhotos: values.scratchesPhotos,
-      tollFeesPhotos: values.tollFeesPhotos,
+      fuelGaugeFinalPhotos: values.fuelGaugeFinalPhotos || [],
+      cleanlinessPhotos: values.cleanlinessPhotos || [],
+      scratchesPhotos: values.scratchesPhotos || [],
+      tollFeesPhotos: values.tollFeesPhotos || [],
     };
 
     postInspectionBooking.mutate(

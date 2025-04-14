@@ -8,65 +8,91 @@ const MainLayout: FunctionComponent = () => {
     <>
       <StatusBar hidden />
 
-      <Tabs screenOptions={{ headerShown: false }}>
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: {
+            height: 60,
+            paddingTop: 5,
+          },
+          tabBarIconStyle: {
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+        }}>
         <Tabs.Screen
           name="index"
           options={{
-            tabBarIcon: ({ color }) => <FontAwesome5 name="home" color={color} size={20} />,
-            tabBarLabel: 'Trang chủ',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 name="home" color={color} size={20} style={{ alignSelf: 'center' }} />
+            ),
+            tabBarLabel: '',
+            animation: 'shift',
+          }}
+        />
+        <Tabs.Screen
+          name="schedules"
+          options={{
+            headerShown: true,
+            headerTitle: 'Lịch kiểm tra xe',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              height: 60,
+            },
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5
+                name="calendar"
+                color={color}
+                size={20}
+                style={{ alignSelf: 'center' }}
+              />
+            ),
+            tabBarLabel: '',
             animation: 'shift',
           }}
         />
         <Tabs.Screen
           name="cars"
           options={{
-            tabBarIcon: ({ color }) => <FontAwesome5 name="car" color={color} size={20} />,
-            tabBarLabel: 'Danh sách xe',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5 name="car" color={color} size={20} style={{ alignSelf: 'center' }} />
+            ),
+            tabBarLabel: '',
             animation: 'shift',
           }}
         />
-
         <Tabs.Screen
           name="bookings"
           options={{
             headerShown: true,
             headerTitle: '',
-            // headerTitle: () => (
-            //   <View>
-            //     <Subtitle className="text-2xl" title="Danh sách đặt xe" />
-            //     <Description
-            //       className="text-sm"
-            //       title="Tổng hợp các yêu cầu thuê xe đang chờ xét duyệt"
-            //     />
-            //   </View>
-            // ),
-            // headerTitleAlign: 'left',
-            // headerTitleStyle: {
-            //   fontSize: 24,
-            //   fontWeight: 'bold',
-            // },
             headerStyle: {
               height: 30,
             },
-            tabBarIcon: ({ color }) => <FontAwesome5 name="calendar-alt" color={color} size={20} />,
-            tabBarLabel: 'Danh sách đặt xe',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5
+                name="clipboard-list"
+                color={color}
+                size={20}
+                style={{ alignSelf: 'center' }}
+              />
+            ),
+            tabBarLabel: '',
             animation: 'shift',
-
-            // headerRight: () => (
-            //   <TouchableOpacity
-            //     onPress={() => router.push('/(screen)/booking/history')}
-            //     className="mr-3">
-            //     <FontAwesome5 name="history" color="black" size={24} />
-            //   </TouchableOpacity>
-            // ),
           }}
         />
-
         <Tabs.Screen
           name="profile"
           options={{
-            tabBarIcon: ({ color }) => <FontAwesome5 name="user-alt" color={color} size={20} />,
-            tabBarLabel: 'Trang cá nhân',
+            tabBarIcon: ({ color }) => (
+              <FontAwesome5
+                name="user-alt"
+                color={color}
+                size={20}
+                style={{ alignSelf: 'center' }}
+              />
+            ),
+            tabBarLabel: '',
             animation: 'shift',
           }}
         />

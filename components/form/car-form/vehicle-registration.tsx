@@ -18,8 +18,6 @@ const VehicleRegistration: FunctionComponent<VehicleRegistrationProps> = ({ form
   const [active, setActive] = React.useState<number>(0);
   const [viewWidth, setViewWidth] = React.useState<number>(0);
 
-  console.log('images', form.watch('paperImages'));
-
   const flatlistRef = React.useRef<FlatList<any>>(null);
   const onViewableItemsChanged = ({ viewableItems }: any) => {
     if (viewableItems.length > 0) {

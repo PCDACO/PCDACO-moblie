@@ -11,7 +11,7 @@ import ReportBasicInfo from '~/components/screens/report-detail/report-basic-inf
 import ReportBookInfo from '~/components/screens/report-detail/report-book-info';
 import ReportCarInfo from '~/components/screens/report-detail/report-car-info';
 import ReportGallery from '~/components/screens/report-detail/report-gallery';
-import { BookingReportStatusNumber, Role } from '~/constants/enums';
+import { Role } from '~/constants/enums';
 import { useReportDetailQuery } from '~/hooks/report/use-report';
 import { useReportProofForm } from '~/hooks/report/use-report-proof-form';
 

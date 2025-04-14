@@ -186,7 +186,7 @@ const CarSpecifications: FunctionComponent<CarSpecificationsProps> = ({ form }) 
                       className="bg-slate-50 dark:bg-gray-900">
                       <SelectGroup>
                         <SelectLabel>Số ghế</SelectLabel>
-                        {[2, 4, 7, 9].map((item) => (
+                        {[4, 5, 6, 7, 9].map((item) => (
                           <SelectItem key={item} value={item.toString()} label={item.toString()}>
                             {item}
                           </SelectItem>

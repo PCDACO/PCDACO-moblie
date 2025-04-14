@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 
@@ -8,7 +9,6 @@ import { ScheduleStatus } from '~/constants/enums';
 import { InspectionScheduleReponse } from '~/constants/models/schedule.model';
 import { cn } from '~/lib/cn';
 import { COLORS } from '~/theme/colors';
-import { router } from 'expo-router';
 
 interface ItemProps {
   inspectionSchedule: InspectionScheduleReponse;

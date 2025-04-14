@@ -110,7 +110,8 @@ export const useCarMutation = () => {
 
   const postAssignContractMutation = useMutation({
     mutationKey: [QueryKey.Car.AssignContract],
-    mutationFn: async (id: string) => await CarService.post.assign_contract(id),
+    mutationFn: async ({ id, signature }: { id: string; signature: string }) =>
+      await CarService.post.assign_contract(id, signature),
   });
 
   const postEnableMutation = useMutation({

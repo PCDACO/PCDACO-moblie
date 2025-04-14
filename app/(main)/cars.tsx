@@ -7,7 +7,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Backdrop from '~/components/plugins/back-drop';
 import FloatingMenu from '~/components/plugins/floating-menu';
-import Loading from '~/components/plugins/loading';
 import { SearchInput } from '~/components/plugins/search-input';
 import CarCard from '~/components/screens/car-list/car-card';
 import CarParams from '~/components/screens/car-list/car-params';
