@@ -53,6 +53,13 @@ export const QueryKey = {
     PatchAmenities: 'CarPatchAmenities',
   },
 
+  CarReport: {
+    List: 'CarReportList',
+    Detail: 'CarReportDetail',
+    Create: 'CarReportCreate',
+    PatchImage: 'CarReportPatchImage',
+  },
+
   Booking: {
     get: {
       List: 'BookingList',

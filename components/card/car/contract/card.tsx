@@ -46,7 +46,7 @@ const CardContract: FunctionComponent<CardContractProps> = ({ contract, carId })
       className={cn('gap-4 border-l-4', borderRColor)}
       onPress={() => {
         router.push({
-          pathname: '/cars/contact',
+          pathname: '/cars/contract',
           params: { id: carId },
         });
       }}>

@@ -19,7 +19,7 @@ const BookCard: FunctionComponent<BookCardProps> = ({ booking }) => {
 
   const handlePress = () => {
     router.push({
-      pathname: '/booking/[id]',
+      pathname: '/booking/page',
       params: { id: booking.id },
     });
   };

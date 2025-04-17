@@ -35,6 +35,28 @@ export const translate = {
     },
   },
 
+  car_report: {
+    toast: {
+      create: 'Đã gửi báo cáo thành công',
+      error_create: 'Gửi báo cáo thất bại',
+      image: 'Cập nhật hình ảnh thành công',
+      error_image: 'Cập nhật hình ảnh thất bại',
+    },
+
+    type: {
+      ChangeGPS: 'Thay đổi GPS',
+      DeactivateCar: 'Tắt xe',
+      Other: 'Khác',
+    },
+
+    status: {
+      Pending: 'Chờ duyệt',
+      UnderReview: 'Đang xử lý',
+      Resolved: 'Đã xử lý',
+      Rejected: 'Đã từ chối',
+    },
+  },
+
   booking: {
     success: {
       title: 'Đặt xe thành công',

@@ -8,7 +8,7 @@ const ScreenLayout: React.FC = () => {
     <Stack>
       {/* Booking - Đặt xe */}
       <Stack.Screen
-        name="booking/[id]"
+        name="booking/page"
         options={{
           headerShown: false,
           headerTitleAlign: 'center',
@@ -122,7 +122,7 @@ const ScreenLayout: React.FC = () => {
         }}
       />
       <Stack.Screen
-        name="cars/contact"
+        name="cars/contract"
         options={{
           headerShown: true,
           presentation: 'modal',
@@ -131,6 +131,18 @@ const ScreenLayout: React.FC = () => {
           headerTitleAlign: 'center',
         }}
       />
+
+      <Stack.Screen
+        name="cars/report/[id]"
+        options={{
+          headerShown: true,
+          presentation: 'modal',
+          animation: 'slide_from_right',
+          headerTitle: 'Báo cáo',
+          headerTitleAlign: 'center',
+        }}
+      />
+
       <Stack.Screen
         name="cars/availability/[id]"
         options={{

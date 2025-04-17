@@ -10,18 +10,11 @@ interface SuccessScreenProps {
 export default function SuccessScreen({ id }: SuccessScreenProps) {
   const router = useRouter();
   const handleNewReport = () => {
-    router.push({
-      pathname: '/(screen)/(reports)/reports',
-    });
+    router.replace('/booking/report');
   };
 
   const handleViewReports = () => {
-    router.push({
-      pathname: '/(screen)/(reports)/detail/[id]',
-      params: {
-        id: id as string,
-      },
-    });
+    router.push('/booking/reports');
   };
 
   return (

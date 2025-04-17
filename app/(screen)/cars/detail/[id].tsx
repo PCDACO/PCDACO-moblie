@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
@@ -59,7 +59,7 @@ const CarDetailScreen = () => {
   const isLoadingContact = contactQuery.isLoading;
 
   const sheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['1%', car?.value.location ? '20%' : '13%', '60%'], [car]);
+  const snapPoints = React.useMemo(() => ['1%', '20%'], []);
 
   const { slideAnim, panResponder } = usePanResponder();
 
@@ -228,21 +228,38 @@ const CarDetailScreen = () => {
                 />
               </Pressable>
             </View>
-            {car?.value.location && (
+
+            <View className="flex-row items-center justify-center gap-2">
+              {car?.value.location && (
+                <Pressable
+                  className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2"
+                  onPress={() => {
+                    router.push({
+                      pathname: '/(screen)/map/view',
+                      params: {
+                        id: car?.value.id,
+                      },
+                    });
+                  }}>
+                  <Ionicons name="map-outline" size={20} color="black" />
+                  <Text>Kiểm tra vị trí xe</Text>
+                </Pressable>
+              )}
+
               <Pressable
                 className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2"
                 onPress={() => {
                   router.push({
-                    pathname: '/(screen)/map/view',
+                    pathname: '/cars/report/[id]',
                     params: {
                       id: car?.value.id,
                     },
                   });
                 }}>
-                <Ionicons name="map-outline" size={20} color="black" />
-                <Text>Kiểm tra vị trí xe</Text>
+                <MaterialCommunityIcons name="web" size={20} color="black" />
+                <Text>Liên hệ hỗ trợ</Text>
               </Pressable>
-            )}
+            </View>
           </View>
         </BottomSheetView>
       </BottomSheet>
