@@ -5,13 +5,13 @@ import { Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 import Loading from '~/components/plugins/loading';
-import { useApprovalPreviewContactQuery } from '~/hooks/contact/use-contact';
+import { useBookingContractQuery } from '~/hooks/book/use-book';
 import { COLORS } from '~/theme/colors';
 
 const ContractScreen: FunctionComponent = () => {
   const { id } = useLocalSearchParams();
 
-  const { data: contract, isLoading } = useApprovalPreviewContactQuery(id as string);
+  const { data: contract, isLoading } = useBookingContractQuery(id as string);
 
   if (isLoading) {
     return (

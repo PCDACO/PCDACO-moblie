@@ -1,59 +1,60 @@
 import { Feather } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useLocalSearchParams } from 'expo-router';
-import { FunctionComponent } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import React, { FunctionComponent } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
 
-import ReportForm from '~/components/form/report-form';
+import CarReportForm from '~/components/form/car-report-form';
 import { Button } from '~/components/nativewindui/Button';
 import { Text as TextNative } from '~/components/nativewindui/Text';
 import Backdrop from '~/components/plugins/back-drop';
 import ErrorScreen from '~/components/screens/report-edit/status/error-screen';
 import LoadingScreen from '~/components/screens/report-edit/status/loading-screen';
 import SuccessScreen from '~/components/screens/report-edit/status/success-screen';
-import { BookingReportTypeNumber } from '~/constants/enums';
+import { CarReportTypeNumber } from '~/constants/enums';
+import { useCarReportForm } from '~/hooks/car-report/use-car-report-form';
 import { useBottomSheet } from '~/hooks/plugins/use-bottom-sheet';
-import { useReportForm } from '~/hooks/report/use-report-form';
 import { COLORS } from '~/theme/colors';
 
 const ReportScreen: FunctionComponent = () => {
   const { id } = useLocalSearchParams();
-  const { sheetRef, isSheetOpen, handleSnapPress, handleSheetChange, handleClosePress } =
-    useBottomSheet();
+  const { form, onSubmit, isLoading, isSuccess, isError } = useCarReportForm();
 
-  const { form, isLoading, isSuccess, isError, onSubmit } = useReportForm({ id: id as string });
+  const { sheetRef, isSheetOpen, handleSnapPress, handleClosePress } = useBottomSheet();
 
   const reportTypes = [
-    { value: BookingReportTypeNumber.Conflict, label: 'Xung đột' },
-    { value: BookingReportTypeNumber.Accident, label: 'Tai nạn' },
-    { value: BookingReportTypeNumber.FineNotice, label: 'Thông báo phạt' },
-    { value: BookingReportTypeNumber.Damage, label: 'Hư hỏng' },
-    { value: BookingReportTypeNumber.Maintenance, label: 'Bảo trì' },
-    { value: BookingReportTypeNumber.Other, label: 'Khác' },
+    { value: CarReportTypeNumber.ChangeGPS, label: 'Thay đổi GPS' },
+    { value: CarReportTypeNumber.DeactivateCar, label: 'Tạm ngưng sử dụng' },
+    { value: CarReportTypeNumber.Other, label: 'Khác' },
   ];
+
+  React.useEffect(() => {
+    if (id) {
+      form.setValue('carId', id as string);
+    }
+  }, []);
 
   if (isLoading) {
     return <LoadingScreen />;
   }
 
-  if (isError) {
-    return <ErrorScreen id={id as string} />;
+  if (isSuccess) {
+    return <SuccessScreen />;
   }
 
-  if (isSuccess) {
-    return <SuccessScreen id={id as string} />;
+  if (isError) {
+    return <ErrorScreen />;
   }
 
   return (
     <View className="h-full flex-1">
       <View className="mt-4 px-2">
-        <ReportForm
+        <CarReportForm
           form={form}
           onOpenReportTypeSheet={() => handleSnapPress(1)}
           reportTypes={reportTypes}
         />
       </View>
-
       <View className="absolute bottom-0 left-0 right-0 z-10 bg-white p-4 dark:bg-slate-300">
         <Button onPress={onSubmit}>
           <Feather name="check-circle" size={20} color={COLORS.white} />
@@ -67,9 +68,8 @@ const ReportScreen: FunctionComponent = () => {
         enableDynamicSizing={false}
         backdropComponent={
           isSheetOpen ? (props) => <Backdrop {...props} onPress={handleClosePress} /> : null
-        }
-        onChange={handleSheetChange}>
-        <BottomSheetView className="relative flex-1 bg-white dark:bg-slate-300">
+        }>
+        <BottomSheetView>
           <View className="p-4">
             <Text className="mb-4 text-lg font-bold">Chọn loại báo cáo</Text>
             {reportTypes.map((type) => (

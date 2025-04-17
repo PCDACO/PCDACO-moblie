@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { ToastAndroid } from 'react-native';
@@ -7,6 +8,7 @@ import { useLicenseMutation } from './use-license';
 
 import { LicenseImagesPayload, LicensePayload } from '~/constants/models/license.model';
 import { LicensePayloadSchema, licenseSchema } from '~/constants/schemas/license.schema';
+import { QueryKey } from '~/lib/query-key';
 import { useApiStore } from '~/store/check-endpoint';
 
 interface LicenseFormProps {
@@ -14,6 +16,7 @@ interface LicenseFormProps {
 }
 
 export const useLicenseForm = ({ id }: LicenseFormProps) => {
+  const queryClient = useQueryClient();
   const { createLicenseMutation, updateLicenseMutation, patchImagesMutation } =
     useLicenseMutation();
   const { hasEndpoint, resetEndpoints, removeEndpoint } = useApiStore();
@@ -55,7 +58,9 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
                       'Cập nhật thành công hình ảnh giấy phép lái xe',
                       ToastAndroid.SHORT
                     );
-
+                    queryClient.invalidateQueries({
+                      queryKey: [QueryKey.License.Detail],
+                    });
                     setTimeout(() => {
                       router.back();
                     }, 3000);
@@ -79,6 +84,9 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
             onSuccess: () => {
               resetEndpoints();
               ToastAndroid.show('Cập nhật thành công giấy phép lái xe', ToastAndroid.SHORT);
+              queryClient.invalidateQueries({
+                queryKey: [QueryKey.License.Detail],
+              });
 
               setTimeout(() => {
                 router.back();
@@ -100,6 +108,10 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
                 ToastAndroid.SHORT
               );
 
+              queryClient.invalidateQueries({
+                queryKey: [QueryKey.License.Detail],
+              });
+
               setTimeout(() => {
                 router.back();
               }, 3000);
@@ -120,6 +132,9 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
               onSuccess: () => {
                 resetEndpoints();
                 ToastAndroid.show('Tạo thành công hình ảnh giấy phép lái xe', ToastAndroid.SHORT);
+                queryClient.invalidateQueries({
+                  queryKey: [QueryKey.License.Detail],
+                });
 
                 setTimeout(() => {
                   router.back();

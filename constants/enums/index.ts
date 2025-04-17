@@ -115,3 +115,29 @@ export enum ScheduleStatusNumber {
   Expired = 4,
   Signed = 5,
 }
+
+export enum CarReportType {
+  ChangeGPS = 'ChangeGPS',
+  DeactivateCar = 'DeactivateCar',
+  Other = 'Other',
+}
+
+export enum CarReportTypeNumber {
+  ChangeGPS = 0,
+  DeactivateCar = 1,
+  Other = 2,
+}
+
+export enum CarReportStatus {
+  Pending = 'Pending',
+  UnderReview = 'UnderReview',
+  Resolved = 'Resolved',
+  Rejected = 'Rejected',
+}
+
+export enum CarReportStatusNumber {
+  Pending = 0,
+  UnderReview = 1,
+  Resolved = 2,
+  Rejected = 3,
+}

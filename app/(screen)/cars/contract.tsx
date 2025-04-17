@@ -6,7 +6,7 @@ import { WebView } from 'react-native-webview';
 import Loading from '~/components/plugins/loading';
 import { useCarContactQuery } from '~/hooks/car/use-car';
 
-const Contact: FunctionComponent = () => {
+const Contract: FunctionComponent = () => {
   const { id } = useLocalSearchParams();
   const { data: contract, isLoading } = useCarContactQuery({ id: id as string });
 
@@ -21,4 +21,4 @@ const Contact: FunctionComponent = () => {
   return <WebView source={{ html: contract }} />;
 };
 
-export default Contact;
+export default Contract;

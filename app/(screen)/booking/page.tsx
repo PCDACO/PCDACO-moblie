@@ -198,7 +198,7 @@ const BookingScreen = () => {
             <Pressable
               onPress={() => {
                 router.push({
-                  pathname: '/booking/report/[id]',
+                  pathname: '/booking/inspection/view',
                   params: { id: id as string },
                 });
               }}
