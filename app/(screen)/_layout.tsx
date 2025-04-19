@@ -138,7 +138,7 @@ const ScreenLayout: React.FC = () => {
           headerShown: true,
           presentation: 'modal',
           animation: 'slide_from_right',
-          headerTitle: 'Báo cáo',
+          headerTitle: 'Liên hệ hỗ trợ',
           headerTitleAlign: 'center',
         }}
       />

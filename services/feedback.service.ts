@@ -27,7 +27,7 @@ export const FeebackService = {
       id: string,
       payload: FeedbackPayload
     ): Promise<RootResponse<FeedbackResponse>> => {
-      const response = await axiosInstance.post(`/api/booking/${id}/feedback`, payload);
+      const response = await axiosInstance.post(`/api/bookings/${id}/feedback`, payload);
       return response.data;
     },
   },

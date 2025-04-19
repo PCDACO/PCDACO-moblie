@@ -168,6 +168,7 @@ export interface Feedback {
   content: string;
   type: string;
   userName: string;
+  role: string;
 }
 
 export interface Payment {

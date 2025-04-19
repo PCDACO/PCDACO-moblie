@@ -70,7 +70,7 @@ const PostInspection: FunctionComponent<PostInspectionProps> = ({ postInspection
       )}
 
       {renderImageField(
-        'Ảnh Xước Xát',
+        'Ảnh Trầy Xước',
         <MaterialCommunityIcons name="car-wrench" size={20} color={COLORS.black} />,
         scratches
       )}

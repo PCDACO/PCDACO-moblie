@@ -1,4 +1,4 @@
-import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as React from 'react';
@@ -134,7 +134,10 @@ const BookingScreen = () => {
             />
 
             <BookContact id={(id as string) || ''} />
-            <FeedbackCard id={(id as string) || ''} />
+            {(bookDetail?.booking.status === BookingStatusEnum.Completed ||
+              bookDetail?.booking.status === BookingStatusEnum.Done) && (
+              <FeedbackCard id={(id as string) || ''} feedback={bookDetail.feedbacks} />
+            )}
           </View>
         </ScrollView>
       </View>

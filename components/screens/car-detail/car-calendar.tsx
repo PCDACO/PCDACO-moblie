@@ -6,6 +6,7 @@ import MultiDateView from '~/components/plugins/multi-date-view';
 interface CarCalendarProps {
   unavailableDates: Date[];
   onMonthChange: (month: number, year: number) => void;
+  isLoading: boolean;
 }
 
 const CarCalendar: React.FC<CarCalendarProps> = ({ unavailableDates, onMonthChange }) => {
