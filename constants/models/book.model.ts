@@ -109,25 +109,28 @@ export interface Booking {
   endTime: Date;
   actualReturnTime: Date;
   totalDistance: number;
+  isRefund: boolean;
   status: string;
   note: string;
+  refundDate: Date;
+  refundAmount: number;
   preInspectionPhotos: PreInspectionPhotos;
   postInspectionPhotos: PostInspectionPhotos;
 }
 
 export interface PreInspectionPhotos {
-  exteriorPhotos: string[];
-  fuelGaugePhotos: string[];
-  carKeyPhotos: string[];
-  trunkPhotos: string[];
-  parkingLocationPhotos: string[];
+  carKey: string[];
+  exteriorCar: string[];
+  fuelGauge: string[];
+  parkingLocation: string[];
+  trunkSpace: string[];
 }
 
 export interface PostInspectionPhotos {
-  fuelGaugeFinalPhotos: string[];
-  cleanlinessPhotos: string[];
-  scratchesPhotos: string[];
-  tollFeesPhotos: string[];
+  cleanliness: string[];
+  scratches: string[];
+  tollFees: string[];
+  vehicleInspectionCertificate: string[];
 }
 
 export interface Car {

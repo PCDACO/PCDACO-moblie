@@ -126,10 +126,12 @@ export interface CarDetailResponse {
 }
 
 export interface Bookings {
+  avatarUrl: string;
+  bookingId: string;
   driverId: string;
   driverName: string;
-  startTime: Date;
   endTime: Date;
+  startTime: Date;
 }
 
 export interface Amenity {

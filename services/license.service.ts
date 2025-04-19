@@ -31,8 +31,6 @@ export const LiccenseService = {
     images: async (
       payload: LicenseImagesPayload
     ): Promise<RootResponse<LicenseImagesPayloadResponse>> => {
-      console.log('payload', payload);
-
       const formData = new FormData();
 
       formData.append('licenseImageBack', payload.licenseImageBack);

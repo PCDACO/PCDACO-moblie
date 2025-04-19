@@ -9,6 +9,7 @@ import { SwiperImageItem } from '~/components/plugins/swiper-images';
 import TabView, { Tab } from '~/components/plugins/tab-view';
 import CarAmentity from '~/components/screens/car-detail/car-amentity';
 import CarBasicInfo from '~/components/screens/car-detail/car-basic-info';
+import CarBookings from '~/components/screens/car-detail/car-bookings';
 import CarCalendar from '~/components/screens/car-detail/car-calendar';
 import CarConfiguration from '~/components/screens/car-detail/car-configuation';
 import CarContact from '~/components/screens/car-detail/car-contact';
@@ -109,6 +110,11 @@ const CarDetailScreen = () => {
         </View>
       ),
       key: 'car-info',
+    },
+    {
+      title: 'Đặt xe',
+      content: <CarBookings bookings={car?.value.bookings || []} />,
+      key: 'booking',
     },
     {
       title: 'Thời gian ',
@@ -252,7 +258,7 @@ const CarDetailScreen = () => {
                   router.push({
                     pathname: '/cars/report/[id]',
                     params: {
-                      id: car?.value.id,
+                      id: car?.value.id || '',
                     },
                   });
                 }}>

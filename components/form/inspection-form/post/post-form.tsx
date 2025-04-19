@@ -23,7 +23,6 @@ const PostForm: FunctionComponent<PostFormProps> = ({ form }) => {
   const [scratchesPhotos, setscratchesPhotos] = useState<string[]>([]);
   const [tollFeesPhotos, setTollFeesPhotos] = useState<string[]>([]);
 
-  // Lưu width của FieldLayout gần nhất
   const fieldWidth = useRef(0);
 
   const handleLayout = (event: LayoutChangeEvent) => {

@@ -6,12 +6,14 @@ import { ScrollView, TouchableOpacity, View, RefreshControl, Pressable } from 'r
 
 import { Text } from '~/components/nativewindui/Text';
 import Backdrop from '~/components/plugins/back-drop';
+import BookContact from '~/components/screens/book-detail/book-contact';
 import BookHeader from '~/components/screens/book-detail/book-header';
 import BookInfo from '~/components/screens/book-detail/book-info';
 import BookPayment from '~/components/screens/book-detail/book-payment';
 import BookingDetailSkeleton from '~/components/screens/book-detail/book-skeleton';
 import CarInfo from '~/components/screens/book-detail/car-info';
 import DriverInfo from '~/components/screens/book-detail/driver-info';
+import FeedbackCard from '~/components/screens/book-detail/feedback';
 import { BookingStatusEnum } from '~/constants/enums';
 import { useApproveOrRejectBooking } from '~/hooks/book/use-approve-or-reject-booking';
 import { useBookingDetailQuery } from '~/hooks/book/use-book';
@@ -37,7 +39,7 @@ const BookingScreen = () => {
   const bookDetail = bookingDetail?.value;
 
   const sheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['1%', '20%'], []);
+  const snapPoints = React.useMemo(() => ['1%', '10%'], []);
 
   const handleSnapPress = React.useCallback((index: number) => {
     sheetRef.current?.snapToIndex(index);
@@ -99,18 +101,21 @@ const BookingScreen = () => {
                   status: '',
                   totalDistance: 0,
                   actualReturnTime: new Date(),
+                  isRefund: false,
+                  refundDate: new Date(),
+                  refundAmount: 0,
                   preInspectionPhotos: {
-                    exteriorPhotos: [],
-                    fuelGaugePhotos: [],
-                    carKeyPhotos: [],
-                    trunkPhotos: [],
-                    parkingLocationPhotos: [],
+                    exteriorCar: [],
+                    fuelGauge: [],
+                    carKey: [],
+                    trunkSpace: [],
+                    parkingLocation: [],
                   },
                   postInspectionPhotos: {
-                    fuelGaugeFinalPhotos: [],
-                    cleanlinessPhotos: [],
-                    scratchesPhotos: [],
-                    tollFeesPhotos: [],
+                    cleanliness: [],
+                    scratches: [],
+                    tollFees: [],
+                    vehicleInspectionCertificate: [],
                   },
                 }
               }
@@ -127,6 +132,9 @@ const BookingScreen = () => {
                 }
               }
             />
+
+            <BookContact id={(id as string) || ''} />
+            <FeedbackCard id={(id as string) || ''} />
           </View>
         </ScrollView>
       </View>
@@ -195,28 +203,17 @@ const BookingScreen = () => {
         onChange={handleSheetChange}>
         <BottomSheetView className="relative z-30 flex-1 bg-white dark:bg-slate-300">
           <View className="gap-2 px-4">
-            <Pressable
-              onPress={() => {
-                router.push({
-                  pathname: '/booking/inspection/view',
-                  params: { id: id as string },
-                });
-              }}
-              className="flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 p-2 dark:border-gray-700">
-              <FontAwesome5 name="car" size={20} color={COLORS.black} />
-              <Text className=" text-foreground">Trạng thái xe</Text>
-            </Pressable>
             <View className="flex-row items-center justify-center gap-2">
               <Pressable
                 onPress={() => {
                   router.push({
-                    pathname: '/(screen)/booking/contract/[id]',
+                    pathname: '/booking/inspection/view',
                     params: { id: id as string },
                   });
                 }}
-                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-blue-600 p-2 dark:border-gray-700">
-                <Ionicons name="document-text-outline" size={20} color={COLORS.white} />
-                <Text className=" text-background">Xem hợp đồng</Text>
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 p-2 dark:border-gray-700">
+                <FontAwesome5 name="car" size={20} color={COLORS.black} />
+                <Text className=" text-foreground">Trạng thái xe</Text>
               </Pressable>
               <Pressable
                 onPress={() => {
@@ -225,9 +222,9 @@ const BookingScreen = () => {
                     params: { id: id as string },
                   });
                 }}
-                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 p-2 dark:border-gray-700">
-                <FontAwesome5 name="flag" size={20} color={COLORS.black} />
-                <Text className=" text-foreground">Báo cáo</Text>
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-foreground p-2 dark:border-gray-700">
+                <FontAwesome5 name="flag" size={20} color={COLORS.white} />
+                <Text className=" text-background">Báo cáo</Text>
               </Pressable>
             </View>
           </View>

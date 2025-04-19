@@ -12,7 +12,17 @@ export interface CarReportDetailResponse {
   resolutionComments: null;
   imageUrls: string[];
   carDetail: CarDetail;
+  bookings: Booking[];
   inspectionScheduleDetail: InspectionScheduleDetail;
+}
+
+interface Booking {
+  avatarUrl: string;
+  bookingId: string;
+  driverId: string;
+  driverName: string;
+  endTime: Date;
+  startTime: Date;
 }
 
 export interface CarDetail {
