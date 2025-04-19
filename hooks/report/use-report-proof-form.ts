@@ -37,7 +37,7 @@ export const useReportProofForm = ({ id }: UseReportProofFormProps) => {
       },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: [QueryKey.Report.Detail] });
+          queryClient.invalidateQueries({ queryKey: [QueryKey.Report.Detail, id] });
           ToastAndroid.show(translate.report.toast.compensation_proof, ToastAndroid.SHORT);
           form.reset();
         },

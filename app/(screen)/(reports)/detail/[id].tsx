@@ -101,21 +101,20 @@ const ReportDetailScreen: FunctionComponent = () => {
         </View>
       </ScrollView>
 
-      {reportDetail?.reporterRole !== Role.Owner &&
-        reportDetail?.compensationDetail?.imageUrl === '' && (
-          <View className="absolute bottom-0 left-0 right-0 z-20 bg-white p-4 dark:bg-slate-900">
-            <Button onPress={onSubmit} disabled={isLoading}>
-              {isLoading ? (
-                <>
-                  <Loading size="small" />
-                  <Text>Đang xử lý...</Text>
-                </>
-              ) : (
-                <Text>Xác nhận</Text>
-              )}
-            </Button>
-          </View>
-        )}
+      {reportDetail?.reporterRole !== Role.Owner && !reportDetail?.compensationDetail?.isPaid && (
+        <View className="absolute bottom-0 left-0 right-0 z-20 bg-white p-4 dark:bg-slate-900">
+          <Button onPress={onSubmit} disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loading size="small" />
+                <Text>Đang xử lý...</Text>
+              </>
+            ) : (
+              <Text>Xác nhận</Text>
+            )}
+          </Button>
+        </View>
+      )}
     </View>
   );
 };
