@@ -16,7 +16,7 @@ const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
       <View
         className={cn(
           ' w-full flex-row items-center justify-between gap-2 rounded-lg border border-muted p-2',
-          classNameLayout
+          className
         )}>
         <View className="w-72 flex-row items-center gap-2">
           {leftIcon && <View>{leftIcon}</View>}

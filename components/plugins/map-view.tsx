@@ -5,6 +5,8 @@ import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 
 const accessToken = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN;
+const GeoApifyUrl = process.env.EXPO_PUBLIC_GEOAPIFY_URL;
+const GeoApify = process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY;
 
 Mapbox.setAccessToken(accessToken ?? '');
 
@@ -120,15 +122,46 @@ export const MapComponent: FunctionComponent<MapComponentProps> = ({
     }
   }, [selectedLocation]);
 
-  const handleMapPress = (event: any) => {
+  const handleMapPress = async (event: any) => {
     if (!enabled) return;
 
     const { coordinates } = event.geometry;
-    onLocationSelect({
-      latitude: coordinates[1],
-      longitude: coordinates[0],
-      address: 'Vị trí đã chọn',
-    });
+    const latitude = coordinates[1];
+    const longitude = coordinates[0];
+
+    try {
+      // Reverse geocode to get address
+      const response = await fetch(
+        `${GeoApifyUrl}/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${GeoApify}`
+      );
+      const data = await response.json();
+
+      let address = 'Vị trí đã chọn';
+      if (data.results && data.results.length > 0) {
+        const result = data.results[0];
+        const parts = [];
+        if (result.name) parts.push(result.name);
+        if (result.street) parts.push(result.street);
+        if (result.district) parts.push(result.district);
+        if (result.city) parts.push(result.city);
+        if (result.state) parts.push(result.state);
+        if (result.country) parts.push(result.country);
+        address = parts.join(', ');
+      }
+
+      onLocationSelect({
+        latitude,
+        longitude,
+        address,
+      });
+    } catch (error) {
+      console.error('Error getting address:', error);
+      onLocationSelect({
+        latitude,
+        longitude,
+        address: 'Vị trí đã chọn',
+      });
+    }
   };
 
   return (

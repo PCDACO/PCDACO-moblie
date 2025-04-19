@@ -20,29 +20,33 @@ const SelectModel: FunctionComponent<SelectModelProps> = ({ onClose, form }) => 
   const searchModelDebounce = useDebounce(searchModel, 500);
 
   const { data: modelData, isLoading: isLoadingModel } = useModelQuery({
-    params: { index: 1, size: 10, keyword: searchModelDebounce },
+    params: { index: 1, size: 12, keyword: searchModelDebounce },
   });
 
   return (
-    <View className="relative flex-1 gap-2 p-4">
+    <View className="relative flex-1 gap-0.5 p-4">
       <Input
+        className="border-white"
         placeholder="Tìm kiếm mẫu xe"
         value={searchModel}
         onChangeText={setSearchModel}
         leftIcon={<Feather name="search" size={20} color="gray" />}
       />
+      <View className="h-0.5 bg-gray-300" />
 
       {isLoadingModel ? (
-        <Loading />
+        <View className="h-40 items-center justify-center">
+          <Loading />
+        </View>
       ) : (
-        <View className="rounded-lg border border-gray-300 ">
+        <View className="">
           <FlatList
             data={modelData?.value.items}
             renderItem={({ item }) => (
               <Pressable
                 className={cn(
-                  'flex-row items-center gap-2 p-2',
-                  selectedModel === item.id && 'bg-primary'
+                  'flex-row items-center gap-2 p-2 pl-8',
+                  selectedModel === item.id && 'rounded-md bg-primary'
                 )}
                 onPress={() => {
                   setSelectedModel(item.id);
@@ -63,7 +67,6 @@ const SelectModel: FunctionComponent<SelectModelProps> = ({ onClose, form }) => 
               </Pressable>
             )}
             keyExtractor={(item) => item.id}
-            ItemSeparatorComponent={() => <View className="h-0.5 bg-gray-300" />}
           />
         </View>
       )}
