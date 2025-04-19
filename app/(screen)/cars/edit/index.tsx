@@ -45,16 +45,8 @@ const EditCarScreen: React.FC = () => {
     setProgress((step / totalStep) * 100);
   }, [step]);
 
-  // React.useEffect(() => {
-  //   if (step === 9 && isError) {
-  //     setError(true);
-  //   } else {
-  //     setError(false);
-  //   }
-  // }, [isError, step]);
-
   const sheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['1%', '75%'], []);
+  const snapPoints = React.useMemo(() => ['1%', '65%'], []);
 
   const handleSnapPress = React.useCallback((index: number) => {
     sheetRef.current?.snapToIndex(index);
