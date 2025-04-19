@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { View } from 'react-native';
 
 import Loading from '~/components/plugins/loading';
@@ -10,20 +10,49 @@ import { useBookingDetailQuery } from '~/hooks/book/use-book';
 const ViewInspectionScreen: FunctionComponent = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const { data: bookingDetail, isLoading, refetch } = useBookingDetailQuery(id as string);
+  const { data: bookingDetail, isLoading } = useBookingDetailQuery(id as string);
+
+  const bookDetail = bookingDetail?.value;
+
+  const postInspectionPhotos = bookDetail?.booking.postInspectionPhotos;
+  const preInspectionPhotos = bookDetail?.booking.preInspectionPhotos;
 
   const tab: Tab[] = [
     {
       title: 'Trước khi đi',
       key: 'pre',
-      content: <PreInspection />,
+      content: (
+        <PreInspection
+          preInspectionPhotos={
+            preInspectionPhotos || {
+              carKey: [],
+              exteriorCar: [],
+              fuelGauge: [],
+              parkingLocation: [],
+              trunkSpace: [],
+            }
+          }
+        />
+      ),
     },
     {
       title: 'Sau khi đi',
       key: 'post',
-      content: <PostInspection />,
+      content: (
+        <PostInspection
+          postInspectionPhotos={
+            postInspectionPhotos || {
+              cleanliness: [],
+              scratches: [],
+              tollFees: [],
+              vehicleInspectionCertificate: [],
+            }
+          }
+        />
+      ),
     },
   ];
+
   if (isLoading) {
     return (
       <View className="h-full flex-1 items-center justify-center">

@@ -149,4 +149,11 @@ export const translate = {
       update_avatar: 'Cập nhật ảnh đại diện thành công!',
     },
   },
+
+  feedback: {
+    toast: {
+      create: 'Gửi phản hồi thành công!',
+      error_create: 'Gửi phản hồi thất bại!',
+    },
+  },
 };

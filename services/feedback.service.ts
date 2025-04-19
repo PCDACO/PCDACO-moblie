@@ -1,6 +1,6 @@
 import axiosInstance from '~/configs/axios.config';
 import {
-  FeedbackParams,
+  // FeedbackParams,
   FeedbackPayload,
   FeedbackResponse,
 } from '~/constants/models/feedback.model';
@@ -14,12 +14,12 @@ export const FeebackService = {
       return response.data;
     },
 
-    byBooking: async (
-      params?: Partial<FeedbackParams>
-    ): Promise<RootResponse<Pagination<FeedbackResponse>>> => {
-      const response = await axiosInstance.get('/api/feedbacks/by-booking', { params });
-      return response.data;
-    },
+    // byBooking: async (
+    //   params?: Partial<FeedbackParams>
+    // ): Promise<RootResponse<Pagination<FeedbackResponse>>> => {
+    //   const response = await axiosInstance.get('/api/bookings/{Ư', { params });
+    //   return response.data;
+    // },
   },
 
   post: {
