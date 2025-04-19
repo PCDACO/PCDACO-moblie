@@ -10,8 +10,7 @@ export const PreInspectionSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'Chỉ nhận ảnh định dạng jpg, jpeg, png, webp'
-    )
-    .optional(),
+    ),
   fuelGaugePhotos: z
     .any()
     .array()
@@ -19,8 +18,7 @@ export const PreInspectionSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'Chỉ nhận ảnh định dạng jpg, jpeg, png, webp'
-    )
-    .optional(),
+    ),
   carKeyPhotos: z
     .any()
     .array()
@@ -28,8 +26,7 @@ export const PreInspectionSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'Chỉ nhận ảnh định dạng jpg, jpeg, png, webp'
-    )
-    .optional(),
+    ),
   trunkPhotos: z
     .any()
     .array()
@@ -37,8 +34,7 @@ export const PreInspectionSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'Chỉ nhận ảnh định dạng jpg, jpeg, png, webp'
-    )
-    .optional(),
+    ),
   parkingLocationPhotos: z
     .any()
     .array()
@@ -46,8 +42,7 @@ export const PreInspectionSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'Chỉ nhận ảnh định dạng jpg, jpeg, png, webp'
-    )
-    .optional(),
+    ),
 });
 
 export const PostInspectionSchema = z.object({
@@ -58,8 +53,7 @@ export const PostInspectionSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'Chỉ nhận ảnh định dạng jpg, jpeg, png, webp'
-    )
-    .optional(),
+    ),
   cleanlinessPhotos: z
     .any()
     .array()
@@ -67,8 +61,7 @@ export const PostInspectionSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'Chỉ nhận ảnh định dạng jpg, jpeg, png, webp'
-    )
-    .optional(),
+    ),
   scratchesPhotos: z
     .any()
     .array()

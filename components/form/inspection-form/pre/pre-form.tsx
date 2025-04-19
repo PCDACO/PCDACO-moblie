@@ -37,10 +37,17 @@ const PreForm: FunctionComponent<PreFormProps> = ({ form }) => {
     icon: JSX.Element,
     state: string[],
     setState: Function,
-    formKey: string
+    formKey: string,
+    required?: boolean
   ) => (
     <View onLayout={handleLayout} className="gap-2">
-      <TextWithIconNoBorder icon={icon} fontWeight="bold" text={title} fontSize="md" />
+      <TextWithIconNoBorder
+        icon={icon}
+        fontWeight="bold"
+        text={title}
+        fontSize="md"
+        required={required}
+      />
 
       <FieldLayout
         className="text-sm font-normal text-muted-foreground"
@@ -118,7 +125,8 @@ const PreForm: FunctionComponent<PreFormProps> = ({ form }) => {
         <MaterialCommunityIcons name="car-outline" size={20} color={COLORS.black} />,
         exteriorPhotos,
         setExteriorPhotos,
-        'exteriorPhotos'
+        'exteriorPhotos',
+        true
       )}
 
       {renderImageField(
@@ -126,7 +134,8 @@ const PreForm: FunctionComponent<PreFormProps> = ({ form }) => {
         <MaterialCommunityIcons name="gas-station-outline" size={20} color={COLORS.black} />,
         fuelGaugePhotos,
         setFuelGaugePhotos,
-        'fuelGaugePhotos'
+        'fuelGaugePhotos',
+        true
       )}
 
       {renderImageField(
@@ -134,7 +143,8 @@ const PreForm: FunctionComponent<PreFormProps> = ({ form }) => {
         <Ionicons name="key-outline" size={20} color={COLORS.black} />,
         carKeyPhotos,
         setCarKeyPhotos,
-        'carKeyPhotos'
+        'carKeyPhotos',
+        true
       )}
 
       {renderImageField(
@@ -142,7 +152,8 @@ const PreForm: FunctionComponent<PreFormProps> = ({ form }) => {
         <MaterialCommunityIcons name="car-outline" size={20} color={COLORS.black} />,
         trunkPhotos,
         setTrunkPhotos,
-        'trunkPhotos'
+        'trunkPhotos',
+        true
       )}
 
       {renderImageField(
@@ -150,7 +161,8 @@ const PreForm: FunctionComponent<PreFormProps> = ({ form }) => {
         <SimpleLineIcons name="location-pin" size={20} color={COLORS.black} />,
         parkingLocationPhotos,
         setParkingLocationPhotos,
-        'parkingLocationPhotos'
+        'parkingLocationPhotos',
+        true
       )}
     </CardBasic>
   );

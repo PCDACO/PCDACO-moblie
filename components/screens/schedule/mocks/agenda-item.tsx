@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import ScheduleBadge from '../schedule-bagde';
 
+import CardBasic from '~/components/plugins/card-basic';
 import { ScheduleStatus } from '~/constants/enums';
 import { InspectionScheduleReponse } from '~/constants/models/schedule.model';
 import { cn } from '~/lib/cn';
@@ -39,7 +40,7 @@ const AgendaItem = ({ inspectionSchedule }: ItemProps) => {
   };
 
   return (
-    <View
+    <CardBasic
       className={cn(
         'gap-4 rounded-lg bg-white p-3',
         getBorderColorClass(inspectionSchedule.statusName)
@@ -65,7 +66,7 @@ const AgendaItem = ({ inspectionSchedule }: ItemProps) => {
               color={COLORS.gray}
               className="mr-2"
             />
-            <Text className="text-sm text-gray-700" numberOfLines={1}>
+            <Text className="w-60 text-sm text-gray-700" numberOfLines={1}>
               {inspectionSchedule.inspectionAddress}
             </Text>
           </View>
@@ -97,7 +98,7 @@ const AgendaItem = ({ inspectionSchedule }: ItemProps) => {
         }>
         <Text className="text-sm text-blue-600">Xem chi tiết →</Text>
       </TouchableOpacity>
-    </View>
+    </CardBasic>
   );
 };
 

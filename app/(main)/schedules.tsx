@@ -14,6 +14,7 @@ import { useScheduleListQuery } from '~/hooks/schedule/use-schedule';
 const SchedulesScreen = () => {
   const [month, setMonth] = React.useState<number>(4);
   const [year, setYear] = React.useState<number>(2025);
+  const [isRefetching, setIsRefetching] = React.useState<boolean>(false);
   const [selectedDate, setSelectedDate] = React.useState<string>(() => {
     const date = new Date();
     date.setMonth(month - 1);
@@ -21,7 +22,11 @@ const SchedulesScreen = () => {
     return date.toISOString().split('T')[0];
   });
 
-  const { data: scheduleList, isLoading } = useScheduleListQuery({
+  const {
+    data: scheduleList,
+    isLoading,
+    refetch,
+  } = useScheduleListQuery({
     month,
     year,
   });
@@ -44,6 +49,15 @@ const SchedulesScreen = () => {
   const todayBtnTheme = React.useRef({
     todayButtonTextColor: themeColor,
   });
+
+  const handleRefresh = React.useCallback(async () => {
+    try {
+      setIsRefetching(true);
+      await refetch();
+    } finally {
+      setIsRefetching(false);
+    }
+  }, [refetch]);
 
   const toggleCalendarExpansion = React.useCallback(() => {
     const isOpen = calendarRef.current?.toggleCalendarPosition();
@@ -123,6 +137,7 @@ const SchedulesScreen = () => {
         sections={sections}
         renderItem={renderItem}
         sectionStyle={styles.section}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         ListEmptyComponent={
           isLoading ? (
             <ScheduleSkeleton />

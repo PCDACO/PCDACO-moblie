@@ -35,10 +35,17 @@ const PostForm: FunctionComponent<PostFormProps> = ({ form }) => {
     icon: JSX.Element,
     state: string[],
     setState: Function,
-    formKey: string
+    formKey: string,
+    required?: boolean
   ) => (
     <View onLayout={handleLayout} className="gap-2">
-      <TextWithIconNoBorder icon={icon} fontWeight="bold" text={title} fontSize="md" />
+      <TextWithIconNoBorder
+        icon={icon}
+        fontWeight="bold"
+        text={title}
+        fontSize="md"
+        required={required}
+      />
 
       <FieldLayout
         className="text-sm font-normal text-muted-foreground"
@@ -116,7 +123,8 @@ const PostForm: FunctionComponent<PostFormProps> = ({ form }) => {
         <MaterialCommunityIcons name="gauge" size={20} color={COLORS.black} />,
         fuelGaugeFinalPhotos,
         setFuelGaugeFinalPhotos,
-        'fuelGaugeFinalPhotos'
+        'fuelGaugeFinalPhotos',
+        true
       )}
 
       {renderImageField(
@@ -124,7 +132,8 @@ const PostForm: FunctionComponent<PostFormProps> = ({ form }) => {
         <MaterialCommunityIcons name="car-seat" size={20} color={COLORS.black} />,
         cleanlinessPhotos,
         setCleanlinessPhotos,
-        'cleanlinessPhotos'
+        'cleanlinessPhotos',
+        true
       )}
 
       {renderImageField(
@@ -132,7 +141,8 @@ const PostForm: FunctionComponent<PostFormProps> = ({ form }) => {
         <MaterialCommunityIcons name="car-wrench" size={20} color={COLORS.black} />,
         scratchesPhotos,
         setscratchesPhotos,
-        'scratchesPhotos'
+        'scratchesPhotos',
+        false
       )}
 
       {renderImageField(
@@ -140,7 +150,8 @@ const PostForm: FunctionComponent<PostFormProps> = ({ form }) => {
         <MaterialCommunityIcons name="road-variant" size={20} color={COLORS.black} />,
         tollFeesPhotos,
         setTollFeesPhotos,
-        'tollFeesPhotos'
+        'tollFeesPhotos',
+        false
       )}
     </CardBasic>
   );

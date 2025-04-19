@@ -13,7 +13,7 @@ interface PostInspectionProps {
 }
 
 const PostInspection: FunctionComponent<PostInspectionProps> = ({ postInspectionPhotos }) => {
-  const { cleanliness, scratches, tollFees, vehicleInspectionCertificate } = postInspectionPhotos;
+  const { cleanliness, scratches, tollFees, fuelGaugeFinal } = postInspectionPhotos;
 
   const { width: screenWidth } = Dimensions.get('window');
 
@@ -60,7 +60,7 @@ const PostInspection: FunctionComponent<PostInspectionProps> = ({ postInspection
       {renderImageField(
         'Ảnh Đồng Hồ Xăng',
         <MaterialCommunityIcons name="gauge" size={20} color={COLORS.black} />,
-        vehicleInspectionCertificate
+        fuelGaugeFinal
       )}
 
       {renderImageField(
@@ -70,7 +70,7 @@ const PostInspection: FunctionComponent<PostInspectionProps> = ({ postInspection
       )}
 
       {renderImageField(
-        'Ảnh Xước Xát',
+        'Ảnh Trầy Xước',
         <MaterialCommunityIcons name="car-wrench" size={20} color={COLORS.black} />,
         scratches
       )}

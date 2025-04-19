@@ -10,6 +10,7 @@ interface TextWithIconNoBorderProps {
   numberOfLines?: number;
   fontSize?: 'sm' | 'md' | 'lg' | 'xl';
   fontWeight?: 'normal' | 'bold' | 'semibold';
+  required?: boolean;
 }
 
 export const TextWithIconNoBorder: React.FC<TextWithIconNoBorderProps> = ({
@@ -19,6 +20,7 @@ export const TextWithIconNoBorder: React.FC<TextWithIconNoBorderProps> = ({
   numberOfLines = 1,
   fontSize = 'md',
   fontWeight = 'normal',
+  required = false,
 }) => {
   let fontSizeClass = 'text-base';
   switch (fontSize) {
@@ -60,6 +62,7 @@ export const TextWithIconNoBorder: React.FC<TextWithIconNoBorderProps> = ({
         className={cn('flex-1 text-foreground', className, textClass)}>
         {text}
       </Text>
+      {required && <Text className="text-red-500">*</Text>}
     </View>
   );
 };

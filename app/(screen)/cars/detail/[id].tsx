@@ -57,7 +57,7 @@ const CarDetailScreen = () => {
   const isLoadingUnavailable = unavailableQuery.isLoading;
 
   const contact = contactQuery.data;
-  const isLoadingContact = contactQuery.isLoading;
+  // const isLoadingContact = contactQuery.isLoading;
 
   const sheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ['1%', '20%'], []);
@@ -86,7 +86,7 @@ const CarDetailScreen = () => {
         url: image.url,
       })) || [];
 
-  if (isLoading || isLoadingContact || isLoadingUnavailable) {
+  if (isLoading) {
     return <CarDetailSkeleton />;
   }
 
@@ -120,6 +120,7 @@ const CarDetailScreen = () => {
       title: 'Thời gian ',
       content: (
         <CarCalendar
+          isLoading={isLoadingUnavailable}
           onMonthChange={handleMonthChange}
           unavailableDates={unavailable?.value.map((date) => new Date(date.date)) || []}
         />

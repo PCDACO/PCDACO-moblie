@@ -130,7 +130,7 @@ export interface PostInspectionPhotos {
   cleanliness: string[];
   scratches: string[];
   tollFees: string[];
-  vehicleInspectionCertificate: string[];
+  fuelGaugeFinal: string[];
 }
 
 export interface Car {
@@ -168,6 +168,7 @@ export interface Feedback {
   content: string;
   type: string;
   userName: string;
+  role: string;
 }
 
 export interface Payment {
