@@ -130,7 +130,7 @@ export interface PostInspectionPhotos {
   cleanliness: string[];
   scratches: string[];
   tollFees: string[];
-  vehicleInspectionCertificate: string[];
+  fuelGaugeFinal: string[];
 }
 
 export interface Car {
