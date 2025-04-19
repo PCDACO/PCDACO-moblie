@@ -53,7 +53,7 @@ const ReportsScreen = () => {
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
 
   const sheetRef = React.useRef<BottomSheet>(null);
-  const snapPoints = React.useMemo(() => ['1%', '55%'], []);
+  const snapPoints = React.useMemo(() => ['1%', '60%'], []);
 
   const handleSnapPress = React.useCallback((index: number) => {
     sheetRef.current?.snapToIndex(index);
