@@ -23,26 +23,38 @@ interface BankItemProps extends BankAccountResponseList {
   onPress: () => void;
 }
 
-export const BankItem: React.FC<BankItemProps> = ({ bankIconUrl, bankShortName, onPress }) => {
+export const BankItem: React.FC<BankItemProps> = ({
+  bankIconUrl,
+  bankShortName,
+  onPress,
+  isPrimary,
+}) => {
   return (
     <Pressable
       onPress={onPress}
       className={cn(
         'flex-row items-center gap-4 rounded-lg border border-gray-200 p-4 dark:border-gray-700'
       )}>
-      {bankIconUrl && (
-        <SvgUri
-          uri={bankIconUrl}
-          height="32"
-          width="32"
-          style={{
-            borderRadius: 8,
-            borderColor: COLORS.gray,
-            borderWidth: 1,
-          }}
-        />
+      <View className="flex-row items-center gap-2">
+        {bankIconUrl && (
+          <SvgUri
+            uri={bankIconUrl}
+            height="32"
+            width="32"
+            style={{
+              borderRadius: 8,
+              borderColor: COLORS.gray,
+              borderWidth: 1,
+            }}
+          />
+        )}
+        <Text className="text-base font-bold text-foreground">{bankShortName}</Text>
+      </View>
+      {isPrimary && (
+        <View className="rounded-lg bg-green-100 px-2 py-1">
+          <Text className="text-sm font-bold text-green-600">Chính</Text>
+        </View>
       )}
-      <Text className="text-base font-bold text-foreground">{bankShortName}</Text>
     </Pressable>
   );
 };
@@ -54,8 +66,6 @@ const BankAccount: FunctionComponent = () => {
   const sheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '15%', '70%'], []);
   const { deleteBankAccountMutation } = useBankMutation();
-  const [isWithdraw, setIsWithdraw] = useState(false);
-  const { form, onSubmit, isLoading: isLoadingForm, isSuccess, isError } = useWithdrawForm();
 
   const { data, isLoading } = useBackAccountListQuery({
     params: {
@@ -73,15 +83,12 @@ const BankAccount: FunctionComponent = () => {
 
   const handleSheetChange = useCallback((index: number) => {
     setIsSheetOpen(index > 0);
-    setIsWithdraw(index === 2);
-    form.reset();
   }, []);
 
   const handleClosePress = useCallback(() => {
     sheetRef.current?.close();
     setIsSheetOpen(false);
     setSelectedBank(null);
-    setIsWithdraw(false);
   }, []);
 
   const handleBankPress = useCallback((bank: BankAccountResponseList) => {
@@ -99,8 +106,11 @@ const BankAccount: FunctionComponent = () => {
   };
 
   const handleWithdraw = () => {
-    handleSnapPress(2);
-    setIsWithdraw(true);
+    router.push({
+      pathname: '/(screen)/(withdraw)',
+      params: { id: selectedBank?.id },
+    });
+    handleClosePress();
   };
 
   const handleDelete = () => {
@@ -122,20 +132,6 @@ const BankAccount: FunctionComponent = () => {
         },
       },
     ]);
-  };
-
-  const handleWithdrawSubmit = async () => {
-    if (selectedBank?.id) {
-      form.setValue('bankAccountId', selectedBank.id);
-    }
-
-    const isValid = await form.trigger(['amount', 'bankAccountId']);
-
-    if (isValid) {
-      onSubmit();
-    } else {
-      ToastAndroid.show('Vui lòng điền đúng thông tin', ToastAndroid.SHORT);
-    }
   };
 
   return (
@@ -174,7 +170,7 @@ const BankAccount: FunctionComponent = () => {
         }
         onChange={handleSheetChange}>
         <BottomSheetView className="bg-white dark:bg-slate-300">
-          {isWithdraw ? (
+          {/* {isWithdraw ? (
             <View className="gap-4 p-4">
               <WithDrawalForm form={form} />
               <Button onPress={handleWithdrawSubmit} disabled={isLoadingForm}>
@@ -197,28 +193,28 @@ const BankAccount: FunctionComponent = () => {
                 )}
               </Button>
             </View>
-          ) : (
-            <View className="flex-row gap-2 p-4">
-              <Pressable
-                onPress={handleEdit}
-                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-primary p-2 dark:border-primary">
-                <Ionicons name="create-outline" size={20} color={COLORS.light.primary} />
-                <Text className="text-primary">Chỉnh sửa</Text>
-              </Pressable>
-              <Pressable
-                onPress={handleWithdraw}
-                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-green-400 p-2 dark:border-green-400">
-                <Ionicons name="cash-outline" size={20} color={COLORS.light.success} />
-                <Text className="text-green-400">Rút tiền</Text>
-              </Pressable>
-              <Pressable
-                onPress={handleDelete}
-                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-red-200 p-2">
-                <Ionicons name="trash-outline" size={20} color={COLORS.light.destructive} />
-                <Text className="text-red-500">Xóa</Text>
-              </Pressable>
-            </View>
-          )}
+          ) : ( */}
+          <View className="flex-row gap-2 p-4">
+            <Pressable
+              onPress={handleEdit}
+              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-primary p-2 dark:border-primary">
+              <Ionicons name="create-outline" size={20} color={COLORS.light.primary} />
+              <Text className="text-primary">Chỉnh sửa</Text>
+            </Pressable>
+            <Pressable
+              onPress={handleWithdraw}
+              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-green-400 p-2 dark:border-green-400">
+              <Ionicons name="cash-outline" size={20} color={COLORS.light.success} />
+              <Text className="text-green-400">Rút tiền</Text>
+            </Pressable>
+            <Pressable
+              onPress={handleDelete}
+              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-red-200 p-2">
+              <Ionicons name="trash-outline" size={20} color={COLORS.light.destructive} />
+              <Text className="text-red-500">Xóa</Text>
+            </Pressable>
+          </View>
+          {/* )} */}
         </BottomSheetView>
       </BottomSheet>
     </View>

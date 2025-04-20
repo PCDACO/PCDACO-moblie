@@ -253,6 +253,16 @@ const ScreenLayout: React.FC = () => {
           headerTitleAlign: 'center',
         }}
       />
+      <Stack.Screen
+        name="(withdraw)/index"
+        options={{
+          headerShown: false,
+          animation: 'fade_from_bottom',
+          headerTitle: 'Rút tiền',
+          headerTitleAlign: 'center',
+          presentation: 'modal',
+        }}
+      />
     </Stack>
   );
 };
