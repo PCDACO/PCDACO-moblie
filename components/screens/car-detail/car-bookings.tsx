@@ -23,6 +23,12 @@ const CarBookings: FunctionComponent<CarBookingsProps> = ({ bookings }) => {
         data={bookings}
         keyExtractor={(item) => item.bookingId}
         ItemSeparatorComponent={() => <View className="h-2" />}
+        ListEmptyComponent={() => (
+          <View className="h-40 flex-1 items-center justify-center gap-2">
+            <Feather name="calendar" size={40} color={COLORS.light.grey5} />
+            <Text className="text-sm text-gray-500">Không có đơn đặt xe</Text>
+          </View>
+        )}
         renderItem={({ item }) => {
           return (
             <CardBasic

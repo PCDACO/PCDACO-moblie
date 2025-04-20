@@ -59,6 +59,7 @@ export default function RootLayout() {
                   <Stack.Screen name="(auth)" options={TAB_OPTIONS} />
                   <Stack.Screen name="(screen)" options={TAB_OPTIONS} />
                   <Stack.Screen name="(second)" options={TAB_OPTIONS} />
+                  <Stack.Screen name="(third)" options={TAB_OPTIONS} />
                 </AuthProvider>
               </Stack>
             </NavThemeProvider>

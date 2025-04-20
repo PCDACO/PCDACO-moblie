@@ -7,6 +7,7 @@ import Description from '../car-editor/description';
 import Subtitle from '../car-editor/subtitle';
 
 import CardBasic from '~/components/plugins/card-basic';
+import { Role } from '~/constants/enums';
 import { BookResponseDetail } from '~/constants/models/book.model';
 import { useFeedbackForm } from '~/hooks/feedback/use-feedback-form';
 import { COLORS } from '~/theme/colors';
@@ -19,8 +20,8 @@ interface FeedbackCardProps {
 const FeedbackCard: FunctionComponent<FeedbackCardProps> = ({ id, feedback }) => {
   const { form, onSubmit, isLoading } = useFeedbackForm(id);
 
-  const hasOwnerFeedback = feedback?.some((f) => f.role === 'Owner');
-  const nonOwnerFeedbacks = feedback?.filter((f) => f.role !== 'Owner');
+  const hasOwnerFeedback = feedback?.some((f) => f.role === Role.Owner);
+  const nonOwnerFeedbacks = feedback?.filter((f) => f.role !== Role.Owner);
 
   return (
     <CardBasic>

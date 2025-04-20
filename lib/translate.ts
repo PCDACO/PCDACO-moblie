@@ -138,6 +138,7 @@ export const translate = {
       Withdrawal: 'Rút tiền',
       Refund: 'Hoàn tiền',
       Compensation: 'Bồi thường',
+      WithdrawalRequest: 'Yêu cầu rút tiền',
     },
     status: {
       Pending: 'Chờ xử lý',

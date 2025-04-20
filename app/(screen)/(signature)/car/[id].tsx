@@ -8,7 +8,7 @@ import { useContractForm } from '~/hooks/contact/use-contact-form';
 const CarSignatureScreen: FunctionComponent = () => {
   const { id } = useLocalSearchParams();
 
-  const { form, onSubmit, isLoading, isSuccess, isError } = useContractForm(id as string);
+  const { form, onSubmit } = useContractForm(id as string);
 
   return (
     <View className="flex-1 p-4">

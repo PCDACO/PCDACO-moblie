@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
+import { router } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { ToastAndroid } from 'react-native';
 
@@ -23,10 +24,14 @@ export const useWithdrawForm = () => {
   const onSubmit = form.handleSubmit((data) => {
     createWithdrawQuery.mutate(data, {
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [QueryKey.Transaction.Withdraw] });
         queryClient.invalidateQueries({ queryKey: [QueryKey.User.Current] });
+        queryClient.invalidateQueries({ queryKey: [QueryKey.Transaction.Withdraw] });
         ToastAndroid.show(translate.transaction.toast.withdraw_success, ToastAndroid.SHORT);
         form.reset();
+
+        setTimeout(() => {
+          router.back();
+        }, 1000);
       },
       onError: (error: any) => {
         ToastAndroid.show(

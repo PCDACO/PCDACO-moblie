@@ -115,7 +115,7 @@ const BookingScreen = () => {
                     cleanliness: [],
                     scratches: [],
                     tollFees: [],
-                    vehicleInspectionCertificate: [],
+                    fuelGaugeFinal: [],
                   },
                 }
               }

@@ -4,7 +4,7 @@ import { CarReportParams, CarReportPayload } from '~/constants/models/car-report
 import { QueryKey } from '~/lib/query-key';
 import { CarReportService } from '~/services/car-report.service';
 
-export const useCarReportQuery = (params: CarReportParams) => {
+export const useCarReportQuery = (params?: Partial<CarReportParams>) => {
   const queryKey = useQuery({
     queryKey: [QueryKey.CarReport.List, params],
     queryFn: () => CarReportService.get.carReport(params),

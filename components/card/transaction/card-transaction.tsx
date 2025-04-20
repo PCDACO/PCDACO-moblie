@@ -34,7 +34,11 @@ const CardTransaction: FunctionComponent<CardTransactionProps> = ({ data }) => {
         <View className="flex-row items-start justify-between">
           <View className="flex-1">
             <Text className="text-base font-semibold">
-              {translate.transaction.type[data.type as keyof typeof translate.transaction.type]}
+              {
+                translate.transaction.type[
+                  data.type.replace(/\s+/g, '') as keyof typeof translate.transaction.type
+                ]
+              }
             </Text>
             {data.description && (
               <Text className="mt-1 text-xs text-gray-400">{data.description}</Text>

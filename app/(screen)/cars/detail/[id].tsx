@@ -14,6 +14,7 @@ import CarCalendar from '~/components/screens/car-detail/car-calendar';
 import CarConfiguration from '~/components/screens/car-detail/car-configuation';
 import CarContact from '~/components/screens/car-detail/car-contact';
 import CarDescription from '~/components/screens/car-detail/car-description';
+import CarFeedback from '~/components/screens/car-detail/car-feedback';
 import CarHeader from '~/components/screens/car-detail/car-header';
 import CarImages from '~/components/screens/car-detail/car-image';
 import CarDetailSkeleton from '~/components/screens/car-detail/car-skeleton';
@@ -107,6 +108,7 @@ const CarDetailScreen = () => {
           <CarAmentity amenity={car?.value.amenities || []} />
           <CarTerm term={car?.value.terms || ''} />
           <CarVehicalRegistration image={paperImages || []} />
+          <CarFeedback feedbacks={car?.value.feedbacks || []} />
         </View>
       ),
       key: 'car-info',

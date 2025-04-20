@@ -3,9 +3,10 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 interface ErrorScreenProps {
   id?: string;
+  type?: 'book' | 'car';
 }
 
-export default function ErrorScreen({ id }: ErrorScreenProps) {
+export default function ErrorScreen({ id, type = 'book' }: ErrorScreenProps) {
   const handleRetry = () => {
     // Implement retry logic
   };

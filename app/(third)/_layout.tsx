@@ -22,7 +22,7 @@ function GoBackButton() {
   );
 }
 
-export default function SecondLayout() {
+const ThirdLayout = () => {
   return (
     <Tabs
       screenOptions={({ route }) => ({
@@ -34,10 +34,10 @@ export default function SecondLayout() {
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
-          if (route.name === 'transaction') {
-            iconName = 'swap-horizontal';
-          } else if (route.name === 'bank-account') {
-            iconName = 'card';
+          if (route.name === 'car-report') {
+            iconName = 'car';
+          } else if (route.name === 'book-report') {
+            iconName = 'book';
           }
 
           return <Ionicons name={iconName as any} size={size} color={color} />;
@@ -45,30 +45,24 @@ export default function SecondLayout() {
         tabBarActiveTintColor: '#007AFF',
         tabBarInactiveTintColor: 'gray',
       })}>
-      {/* <Tabs.Screen
-        name="wallet"
-        options={{
-          tabBarLabel: 'Ví',
-          title: 'Ví của tôi',
-          animation: 'shift',
-        }}
-      /> */}
       <Tabs.Screen
-        name="transaction"
+        name="book-report"
         options={{
-          tabBarLabel: 'Giao dịch',
-          title: 'Lịch sử giao dịch',
-          animation: 'shift',
+          tabBarLabel: 'Đặt xe',
+          title: 'Báo cáo đặt xe',
+          animation: 'fade',
         }}
       />
       <Tabs.Screen
-        name="bank-account"
+        name="car-report"
         options={{
-          tabBarLabel: 'Ngân hàng',
-          title: 'Tài khoản ngân hàng',
-          animation: 'shift',
+          tabBarLabel: 'Xe',
+          title: 'Báo cáo xe',
+          animation: 'fade',
         }}
       />
     </Tabs>
   );
-}
+};
+
+export default ThirdLayout;
