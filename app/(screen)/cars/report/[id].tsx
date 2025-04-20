@@ -39,11 +39,11 @@ const ReportScreen: FunctionComponent = () => {
   }
 
   if (isSuccess) {
-    return <SuccessScreen />;
+    return <SuccessScreen type="car" />;
   }
 
   if (isError) {
-    return <ErrorScreen />;
+    return <ErrorScreen type="car" />;
   }
 
   return (

@@ -51,7 +51,7 @@ export const useReportForm = ({ id }: ReportFormProps) => {
                 form.reset();
 
                 setTimeout(() => {
-                  router.back();
+                  router.replace('/(third)/book-report');
                 }, 1000);
               },
               onError: (error: any) => {
@@ -67,7 +67,7 @@ export const useReportForm = ({ id }: ReportFormProps) => {
           form.reset();
 
           setTimeout(() => {
-            router.back();
+            router.replace('/(third)/book-report');
           }, 1000);
         }
       },

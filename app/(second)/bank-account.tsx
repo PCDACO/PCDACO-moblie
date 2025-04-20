@@ -2,11 +2,9 @@ import { Ionicons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
 import React, { FunctionComponent, useCallback, useMemo, useRef, useState } from 'react';
-import { View, Text, FlatList, Pressable, Alert, ToastAndroid } from 'react-native';
+import { View, Text, FlatList, Pressable, Alert } from 'react-native';
 import { SvgUri } from 'react-native-svg';
 
-import WithDrawalForm from '~/components/form/with-drawal-form';
-import { Button } from '~/components/nativewindui/Button';
 import Backdrop from '~/components/plugins/back-drop';
 import CardBasic from '~/components/plugins/card-basic';
 import Loading from '~/components/plugins/loading';
@@ -15,7 +13,6 @@ import BankFooter from '~/components/screens/bank-list/bank-footer';
 import Subtitle from '~/components/screens/car-editor/subtitle';
 import { BankAccountResponseList } from '~/constants/models/bank.model';
 import { useBackAccountListQuery, useBankMutation } from '~/hooks/bank/use-bank';
-import { useWithdrawForm } from '~/hooks/transaction/use-withdraw-form';
 import { cn } from '~/lib/cn';
 import { COLORS } from '~/theme/colors';
 
@@ -66,8 +63,9 @@ const BankAccount: FunctionComponent = () => {
   const sheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['1%', '15%', '70%'], []);
   const { deleteBankAccountMutation } = useBankMutation();
+  const [isRefreshing, setIsRefreshing] = React.useState(false);
 
-  const { data, isLoading } = useBackAccountListQuery({
+  const { data, isLoading, refetch } = useBackAccountListQuery({
     params: {
       index: 1,
       size: 20,
@@ -134,15 +132,24 @@ const BankAccount: FunctionComponent = () => {
     ]);
   };
 
+  const handleRefresh = async () => {
+    try {
+      setIsRefreshing(true);
+      await refetch();
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   return (
     <View className="h-full p-4">
       <View>
         <Subtitle title="Tài khoản/Thẻ của bạn" />
       </View>
 
-      <CardBasic>
+      <CardBasic className="min-h-40">
         {isLoading ? (
-          <View className="h-40 flex-1 items-center justify-center">
+          <View className="h-80 flex-1 items-center justify-center">
             <Loading />
           </View>
         ) : (
@@ -156,6 +163,8 @@ const BankAccount: FunctionComponent = () => {
               ItemSeparatorComponent={() => <View className="h-1 " />}
               ListEmptyComponent={<BankEmpty />}
               ListFooterComponent={() => <BankFooter />}
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
             />
           </View>
         )}
@@ -170,30 +179,6 @@ const BankAccount: FunctionComponent = () => {
         }
         onChange={handleSheetChange}>
         <BottomSheetView className="bg-white dark:bg-slate-300">
-          {/* {isWithdraw ? (
-            <View className="gap-4 p-4">
-              <WithDrawalForm form={form} />
-              <Button onPress={handleWithdrawSubmit} disabled={isLoadingForm}>
-                {isLoadingForm ? (
-                  <View className="flex-row items-center gap-2">
-                    <Loading size="small" />
-                    <Text className="text-white">Đang xử lý...</Text>
-                  </View>
-                ) : isSuccess ? (
-                  <View className="flex-row items-center gap-2">
-                    <Ionicons name="checkmark-circle" size={20} color={COLORS.white} />
-                    <Text className="text-white">Rút tiền thành công</Text>
-                  </View>
-                ) : isError ? (
-                  <View className="flex-row items-center gap-2">
-                    <Text className="text-white">Xin hãy thử lại</Text>
-                  </View>
-                ) : (
-                  <Text className="text-white">Rút tiền</Text>
-                )}
-              </Button>
-            </View>
-          ) : ( */}
           <View className="flex-row gap-2 p-4">
             <Pressable
               onPress={handleEdit}
@@ -214,7 +199,6 @@ const BankAccount: FunctionComponent = () => {
               <Text className="text-red-500">Xóa</Text>
             </Pressable>
           </View>
-          {/* )} */}
         </BottomSheetView>
       </BottomSheet>
     </View>

@@ -208,27 +208,17 @@ const ScreenLayout: React.FC = () => {
           headerTitleAlign: 'center',
         }}
       />
+
       <Stack.Screen
-        name="(reports)/reports"
+        name="(reports)/car-detail/[id]"
         options={{
           headerShown: true,
           animation: 'fade_from_bottom',
-          presentation: 'modal',
-          headerTitle: 'Danh sách báo cáo',
+          headerTitle: 'Chi tiết báo cáo xe',
           headerTitleAlign: 'center',
         }}
       />
 
-      {/* Schedule - Lịch */}
-      {/* <Stack.Screen
-        name="(schedule)/schedules"
-        options={{
-          headerShown: true,
-          animation: 'fade_from_bottom',
-          headerTitle: 'Lịch đặt xe',
-          headerTitleAlign: 'center',
-        }}
-      /> */}
       <Stack.Screen
         name="(schedule)/schedule/[id]"
         options={{

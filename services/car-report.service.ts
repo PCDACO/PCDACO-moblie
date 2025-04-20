@@ -9,7 +9,7 @@ import {
 export const CarReportService = {
   get: {
     carReport: async (
-      params: CarReportParams
+      params?: Partial<CarReportParams>
     ): Promise<RootResponse<Pagination<CarReportListReponse>>> => {
       const carReport = await axiosInstance.get(`/api/car-reports`, { params });
       return carReport.data;

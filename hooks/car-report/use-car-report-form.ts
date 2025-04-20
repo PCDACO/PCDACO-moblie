@@ -56,7 +56,7 @@ export const useCarReportForm = () => {
                   ToastAndroid.SHORT
                 );
                 setTimeout(() => {
-                  router.back();
+                  router.replace('/(third)/car-report');
                 }, 1000);
               },
               onError: (error: any) => {
@@ -71,7 +71,7 @@ export const useCarReportForm = () => {
           form.reset();
 
           setTimeout(() => {
-            router.back();
+            router.replace('/(third)/car-report');
 
             ToastAndroid.show(
               translate.car_report.toast.create || 'Đã gửi báo cáo thành công',

@@ -63,7 +63,7 @@ const ReportScreen: FunctionComponent = () => {
 
       <BottomSheet
         ref={sheetRef}
-        snapPoints={['1%', '45%']}
+        snapPoints={['1%', '55%']}
         enableDynamicSizing={false}
         backdropComponent={
           isSheetOpen ? (props) => <Backdrop {...props} onPress={handleClosePress} /> : null

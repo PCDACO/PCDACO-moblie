@@ -77,7 +77,7 @@ const ProfileMenu = ({ id }: ProfileMenuProps) => {
         text="Báo cáo"
         onPress={() =>
           router.push({
-            pathname: '/(screen)/(reports)/reports',
+            pathname: '/(third)/book-report',
           })
         }
         isLast

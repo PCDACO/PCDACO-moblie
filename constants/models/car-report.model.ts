@@ -6,7 +6,7 @@ export interface CarReportDetailResponse {
   title: string;
   description: string;
   reportType: string;
-  status: string;
+  status: number;
   resolvedAt: null;
   resolvedById: null;
   resolutionComments: null;
@@ -16,7 +16,7 @@ export interface CarReportDetailResponse {
   inspectionScheduleDetail: InspectionScheduleDetail;
 }
 
-interface Booking {
+export interface Booking {
   avatarUrl: string;
   bookingId: string;
   driverId: string;

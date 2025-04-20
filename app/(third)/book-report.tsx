@@ -15,7 +15,7 @@ import { useReportParamsStore } from '~/store/use-params';
 import { useSearchStore } from '~/store/use-search';
 import { COLORS } from '~/theme/colors';
 
-const ReportsScreen = () => {
+const BookReportsScreen = () => {
   const { searchKeyword } = useSearchStore();
   const { params } = useReportParamsStore();
   const [paramsReport, setParamsReport] = React.useState<Partial<ReportParamsType>>(params);
@@ -129,4 +129,4 @@ const ReportsScreen = () => {
   );
 };
 
-export default ReportsScreen;
+export default BookReportsScreen;

@@ -5,23 +5,22 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 interface SuccessScreenProps {
   id?: string;
+  type?: 'book' | 'car';
 }
 
-export default function SuccessScreen({ id }: SuccessScreenProps) {
+export default function SuccessScreen({ id, type = 'book' }: SuccessScreenProps) {
   const router = useRouter();
-  const handleNewReport = () => {
-    router.push({
-      pathname: '/(screen)/(reports)/reports',
-    });
-  };
 
   const handleViewReports = () => {
-    router.push({
-      pathname: '/(screen)/(reports)/detail/[id]',
-      params: {
-        id: id as string,
-      },
-    });
+    if (type === 'book') {
+      router.push({
+        pathname: '/(third)/book-report',
+      });
+    } else {
+      router.push({
+        pathname: '/(third)/car-report',
+      });
+    }
   };
 
   return (
@@ -58,12 +57,6 @@ export default function SuccessScreen({ id }: SuccessScreenProps) {
           onPress={handleViewReports}
           className="w-full items-center rounded-lg bg-primary py-4">
           <Text className="font-medium text-white">Xem danh sách báo cáo</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={handleNewReport}
-          className="w-full items-center rounded-lg border border-gray-200 py-4">
-          <Text className="font-medium text-black">Tạo báo cáo mới</Text>
         </TouchableOpacity>
       </View>
     </View>

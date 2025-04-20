@@ -123,6 +123,17 @@ export interface CarDetailResponse {
   amenities: Amenity[];
   bookings: Bookings[];
   contract: Contract;
+  feedbacks: Feedback[];
+}
+
+export interface Feedback {
+  id: string;
+  userId: string;
+  userName: string;
+  userAvatar: string;
+  rating: number;
+  content: string;
+  createdAt: Date;
 }
 
 export interface Bookings {
