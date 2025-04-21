@@ -5,13 +5,34 @@ import { View, Text, Image } from 'react-native';
 
 import ImageGallery from './image-gallery';
 
+import { ScheduleStatusNumber } from '~/constants/enums';
 import { InspectionScheduleDetail } from '~/constants/models/car-report.model';
+import { translate } from '~/lib/translate';
 
 interface InspectionScheduleCardProps {
   inspectionDetail: InspectionScheduleDetail;
 }
 
 const InspectionScheduleCard: React.FC<InspectionScheduleCardProps> = ({ inspectionDetail }) => {
+  const convertEnumString = (status: number) => {
+    switch (status) {
+      case ScheduleStatusNumber.Pending:
+        return translate.schedule.status.Pending;
+      case ScheduleStatusNumber.Approved:
+        return translate.schedule.status.Approved;
+      case ScheduleStatusNumber.Rejected:
+        return translate.schedule.status.Rejected;
+      case ScheduleStatusNumber.InProgress:
+        return translate.schedule.status.InProgress;
+      case ScheduleStatusNumber.Expired:
+        return translate.schedule.status.Expired;
+      case ScheduleStatusNumber.Signed:
+        return translate.schedule.status.Signed;
+      default:
+        return 'Không xác định';
+    }
+  };
+
   return (
     <View className="mx-4 mt-4 rounded-lg bg-white shadow-sm">
       <View className="p-4">
@@ -75,7 +96,8 @@ const InspectionScheduleCard: React.FC<InspectionScheduleCardProps> = ({ inspect
           <View className="flex-row items-center">
             <AntDesign name="infocirlceo" size={14} color="#6b7280" />
             <Text className="ml-2 text-xs text-gray-600">
-              Trạng thái: <Text className="font-medium">{inspectionDetail.status}</Text>
+              Trạng thái:{' '}
+              <Text className="font-medium">{convertEnumString(inspectionDetail.status || 0)}</Text>
             </Text>
           </View>
         </View>

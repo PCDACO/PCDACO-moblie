@@ -2,7 +2,14 @@ import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as React from 'react';
-import { ScrollView, TouchableOpacity, View, RefreshControl, Pressable } from 'react-native';
+import {
+  ScrollView,
+  TouchableOpacity,
+  View,
+  RefreshControl,
+  Pressable,
+  Linking,
+} from 'react-native';
 
 import { Text } from '~/components/nativewindui/Text';
 import Backdrop from '~/components/plugins/back-drop';
@@ -149,9 +156,9 @@ const BookingScreen = () => {
               onPress={() => {
                 handleApproveOrRejectBooking(false, '');
               }}
-              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-background p-4 dark:border-gray-700">
+              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-background p-2 dark:border-gray-700">
               <Feather name="x-circle" size={20} color={COLORS.black} />
-              <Text className="text-foreground">Từ chối đặt xe</Text>
+              <Text className="text-foreground">Từ chối</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -160,9 +167,16 @@ const BookingScreen = () => {
                   params: { id: id as string },
                 });
               }}
-              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-primary p-4">
+              className="flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-foreground p-2">
               <Feather name="check-circle" size={20} color={COLORS.white} />
-              <Text className="text-background">Xác nhận đặt xe</Text>
+              <Text className="text-background">Xác nhận</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                Linking.openURL(`tel:${bookDetail?.driver.phone}`);
+              }}
+              className="flex-row items-center justify-center gap-2 rounded-full bg-green-500 px-2">
+              <Feather name="phone" size={20} color={COLORS.white} />
             </TouchableOpacity>
           </>
         )}
@@ -177,7 +191,7 @@ const BookingScreen = () => {
                 },
               });
             }}
-            className="flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-primary p-4">
+            className="flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-primary p-2">
             <Text className="text-background">Kiểm tra trước khi giao xe</Text>
           </TouchableOpacity>
         )}
@@ -192,7 +206,7 @@ const BookingScreen = () => {
                 },
               });
             }}
-            className="flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-primary p-4">
+            className="flex-1 flex-row items-center justify-center gap-2 rounded-lg bg-primary p-2">
             <Text className="text-background">Kiểm tra sau khi nhận xe</Text>
           </TouchableOpacity>
         )}

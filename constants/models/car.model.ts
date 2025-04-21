@@ -102,6 +102,7 @@ export interface CarDetailResponse {
   fuelTypeId: string;
   transmissionId: string;
   ownerId: string;
+  ownerPhone: string;
   ownerName: string;
   licensePlate: string;
   color: string;
@@ -141,8 +142,10 @@ export interface Bookings {
   bookingId: string;
   driverId: string;
   driverName: string;
+  driverPhone: string;
   endTime: Date;
   startTime: Date;
+  status: string;
 }
 
 export interface Amenity {

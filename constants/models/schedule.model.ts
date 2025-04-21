@@ -16,8 +16,7 @@ export interface InspectionScheduleParmas {
   technicianId?: string;
   month?: number;
   year?: number;
-  firstDay?: number;
-  lastDay?: number;
+  status?: number;
 }
 
 export interface InspectionScheduleDetailResponse {

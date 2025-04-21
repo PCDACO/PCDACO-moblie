@@ -8,6 +8,7 @@ import { useCarMutation } from '../car/use-car';
 
 import { ContractPayloadSchema, contractSchema } from '~/constants/schemas/contract.schema';
 import { QueryKey } from '~/lib/query-key';
+import { translate } from '~/lib/translate';
 
 export const useContractForm = (id: string) => {
   const queryClient = useQueryClient();
@@ -27,14 +28,17 @@ export const useContractForm = (id: string) => {
         onSuccess: (data) => {
           form.reset();
           queryClient.invalidateQueries({ queryKey: [QueryKey.Contact.get.preview, id] });
-          ToastAndroid.show(data.message, ToastAndroid.SHORT);
+          ToastAndroid.show(data.message || translate.cars.toast.success_sign, ToastAndroid.SHORT);
 
           setTimeout(() => {
             router.back();
           }, 3000);
         },
         onError: (error: any) => {
-          ToastAndroid.show(error.response.data.message, ToastAndroid.SHORT);
+          ToastAndroid.show(
+            error.response.data.message || translate.cars.toast.error_sign,
+            ToastAndroid.SHORT
+          );
         },
       }
     );
