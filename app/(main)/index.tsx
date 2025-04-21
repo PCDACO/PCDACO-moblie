@@ -2,10 +2,11 @@ import { View } from 'react-native';
 
 import Loading from '~/components/plugins/loading';
 import HomeHeader from '~/components/screens/home-screen/home-header';
+import { HomeScreen } from '~/components/screens/home-screen/home-screen';
 import { UserResponse } from '~/constants/models/user.model';
 import { useUserQuery } from '~/hooks/user/use-user';
 
-const HomeScreen = () => {
+const HomeScreenWrapper = () => {
   const { currentUserQuery } = useUserQuery();
 
   const { data: user, isLoading } = currentUserQuery;
@@ -30,8 +31,9 @@ const HomeScreen = () => {
           }
         }
       />
+      <HomeScreen user={user?.value as UserResponse} />
     </View>
   );
 };
 
-export default HomeScreen;
+export default HomeScreenWrapper;
