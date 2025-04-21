@@ -1,6 +1,15 @@
 import { Feather } from '@expo/vector-icons';
 import React from 'react';
-import { Animated, Easing, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Animated,
+  Easing,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  LogBox,
+} from 'react-native';
 import { AgendaList, CalendarProvider, DateData, ExpandableCalendar } from 'react-native-calendars';
 import XDate from 'xdate';
 
@@ -10,6 +19,12 @@ import { getTheme, lightThemeColor, themeColor } from '~/components/screens/sche
 import ScheduleSkeleton from '~/components/screens/schedule/schedule-skeleton';
 import { InspectionScheduleReponse } from '~/constants/models/schedule.model';
 import { useScheduleListQuery } from '~/hooks/schedule/use-schedule';
+
+// Suppress specific warnings
+LogBox.ignoreLogs([
+  'ExpandableCalendar: Support for defaultProps',
+  'Function components cannot be given refs',
+]);
 
 const SchedulesScreen = () => {
   const [month, setMonth] = React.useState<number>(4);
@@ -138,6 +153,7 @@ const SchedulesScreen = () => {
         renderItem={renderItem}
         sectionStyle={styles.section}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={handleRefresh} />}
         ListEmptyComponent={
           isLoading ? (
             <ScheduleSkeleton />

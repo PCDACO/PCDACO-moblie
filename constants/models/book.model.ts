@@ -160,6 +160,7 @@ export interface Driver {
   name: string;
   phone: string;
   email: string;
+  avatarUrl: string;
 }
 
 export interface Feedback {

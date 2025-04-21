@@ -89,6 +89,7 @@ const BookingScreen = () => {
                   id: '',
                   name: '',
                   phone: '',
+                  avatarUrl: '',
                 }
               }
             />

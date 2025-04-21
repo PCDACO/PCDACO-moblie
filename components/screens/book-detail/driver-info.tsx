@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 
 import Subtitle from '../car-editor/subtitle';
 
+import { Avatar, AvatarFallback, AvatarImage } from '~/components/nativewindui/Avatar';
 import CardBasic from '~/components/plugins/card-basic';
 import { BookResponseDetail } from '~/constants/models/book.model';
 import { formatPhoneNumber } from '~/lib/format';
@@ -19,6 +20,14 @@ const DriverInfo: FunctionComponent<DriverInfoProps> = ({ driver }) => {
       <View className="flex-row items-center gap-2">
         <Feather name="user" size={24} color={COLORS.gray} />
         <Subtitle title="Thông tin người đặt" />
+      </View>
+      <View className="flex-row items-center justify-center gap-2">
+        <Avatar alt={driver.name} className="h-16 w-16">
+          <AvatarFallback>
+            <Text>{driver.name.charAt(0)}</Text>
+          </AvatarFallback>
+          <AvatarImage source={{ uri: driver.avatarUrl }} />
+        </Avatar>
       </View>
       <View className="gap-2">
         <View className="flex-row items-center justify-between gap-2">

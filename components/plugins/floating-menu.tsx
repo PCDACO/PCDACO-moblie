@@ -16,6 +16,7 @@ interface MenuButton {
   label?: string;
   color?: string;
   onPress: () => void;
+  disabled?: boolean;
 }
 
 interface FloatingMenuProps {
@@ -59,9 +60,11 @@ const FloatingMenu: React.FC<FloatingMenuProps> = ({ buttons, className }) => {
             <TouchableOpacity
               key={index}
               className="mb-2 flex-row items-center gap-2 rounded-full p-3"
+              disabled={button.disabled}
               style={{
                 backgroundColor: button.color || COLORS.gray,
                 opacity: buttonOpacity, // Apply opacity to the current button
+                ...(button.disabled && { opacity: 0.5 }),
               }}
               onPressIn={() => setActiveIndex(index)} // Set index for the pressed button
               onPressOut={() => setActiveIndex(null)} // Clear the state when the finger is removed

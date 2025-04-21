@@ -4,7 +4,7 @@ export const translate = {
       pending: 'Chờ duyệt',
       available: 'Có sẵn',
       rented: 'Đã thuê',
-      maintain: 'Duy trì',
+      maintain: 'Bảo trì',
       inactive: 'Không hoạt động',
 
       contract: {

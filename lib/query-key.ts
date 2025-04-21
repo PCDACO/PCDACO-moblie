@@ -1,4 +1,8 @@
 export const QueryKey = {
+  AI: {
+    LicensePlate: 'LicensePlate',
+  },
+
   Amenity: {
     List: 'AmenityList',
   },

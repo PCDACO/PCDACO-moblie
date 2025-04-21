@@ -5,8 +5,8 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { LocaleConfig as CalendarLocaleConfig } from '~/configs/calendar.config';
 
 // Set up locale configuration
-LocaleConfig.locales['vi'] = CalendarLocaleConfig.locales['vi'];
-LocaleConfig.defaultLocale = CalendarLocaleConfig.defaultLocale;
+(LocaleConfig as any).locales['vi'] = CalendarLocaleConfig.locales['vi'];
+(LocaleConfig as any).defaultLocale = CalendarLocaleConfig.defaultLocale;
 
 interface MultiDatePickerProps {
   initialDates?: Date[];
