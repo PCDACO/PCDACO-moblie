@@ -12,6 +12,7 @@ import CarCard from '~/components/screens/car-list/car-card';
 import CarParams from '~/components/screens/car-list/car-params';
 import CarCardSkeleton from '~/components/screens/car-list/car-skeleton';
 import { useCarMutation, useCarQuery } from '~/hooks/car/use-car';
+import { useLicensesListQuery } from '~/hooks/license/use-license';
 import { useCarParamsStore } from '~/store/use-params';
 import { useSearchStore } from '~/store/use-search';
 import { useStepStore } from '~/store/use-step';
@@ -22,6 +23,7 @@ const CarsScreen = () => {
   const { resetStep } = useStepStore();
   const { params } = useCarParamsStore();
   const { searchKeyword } = useSearchStore();
+  const { data: licenseDetailData } = useLicensesListQuery();
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
   const {
@@ -131,6 +133,7 @@ const CarsScreen = () => {
             icon: 'add',
             label: 'Thêm xe',
             color: COLORS.light.primary,
+            disabled: licenseDetailData === undefined,
             onPress: () => {
               resetStep();
               router.push({

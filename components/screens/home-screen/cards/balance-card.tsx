@@ -1,0 +1,52 @@
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import { View, Text, Pressable } from 'react-native';
+
+import { UserResponse } from '~/constants/models/user.model';
+import { COLORS } from '~/theme/colors';
+
+interface BalanceCardProps {
+  user: UserResponse;
+}
+
+export const BalanceCard = ({ user }: BalanceCardProps) => {
+  return (
+    <View className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
+      <View className="flex-row items-center justify-between">
+        <View className="flex-1">
+          <Text className="text-base font-bold text-gray-900 dark:text-gray-100">
+            Số dư tài khoản
+          </Text>
+          <Text className="mt-1 text-2xl font-bold text-primary">
+            {user.balance?.toLocaleString('vi-VN')} VND
+          </Text>
+        </View>
+        <Pressable
+          className="bg-primary/10 h-12 w-12 items-center justify-center rounded-full"
+          onPress={() => router.push('/(second)/bank-account')}>
+          <Ionicons name="wallet-outline" size={24} color={COLORS.light.primary} />
+        </Pressable>
+      </View>
+      <View className="mt-4 flex-row justify-between">
+        <View className="items-center">
+          <Text className="text-sm text-gray-500 dark:text-gray-400">Tổng xe</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            {user.totalCar || 0}
+          </Text>
+        </View>
+        <View className="items-center">
+          <Text className="text-sm text-gray-500 dark:text-gray-400">Đã cho thuê</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            {user.totalRented || 0}
+          </Text>
+        </View>
+        <View className="items-center">
+          <Text className="text-sm text-gray-500 dark:text-gray-400">Đang thuê</Text>
+          <Text className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            {user.totalRent || 0}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+};

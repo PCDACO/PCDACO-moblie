@@ -6,8 +6,11 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import FieldLayout from '~/components/layouts/field-layout';
 import CameraTakePicture from '~/components/plugins/camera-take-picture';
 import CardBasic from '~/components/plugins/card-basic';
+import { AILicensePlatePrevResponse } from '~/constants/models/ai.model';
+import { useAiMutation } from '~/hooks/ai/use-ai';
 import { useLicenseForm } from '~/hooks/license/use-license-form';
 import { convertAssertToFile } from '~/lib/convert';
+import { withNoCache } from '~/lib/utils';
 import { useApiStore } from '~/store/check-endpoint';
 
 interface RenderLicense {
@@ -46,8 +49,15 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
   const [isEdit, setIsEdit] = React.useState(false);
   const { addEndpoint, removeEndpoint } = useApiStore();
   const [licenseFront, setLicenseFront] = React.useState<string | undefined>();
-
   const [licenseBack, setLicenseBack] = React.useState<string | undefined>();
+  const { mutate: aiMutation } = useAiMutation();
+
+  const parseDateString = (dateStr: string) => {
+    const [day, month, year] = dateStr.split('/');
+    console.log(day, month, year);
+    // eslint-disable-next-line radix
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  };
 
   React.useEffect(() => {
     if (licenseImageFront) {
@@ -57,6 +67,29 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
       setLicenseBack(licenseImageBack);
     }
   }, [licenseImageFront, licenseImageBack]);
+
+  const handleCaptureFront = React.useCallback(
+    (value: any) => {
+      setLicenseFront(value.uri);
+      const file = convertAssertToFile(value);
+      form.setValue('licenseImageFront', file);
+
+      // Call AI mutation to process the image
+      aiMutation(file, {
+        onSuccess: (response) => {
+          if (response.data && response.data.length > 0 && 'id' in response.data[0]) {
+            const licenseData = response.data[0] as AILicensePlatePrevResponse;
+            // Set the license number and expiration date from AI response
+            form.setValue('licenseNumber', licenseData.id);
+            form.setValue('expirationDate', parseDateString(licenseData.doe));
+            // Trigger form update
+            form.trigger(['licenseNumber', 'expirationDate']);
+          }
+        },
+      });
+    },
+    [aiMutation, form]
+  );
 
   return (
     <CardBasic className="gap-2">
@@ -80,7 +113,7 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
         <FieldLayout label="Ảnh mặt trước">
           {licenseFront ? (
             renderLicense({
-              image: licenseFront,
+              image: withNoCache(licenseFront),
               isEdit,
               onClear: () => {
                 setLicenseFront(undefined);
@@ -91,11 +124,7 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
           ) : (
             <CameraTakePicture
               className="h-32"
-              onCapture={(value) => {
-                setLicenseFront(value.uri);
-
-                form.setValue('licenseImageFront', convertAssertToFile(value));
-              }}
+              onCapture={handleCaptureFront}
               contextInput={
                 <>
                   <Icon name="camera" size={20} color="gray" />
@@ -114,7 +143,7 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
         <FieldLayout label="Ảnh mặt sau">
           {licenseBack ? (
             renderLicense({
-              image: licenseBack,
+              image: withNoCache(licenseBack),
               isEdit,
               onClear: () => {
                 setLicenseBack(undefined);

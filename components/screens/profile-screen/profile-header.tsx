@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons';
+import { useQueryClient } from '@tanstack/react-query';
 import * as ImagePicker from 'expo-image-picker';
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
@@ -7,6 +8,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '~/components/nativewindui/A
 import { Text as TextUI } from '~/components/nativewindui/Text';
 import { UserResponse } from '~/constants/models/user.model';
 import { useUserMutation } from '~/hooks/user/use-user';
+import { QueryKey } from '~/lib/query-key';
+import { withNoCache } from '~/lib/utils';
 
 interface ProfileHeaderProps {
   image?: string;
@@ -16,6 +19,7 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ image, name, role, user }) => {
+  const queryClient = useQueryClient();
   const { updateUserAvatarMutation } = useUserMutation();
   const [avatar, setAvatar] = React.useState<string | undefined>(image);
 
@@ -37,7 +41,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ image, name, role, user }
     } as unknown as File;
 
     setAvatar(avatar.assets[0].uri);
-    updateUserAvatarMutation.mutate({ id: user?.id, avatar: newImage });
+    updateUserAvatarMutation.mutate(
+      { id: user?.id, avatar: newImage },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [QueryKey.User.Current] });
+        },
+      }
+    );
   };
 
   return (
@@ -49,7 +60,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ image, name, role, user }
               alt="avatar"
               className="h-24 w-24 rounded-full border-4"
               accessibilityLabel="Profile">
-              <AvatarImage source={{ uri: avatar }} />
+              <AvatarImage source={{ uri: withNoCache(avatar) }} />
               <AvatarFallback>
                 <TextUI className="text-4xl">{name?.charAt(0).toLocaleUpperCase()}</TextUI>
               </AvatarFallback>

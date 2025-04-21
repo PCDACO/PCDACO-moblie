@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { FlatList, View, Image, Text } from 'react-native';
 
+import { withNoCache } from '~/lib/utils';
+
 export interface SwiperImageItem {
   id: string;
   url: string | undefined;
@@ -19,7 +21,12 @@ const ImageItem = (data: SwiperImageItem) => {
     );
   }
 
-  return <Image className="h-96 w-screen rounded-lg object-cover " source={{ uri: data.url }} />;
+  return (
+    <Image
+      className="h-96 w-screen rounded-lg object-cover "
+      source={{ uri: withNoCache(data.url || '') }}
+    />
+  );
 };
 
 const SwiperImages: FunctionComponent<SwiperImagesProps> = ({ images }) => {

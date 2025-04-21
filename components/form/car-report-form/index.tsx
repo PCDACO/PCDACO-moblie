@@ -2,11 +2,11 @@ import { Feather } from '@expo/vector-icons';
 import React, { FunctionComponent } from 'react';
 import { Controller } from 'react-hook-form';
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+
 import FieldLayout from '~/components/layouts/field-layout';
 import { Input } from '~/components/layouts/input-with-icon';
 import CardBasic from '~/components/plugins/card-basic';
 import ImagePickerButton from '~/components/plugins/image-picker';
-
 import { CarReportTypeNumber } from '~/constants/enums';
 import { useCarReportForm } from '~/hooks/car-report/use-car-report-form';
 import { convertAssertToFile } from '~/lib/convert';

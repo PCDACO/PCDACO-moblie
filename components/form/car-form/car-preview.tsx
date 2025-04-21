@@ -15,7 +15,7 @@ import { TransmissionResponseList } from '~/constants/models/transmission.model'
 import { useAmenities } from '~/hooks/amentity/use-amentity';
 import { useCarForm } from '~/hooks/car/use-car-form';
 import { useFuelQuery } from '~/hooks/fuel/use-fuel';
-import { useModelQuery } from '~/hooks/models/use-model';
+import { useModelDetailQuery, useModelQuery } from '~/hooks/models/use-model';
 import { useTransmissionQuery } from '~/hooks/transmission/use-transmission';
 import { formatNumber } from '~/lib/utils';
 import { COLORS } from '~/theme/colors';
@@ -37,22 +37,6 @@ export const AmenityItem = ({ amenity }: AmenityItemProps) => {
   );
 };
 
-// interface PaperImageItemProps {
-//   nameFile: string;
-//   paperImages: string;
-// }
-
-// const PaperImageItem = ({ nameFile, paperImages }: PaperImageItemProps) => {
-//   return (
-//     <View className="flex-row items-center gap-2 rounded-lg border border-gray-200 p-2">
-//       <FontAwesome name="file-pdf-o" size={24} color={COLORS.light.primary} />
-//       <Text numberOfLines={1} ellipsizeMode="tail" className="flex-1 text-foreground">
-//         {nameFile}
-//       </Text>
-//     </View>
-//   );
-// };
-
 const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
   const [carImages, setCarImages] = React.useState<string[]>([]);
   const [paperImages, setPaperImages] = React.useState<string[]>([]);
@@ -61,7 +45,6 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
   const [viewWidthPaper, setViewWidthPaper] = React.useState<number>(0);
   const [activePaper, setActivePaper] = React.useState<number>(0);
   const [amenitiesId, setAmenitiesId] = React.useState<string[]>([]);
-  const [model, setModel] = React.useState<ModelsResponse>();
   const [transmission, setTransmission] = React.useState<TransmissionResponseList>();
   const [fuel, setFuel] = React.useState<FuelResponseList>();
 
@@ -77,6 +60,10 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
 
   const { data: modelData } = useModelQuery({
     params: { index: 1, size: 100 },
+  });
+
+  const { data: modelDetailData } = useModelDetailQuery({
+    id: form.getValues('modelId'),
   });
 
   const { data: transmissionData } = useTransmissionQuery({
@@ -108,7 +95,6 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
     const carImages: { uri: string; name: string; type: string }[] = watch('carImages');
     const paperImages: { uri: string; name: string; type: string }[] = watch('paperImages');
     const amentities: string[] = watch('amenityIds');
-    const modelId: string = watch('modelId');
 
     const fuelTypeId: string = watch('fuelTypeId');
     const transmissionTypeId: string = watch('transmissionTypeId');
@@ -119,11 +105,6 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
 
     if (amentities.length > 0) {
       setAmenitiesId(amentities);
-    }
-
-    if (modelId) {
-      const model = modelData?.value.items.find((item) => item.id === modelId);
-      setModel(model);
     }
 
     if (fuelTypeId) {
@@ -190,7 +171,7 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
         <View className="rounded-lg border border-input p-4">
           <View className="flex-row items-center justify-between">
             <Text className="text-gray-500">Mẫu xe</Text>
-            <Text className="text-foreground">{model?.name || ''}</Text>
+            <Text className="text-foreground">{modelDetailData?.value.name || ''}</Text>
           </View>
 
           <View className="flex-row items-center justify-between">
