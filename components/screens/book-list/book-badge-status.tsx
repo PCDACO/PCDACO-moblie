@@ -69,7 +69,7 @@ const BookBadgeStatus: FunctionComponent<BookBadgeStatusProps> = ({
       textClass = 'text-white';
       break;
     default:
-      badgeText = status;
+      badgeText = 'Không xác định';
       bgClass = 'bg-gray-500';
       textClass = 'text-white';
   }

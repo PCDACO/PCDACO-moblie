@@ -23,6 +23,7 @@ export const translate = {
       enable: 'Kích hoạt xe thành công!',
       disable: 'Tắt xe thành công!',
       delete: 'Xóa xe thành công!',
+      success_sign: 'Ký hợp đồng thành công!',
 
       error_create: 'Đăng ký xe thất bại!',
       error_update: 'Cập nhật xe thất bại!',
@@ -32,6 +33,7 @@ export const translate = {
       error_enable: 'Kích hoạt xe thất bại!',
       error_disable: 'Tắt xe thất bại!',
       error_delete: 'Xóa xe thất bại!',
+      error_sign: 'Ký hợp đồng thất bại!',
     },
   },
 

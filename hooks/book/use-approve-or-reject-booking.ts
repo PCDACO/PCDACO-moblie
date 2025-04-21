@@ -41,7 +41,7 @@ export const useApproveOrRejectBooking = ({ id }: UseApproveOrRejectBooking) => 
           );
           setTimeout(() => {
             router.back();
-          }, 3000);
+          }, 1000);
         },
         onError: (error: any) => {
           ToastAndroid.show(error.response.data.message || 'Xác nhận lỗi', ToastAndroid.SHORT);

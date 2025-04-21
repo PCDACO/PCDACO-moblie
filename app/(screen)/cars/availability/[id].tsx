@@ -47,7 +47,7 @@ const CarAvailabilityScreen = () => {
         <Button onPress={onSubmit} disabled={isLoadingForm}>
           {isLoadingForm ? (
             <>
-              <Loading />
+              <Loading size="small" />
               <Text>Đang lưu thay đổi</Text>
             </>
           ) : (

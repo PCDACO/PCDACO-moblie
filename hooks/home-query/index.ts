@@ -1,5 +1,6 @@
 import { useQueries } from '@tanstack/react-query';
 
+import { BookingStatusNumber, CarStatusNumber } from '~/constants/enums';
 import { QueryKey } from '~/lib/query-key';
 import { BookService } from '~/services/book.service';
 import { CarService } from '~/services/car.service';
@@ -14,15 +15,23 @@ export const useHomeQueries = () => {
     queries: [
       {
         queryKey: [QueryKey.Car.List],
-        queryFn: () => CarService.get.list({}),
+        queryFn: () =>
+          CarService.get.list({
+            status: CarStatusNumber.Available,
+          }),
       },
       {
         queryKey: [QueryKey.Booking.get.List],
-        queryFn: () => BookService.get.list({ index: 1, size: 10 }),
+        queryFn: () =>
+          BookService.get.list({ index: 1, size: 10, status: [BookingStatusNumber.Pending] }),
       },
       {
         queryKey: [QueryKey.Schedule.List, { month: currentMonth, year: currentYear }],
-        queryFn: () => scheduleService.get.list({ month: currentMonth, year: currentYear }),
+        queryFn: () =>
+          scheduleService.get.list({
+            month: currentMonth,
+            year: currentYear,
+          }),
       },
     ],
   });

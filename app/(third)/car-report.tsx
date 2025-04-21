@@ -95,7 +95,7 @@ const CarReportScreen = () => {
             ListEmptyComponent={
               <View className="h-96 flex-1 items-center justify-center gap-2">
                 <Feather name="file-text" size={40} color={COLORS.gray} />
-                <Text className="text-lg font-bold text-muted">No car reports found</Text>
+                <Text className="text-lg font-bold text-muted">Không có báo cáo xe nào</Text>
               </View>
             }
             ItemSeparatorComponent={() => <View className="h-2" />}

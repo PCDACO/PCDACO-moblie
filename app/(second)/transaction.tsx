@@ -1,8 +1,10 @@
+import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import { View, FlatList, ActivityIndicator, Text } from 'react-native';
 
 import CardTransaction from '~/components/card/transaction/card-transaction';
 import { useInfiniteTransactions } from '~/hooks/transaction/use-transaction';
+import { COLORS } from '~/theme/colors';
 
 interface GroupedTransactions {
   date: string;
@@ -124,6 +126,12 @@ const Transaction = () => {
         }}
         contentContainerStyle={{ padding: 16 }}
         ItemSeparatorComponent={() => <View className="h-4" />}
+        ListEmptyComponent={
+          <View className="flex-1 items-center justify-center">
+            <Feather name="file-text" size={40} color={COLORS.light.grey4} />
+            <Text className="text-lg font-bold text-muted">Không có giao dịch nào</Text>
+          </View>
+        }
       />
     </View>
   );

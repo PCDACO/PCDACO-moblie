@@ -4,7 +4,10 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import ScheduleBadge from '../../schedule/schedule-bagde';
 
+import { ScheduleStatus } from '~/constants/enums';
 import { InspectionScheduleReponse } from '~/constants/models/schedule.model';
+import { cn } from '~/lib/cn';
+import { translate } from '~/lib/translate';
 import { COLORS } from '~/theme/colors';
 
 interface ScheduleCardProps {
@@ -14,9 +17,54 @@ interface ScheduleCardProps {
 export const ScheduleCard = ({ schedule }: ScheduleCardProps) => {
   const router = useRouter();
 
+  const getStatusClasses = (status: string) => {
+    switch (status) {
+      case ScheduleStatus.Pending:
+        return {
+          translate: translate.schedule.status.Pending,
+          borderColor: 'border-r-4 border-r-yellow-400',
+        };
+      case ScheduleStatus.Approved:
+        return {
+          translate: translate.schedule.status.Approved,
+          borderColor: 'border-r-4 border-r-green-400',
+        };
+      case ScheduleStatus.Rejected:
+        return {
+          translate: translate.schedule.status.Rejected,
+          borderColor: 'border-r-4 border-r-red-400',
+        };
+      case ScheduleStatus.InProgress:
+        return {
+          translate: translate.schedule.status.InProgress,
+          borderColor: 'border-r-4 border-r-blue-400',
+        };
+      case ScheduleStatus.Expired:
+        return {
+          translate: translate.schedule.status.Expired,
+          borderColor: 'border-r-4 border-r-red-400',
+        };
+      case ScheduleStatus.Signed:
+        return {
+          translate: translate.schedule.status.Signed,
+          borderColor: 'border-r-4 border-r-green-400',
+        };
+      default:
+        return {
+          translate: translate.schedule.status.Pending,
+          borderColor: 'border-r-4 border-r-yellow-400',
+        };
+    }
+  };
+
+  const classes = getStatusClasses(schedule.statusName);
+
   return (
     <TouchableOpacity
-      className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300"
+      className={cn(
+        'mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300',
+        classes.borderColor
+      )}
       onPress={() =>
         router.push({
           pathname: '/(screen)/(schedule)/schedule/[id]',

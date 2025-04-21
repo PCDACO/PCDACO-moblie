@@ -11,7 +11,7 @@ interface SearchInputProps {
   className?: string;
 }
 
-export const SearchInput = ({ placeholder = 'Search...', className = '' }: SearchInputProps) => {
+export const SearchInput = ({ placeholder = 'Tìm kiếm...', className = '' }: SearchInputProps) => {
   const [searchKey, setSearchKey] = React.useState('');
   const { setSearchKeyword } = useSearchStore();
   const searchDebounce = useDebounce(searchKey, 500);
