@@ -9,6 +9,7 @@ import { CarCard } from './cards/car-card';
 import { ReportCard } from './cards/report-card';
 import { ScheduleCard } from './cards/schedule-card';
 
+import Skeleton from '~/components/nativewindui/Skeleton';
 import { UserResponse } from '~/constants/models/user.model';
 import { useHomeQueries } from '~/hooks/home-query';
 import { useReportQuery } from '~/hooks/report/use-report';
@@ -17,6 +18,135 @@ import { COLORS } from '~/theme/colors';
 interface HomeScreenProps {
   user: UserResponse;
 }
+
+const HomeScreenSkeleton = () => {
+  return (
+    <ScrollView className="flex-1 bg-gray-50 p-4 dark:bg-slate-800">
+      {/* Balance Card Skeleton */}
+      <View className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
+        <View className="flex-row items-center justify-between">
+          <View className="flex-1">
+            <Skeleton width={120} height={24} />
+            <Skeleton width={160} height={32} className="mt-2" />
+          </View>
+          <Skeleton width={48} height={48} borderRadius={24} />
+        </View>
+        <View className="mt-4 flex-row justify-between">
+          <View className="items-center">
+            <Skeleton width={80} height={16} />
+            <Skeleton width={48} height={24} className="mt-1" />
+          </View>
+          <View className="items-center">
+            <Skeleton width={80} height={16} />
+            <Skeleton width={48} height={24} className="mt-1" />
+          </View>
+          <View className="items-center">
+            <Skeleton width={80} height={16} />
+            <Skeleton width={48} height={24} className="mt-1" />
+          </View>
+        </View>
+      </View>
+
+      {/* Bookings Section Skeleton */}
+      <View className="mb-6">
+        <View className="mb-4 flex-row items-center justify-between">
+          <Skeleton width={160} height={24} />
+          <Skeleton width={96} height={24} />
+        </View>
+        {[1, 2, 3].map((i) => (
+          <View key={i} className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
+            <View className="flex-row items-center justify-between">
+              <View className="flex-1">
+                <Skeleton width={128} height={24} />
+                <Skeleton width={192} height={16} className="mt-2" />
+              </View>
+              <Skeleton width={80} height={24} />
+            </View>
+            <View className="mt-2 flex-row items-center">
+              <Skeleton width={16} height={16} borderRadius={8} />
+              <Skeleton width={128} height={16} className="ml-1" />
+            </View>
+          </View>
+        ))}
+      </View>
+
+      {/* Cars Section Skeleton */}
+      <View className="mb-6">
+        <View className="mb-4 flex-row items-center justify-between">
+          <Skeleton width={128} height={24} />
+          <Skeleton width={96} height={24} />
+        </View>
+        {[1, 2, 3].map((i) => (
+          <View key={i} className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
+            <View className="flex-row">
+              <Skeleton width={80} height={80} className="mr-4 rounded-lg" />
+              <View className="flex-1">
+                <Skeleton width={128} height={24} />
+                <Skeleton width={192} height={16} className="mt-2" />
+                <View className="mt-2 flex-row items-center">
+                  <Skeleton width={16} height={16} borderRadius={8} />
+                  <Skeleton width={128} height={16} className="ml-1" />
+                </View>
+                <View className="mt-1 flex-row items-center">
+                  <Skeleton width={16} height={16} borderRadius={8} />
+                  <Skeleton width={96} height={16} className="ml-1" />
+                </View>
+              </View>
+            </View>
+          </View>
+        ))}
+      </View>
+
+      {/* Schedules Section Skeleton */}
+      <View className="mb-6">
+        <View className="mb-4 flex-row items-center justify-between">
+          <Skeleton width={160} height={24} />
+          <Skeleton width={96} height={24} />
+        </View>
+        {[1, 2, 3].map((i) => (
+          <View key={i} className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
+            <View className="flex-row items-center justify-between">
+              <View className="flex-1">
+                <Skeleton width={128} height={24} />
+                <Skeleton width={192} height={16} className="mt-2" />
+              </View>
+              <Skeleton width={80} height={24} />
+            </View>
+            <View className="mt-2 flex-row items-center">
+              <Skeleton width={16} height={16} borderRadius={8} />
+              <Skeleton width={128} height={16} className="ml-1" />
+            </View>
+          </View>
+        ))}
+      </View>
+
+      {/* Reports Section Skeleton */}
+      <View className="mb-6">
+        <View className="mb-4 flex-row items-center justify-between">
+          <Skeleton width={160} height={24} />
+          <Skeleton width={96} height={24} />
+        </View>
+        {[1, 2, 3].map((i) => (
+          <View key={i} className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
+            <View className="flex-row items-center justify-between">
+              <View className="flex-1">
+                <Skeleton width={128} height={24} />
+                <Skeleton width={192} height={16} className="mt-2" />
+              </View>
+              <Skeleton width={80} height={24} />
+            </View>
+            <Skeleton width="100%" height={16} className="mt-2" />
+            <Skeleton width="75%" height={16} className="mt-2" />
+            <View className="mt-2 flex-row items-center">
+              <Skeleton width={16} height={16} borderRadius={8} />
+              <Skeleton width={96} height={16} className="ml-1" />
+            </View>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
+  );
+};
 
 export const HomeScreen = ({ user }: HomeScreenProps) => {
   const router = useRouter();
@@ -39,11 +169,7 @@ export const HomeScreen = ({ user }: HomeScreenProps) => {
   };
 
   if (isLoading) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <Text className="text-gray-500 dark:text-gray-400">Đang tải dữ liệu...</Text>
-      </View>
-    );
+    return <HomeScreenSkeleton />;
   }
 
   return (

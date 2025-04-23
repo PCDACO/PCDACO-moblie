@@ -13,11 +13,7 @@ Mapbox.setAccessToken(accessToken ?? '');
 
 const MapViewScreen: FunctionComponent = () => {
   const { id } = useLocalSearchParams();
-  const [location, setLocation] = React.useState<CarLocationResponse>({
-    latitude: 10.762622,
-    longitude: 106.660172,
-    updatedAt: new Date(),
-  });
+  const [location, setLocation] = React.useState<CarLocationResponse>();
 
   useGetLocationCar(id as string, (value) => {
     setLocation(value);
@@ -28,18 +24,22 @@ const MapViewScreen: FunctionComponent = () => {
   return (
     <View style={styles.container}>
       <MapView ref={mapRef} style={styles.map}>
-        <Camera
-          zoomLevel={12}
-          centerCoordinate={[location.longitude, location.latitude]}
-          animationMode="none"
-          animationDuration={0}
-        />
-        <PointAnnotation
-          id="currentLocation"
-          coordinate={[location.longitude, location.latitude]}
-          title="Vị trí hiện tại">
-          <Ionicons name="location-sharp" size={24} color="blue" />
-        </PointAnnotation>
+        {location && (
+          <Camera
+            zoomLevel={12}
+            centerCoordinate={[location.longitude, location.latitude]}
+            animationMode="none"
+            animationDuration={0}
+          />
+        )}
+        {location && (
+          <PointAnnotation
+            id="currentLocation"
+            coordinate={[location.longitude, location.latitude]}
+            title="Vị trí hiện tại">
+            <Ionicons name="location-sharp" size={24} color="blue" />
+          </PointAnnotation>
+        )}
       </MapView>
     </View>
   );

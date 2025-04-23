@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import { BookingStatusEnum } from '~/constants/enums';
 import { BookResponseList } from '~/constants/models/book.model';
+import Skeleton from '~/components/nativewindui/Skeleton';
 import { translate } from '~/lib/translate';
 import { COLORS } from '~/theme/colors';
 
@@ -11,8 +12,34 @@ interface BookingCardProps {
   booking: BookResponseList;
 }
 
+const BookingCardSkeleton = () => {
+  return (
+    <View className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
+      <View className="flex-row items-center justify-between">
+        <View className="flex-1">
+          <Skeleton width={128} height={24} />
+          <Skeleton width={192} height={16} className="mt-2" />
+        </View>
+        <Skeleton width={80} height={24} />
+      </View>
+      <View className="mt-2 flex-row items-center">
+        <Skeleton width={16} height={16} borderRadius={8} />
+        <Skeleton width={128} height={16} className="ml-1" />
+      </View>
+      <View className="mt-2 flex-row items-center">
+        <Skeleton width={16} height={16} borderRadius={8} />
+        <Skeleton width={96} height={16} className="ml-1" />
+      </View>
+    </View>
+  );
+};
+
 export const BookingCard = ({ booking }: BookingCardProps) => {
   const router = useRouter();
+
+  if (!booking) {
+    return <BookingCardSkeleton />;
+  }
 
   const getStatusColor = (status: BookingStatusEnum) => {
     switch (status) {
@@ -46,7 +73,7 @@ export const BookingCard = ({ booking }: BookingCardProps) => {
       className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300"
       onPress={() =>
         router.push({
-          pathname: '/booking/[id]',
+          pathname: '/booking/page',
           params: { id: booking.id },
         })
       }>
