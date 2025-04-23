@@ -12,9 +12,7 @@ export const useGetLocationCar = (
     const connection = signalR.getConnection();
 
     const handleReceive = (value: CarLocationResponse) => {
-      if (value) {
-        onReceive(value);
-      }
+      onReceive(value);
     };
 
     connection.on('ReceiveCarLocation', handleReceive);
