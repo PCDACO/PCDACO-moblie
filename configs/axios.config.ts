@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { router } from 'expo-router';
 
 import { storage } from '~/lib/storage';
 import { generateGuid } from '~/lib/utils';
@@ -111,6 +112,7 @@ axiosInstance.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError, null);
         await removeTokens();
+        router.navigate('/login');
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;

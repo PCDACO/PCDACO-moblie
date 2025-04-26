@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { View, Text, Pressable } from 'react-native';
 
 import Skeleton from '~/components/nativewindui/Skeleton';
+import CardBasic from '~/components/plugins/card-basic';
 import { UserResponse } from '~/constants/models/user.model';
 import { COLORS } from '~/theme/colors';
 
@@ -12,7 +13,7 @@ interface BalanceCardProps {
 
 const BalanceCardSkeleton = () => {
   return (
-    <View className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
+    <View className="border-b-2 border-l-4 border-b-blue-400 border-l-blue-400">
       <View className="flex-row items-center justify-between">
         <View className="flex-1">
           <Skeleton width={120} height={24} />
@@ -44,7 +45,7 @@ export const BalanceCard = ({ user }: BalanceCardProps) => {
   }
 
   return (
-    <View className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
+    <CardBasic className="mb-4 border-b-2 border-l-4 border-b-blue-400 border-l-blue-400">
       <View className="flex-row items-center justify-between">
         <View className="flex-1">
           <Text className="text-base font-bold text-gray-900 dark:text-gray-100">
@@ -80,6 +81,6 @@ export const BalanceCard = ({ user }: BalanceCardProps) => {
           </Text>
         </View>
       </View>
-    </View>
+    </CardBasic>
   );
 };

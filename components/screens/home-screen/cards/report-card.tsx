@@ -4,8 +4,8 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import ReportBadgeStatus from '../../report-list/report-badge-status';
 
-import { ReportListResponse } from '~/constants/models/report.model';
 import Skeleton from '~/components/nativewindui/Skeleton';
+import { ReportListResponse } from '~/constants/models/report.model';
 import { COLORS } from '~/theme/colors';
 
 interface ReportCardProps {

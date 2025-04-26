@@ -2,8 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 
-import { CarResponseList } from '~/constants/models/car.model';
 import Skeleton from '~/components/nativewindui/Skeleton';
+import { CarResponseList } from '~/constants/models/car.model';
 import { COLORS } from '~/theme/colors';
 
 interface CarCardProps {

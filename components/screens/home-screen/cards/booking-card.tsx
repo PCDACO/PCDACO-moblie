@@ -2,9 +2,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { View, Text, TouchableOpacity } from 'react-native';
 
+import Skeleton from '~/components/nativewindui/Skeleton';
 import { BookingStatusEnum } from '~/constants/enums';
 import { BookResponseList } from '~/constants/models/book.model';
-import Skeleton from '~/components/nativewindui/Skeleton';
 import { translate } from '~/lib/translate';
 import { COLORS } from '~/theme/colors';
 

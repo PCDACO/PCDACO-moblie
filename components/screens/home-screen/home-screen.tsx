@@ -152,7 +152,7 @@ export const HomeScreen = ({ user }: HomeScreenProps) => {
   const router = useRouter();
   const [isRefetching, setIsRefetching] = React.useState(false);
   const { cars, bookings, schedules, isLoading, refetch } = useHomeQueries();
-  const { data: reports } = useReportQuery({ params: { index: 0, size: 3 } });
+  const { data: reports } = useReportQuery({ params: { index: 1, size: 3 } });
 
   const recentBookings = bookings.slice(0, 3);
   const recentCars = cars.slice(0, 3);

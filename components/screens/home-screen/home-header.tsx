@@ -32,11 +32,13 @@ const HomeHeader: FunctionComponent<HomeHeaderProps> = ({ user }) => {
     return <HomeHeaderSkeleton />;
   }
 
+  console.log('user', user);
+
   return (
     <View className="flex-row items-center justify-between rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-slate-300">
       <View className="flex-row items-center gap-2">
         <Avatar alt={user.name}>
-          <AvatarImage source={{ uri: withNoCache(user.avatarUrl) }} />
+          <AvatarImage source={{ uri: user.avatarUrl }} />
           <AvatarFallback>
             <Text>{user.name.charAt(0)}</Text>
           </AvatarFallback>

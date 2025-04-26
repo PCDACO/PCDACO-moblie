@@ -4,9 +4,9 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import ScheduleBadge from '../../schedule/schedule-bagde';
 
+import Skeleton from '~/components/nativewindui/Skeleton';
 import { ScheduleStatus } from '~/constants/enums';
 import { InspectionScheduleReponse } from '~/constants/models/schedule.model';
-import Skeleton from '~/components/nativewindui/Skeleton';
 import { cn } from '~/lib/cn';
 import { translate } from '~/lib/translate';
 import { COLORS } from '~/theme/colors';
