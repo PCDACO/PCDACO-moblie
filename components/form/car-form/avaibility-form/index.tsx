@@ -30,6 +30,7 @@ export const CarAvailabilityForm = ({ form }: CarAvailabilityFormProps) => {
               onDatesSelected={(dates) => {
                 field.onChange(dates.map((date) => date.toISOString()));
               }}
+              minDate={new Date()}
             />
             {form.formState.errors.dates && (
               <Text className="text-sm text-primary">{form.formState.errors.dates.message}</Text>

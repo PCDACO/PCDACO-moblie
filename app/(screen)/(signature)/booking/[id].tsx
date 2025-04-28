@@ -8,12 +8,15 @@ import { useApproveOrRejectBooking } from '~/hooks/book/use-approve-or-reject-bo
 const BookingSignatureScreen: FunctionComponent = () => {
   const { id } = useLocalSearchParams();
   const [signature, setSignature] = React.useState<string>();
-  const { handleApproveOrRejectBooking } = useApproveOrRejectBooking({ id: id as string });
+  const { handleApproveOrRejectBooking, isLoading } = useApproveOrRejectBooking({
+    id: id as string,
+  });
 
   return (
     <View className="flex-1 p-4">
       <InputSignature
         title="Chữ ký của bạn"
+        isLoading={isLoading}
         onChange={(signature) => {
           setSignature(signature);
         }}

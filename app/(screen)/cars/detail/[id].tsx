@@ -60,6 +60,8 @@ const CarDetailScreen = () => {
   const contact = contactQuery.data;
   // const isLoadingContact = contactQuery.isLoading;
 
+  const isGPS = !car?.value.location;
+
   const sheetRef = React.useRef<BottomSheet>(null);
   const snapPoints = React.useMemo(() => ['1%', '20%'], []);
 
@@ -241,7 +243,11 @@ const CarDetailScreen = () => {
             <View className="flex-row items-center justify-center gap-2">
               {car?.value.location && (
                 <Pressable
-                  className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2"
+                  className={cn(
+                    'flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2',
+                    isGPS && 'bg-gray-200'
+                  )}
+                  disabled={isGPS}
                   onPress={() => {
                     router.push({
                       pathname: '/(screen)/map/view',
@@ -256,7 +262,11 @@ const CarDetailScreen = () => {
               )}
 
               <Pressable
-                className="flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2"
+                className={cn(
+                  'flex-1 flex-row items-center justify-center gap-2 rounded-lg border border-gray-400 p-2',
+                  isGPS && 'bg-gray-200'
+                )}
+                disabled={isGPS}
                 onPress={() => {
                   router.push({
                     pathname: '/cars/report/[id]',

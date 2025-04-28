@@ -2,12 +2,14 @@ import { Feather } from '@expo/vector-icons'; // Assuming you're using Expo, oth
 import React, { FunctionComponent, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import SignatureScreen, { SignatureViewRef } from 'react-native-signature-canvas';
+import Loading from './loading';
 
 interface InputSignatureProps {
   title?: string;
   onSubmit?: () => void;
   onChange?: (signature: string) => void;
   onClear?: () => void;
+  isLoading?: boolean;
 }
 
 const InputSignature: FunctionComponent<InputSignatureProps> = ({
@@ -15,6 +17,7 @@ const InputSignature: FunctionComponent<InputSignatureProps> = ({
   onSubmit,
   onChange,
   onClear,
+  isLoading,
 }) => {
   const ref = React.useRef<SignatureViewRef>(null);
   const [isSigned, setIsSigned] = useState(false);
@@ -156,8 +159,14 @@ const InputSignature: FunctionComponent<InputSignatureProps> = ({
           style={[styles.button, styles.saveButton, !isSigned && styles.disabledButton]}
           onPress={handleSubmit}
           disabled={!isSigned}>
-          <Feather name="check" size={18} color="white" />
-          <Text style={styles.saveButtonText}>Xác nhận</Text>
+          {isLoading ? (
+            <Loading size="small" />
+          ) : (
+            <>
+              <Feather name="check" size={18} color="white" />
+              <Text style={styles.saveButtonText}>Xác nhận</Text>
+            </>
+          )}
         </TouchableOpacity>
       </View>
 

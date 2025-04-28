@@ -12,12 +12,14 @@ interface MultiDatePickerProps {
   initialDates?: Date[];
   themeColor?: string;
   onDatesSelected?: (dates: Date[]) => void;
+  minDate?: Date;
 }
 
 const MultiDatePicker: React.FC<MultiDatePickerProps> = ({
   initialDates = [],
   themeColor = '#3498db',
   onDatesSelected,
+  minDate,
 }) => {
   const [markedDates, setMarkedDates] = useState<{ [key: string]: any }>({});
 
@@ -71,7 +73,12 @@ const MultiDatePicker: React.FC<MultiDatePickerProps> = ({
 
   return (
     <View className="rounded-lg border border-muted bg-white p-1 dark:bg-slate-800">
-      <Calendar markingType="dot" markedDates={markedDates} onDayPress={onDayPress} />
+      <Calendar
+        markingType="dot"
+        markedDates={markedDates}
+        onDayPress={onDayPress}
+        minDate={minDate?.toISOString().split('T')[0]}
+      />
     </View>
   );
 };

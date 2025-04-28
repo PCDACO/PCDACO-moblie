@@ -24,7 +24,7 @@ const ReportScreen: FunctionComponent = () => {
 
   const reportTypes = [
     { value: CarReportTypeNumber.ChangeGPS, label: 'Thay đổi GPS' },
-    { value: CarReportTypeNumber.DeactivateCar, label: 'Tạm ngưng sử dụng' },
+    { value: CarReportTypeNumber.DeactivateCar, label: 'Ngưng sử dụng' },
     { value: CarReportTypeNumber.Other, label: 'Khác' },
   ];
 

@@ -85,7 +85,7 @@ const CarImage: FunctionComponent<CarImageProps> = ({ form, carImages }) => {
             renderItem={({ item }) => (
               <View className="relative h-60">
                 <Image
-                  source={{ uri: withNoCache(item) }}
+                  source={{ uri: item }}
                   style={{ width: viewWidth }}
                   className="h-60 rounded-lg object-cover"
                 />

@@ -52,5 +52,6 @@ export const useApproveOrRejectBooking = ({ id }: UseApproveOrRejectBooking) => 
 
   return {
     handleApproveOrRejectBooking,
+    isLoading: approveOrRejectBooking.isPending,
   };
 };

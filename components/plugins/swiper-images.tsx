@@ -22,10 +22,7 @@ const ImageItem = (data: SwiperImageItem) => {
   }
 
   return (
-    <Image
-      className="h-96 w-screen rounded-lg object-cover "
-      source={{ uri: withNoCache(data.url || '') }}
-    />
+    <Image className="h-96 w-screen rounded-lg object-cover " source={{ uri: data.url || '' }} />
   );
 };
 

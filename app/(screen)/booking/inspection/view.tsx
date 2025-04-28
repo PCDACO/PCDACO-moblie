@@ -45,7 +45,7 @@ const ViewInspectionScreen: FunctionComponent = () => {
               cleanliness: [],
               scratches: [],
               tollFees: [],
-              vehicleInspectionCertificate: [],
+              fuelGaugeFinal: [],
             }
           }
         />
