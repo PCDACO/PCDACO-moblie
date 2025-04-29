@@ -138,7 +138,7 @@ const EditCarScreen: React.FC = () => {
 
       <View
         className={cn(
-          'absolute bottom-4 left-0 right-0 flex w-full flex-row items-center justify-between bg-white px-2 py-4 dark:bg-gray-900'
+          'absolute bottom-3 left-0 right-0 flex w-full flex-row items-center justify-between bg-white px-2 py-4 dark:bg-gray-900'
         )}>
         {step > 1 ? (
           <TouchableOpacity

@@ -9,6 +9,8 @@ import CardBasic from '~/components/plugins/card-basic';
 import { InspectionScheduleDetailResponse } from '~/constants/models/schedule.model';
 import { DateFormat, formatDateToString } from '~/lib/format';
 import { COLORS } from '~/theme/colors';
+import { translate } from '~/lib/translate';
+import ScheduleBadge from '../schedule/schedule-bagde';
 
 interface ScheduleInfoProps {
   address?: InspectionScheduleDetailResponse['address'];
@@ -16,6 +18,8 @@ interface ScheduleInfoProps {
   note?: InspectionScheduleDetailResponse['notes'];
   technician?: InspectionScheduleDetailResponse['technician'];
   createdAt?: InspectionScheduleDetailResponse['createdAt'];
+  status?: InspectionScheduleDetailResponse['status'];
+  type?: InspectionScheduleDetailResponse['type'];
 }
 
 const ScheduleInfo: FunctionComponent<ScheduleInfoProps> = ({
@@ -24,6 +28,8 @@ const ScheduleInfo: FunctionComponent<ScheduleInfoProps> = ({
   note,
   technician,
   createdAt,
+  status,
+  type,
 }) => {
   const formatDate = (dateString?: string | Date) => {
     if (!dateString) return '';
@@ -34,10 +40,15 @@ const ScheduleInfo: FunctionComponent<ScheduleInfoProps> = ({
   const formattedCreatedAt = formatDate(createdAt);
   const formattedDate = formatDate(date);
 
+  const translateStatus = translate.schedule.type[type as keyof typeof translate.schedule.type];
+
   return (
     <CardBasic className="gap-4">
       <View>
-        <Subtitle title="Thông tin lịch hẹn" />
+        <View className="flex-row items-center justify-between">
+          <Subtitle title={`Lịch hẹn ${translateStatus.toLowerCase()} `} />
+          <ScheduleBadge statusName={status || 'Chưa có thông tin'} />
+        </View>
         <Description
           title={
             formattedCreatedAt

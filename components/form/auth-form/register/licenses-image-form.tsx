@@ -54,7 +54,6 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
 
   const parseDateString = (dateStr: string) => {
     const [day, month, year] = dateStr.split('/');
-    console.log(day, month, year);
     // eslint-disable-next-line radix
     return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
   };
@@ -113,7 +112,7 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
         <FieldLayout label="Ảnh mặt trước">
           {licenseFront ? (
             renderLicense({
-              image: withNoCache(licenseFront),
+              image: licenseFront,
               isEdit,
               onClear: () => {
                 setLicenseFront(undefined);

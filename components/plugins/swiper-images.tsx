@@ -1,8 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FlatList, View, Image, Text } from 'react-native';
 
-import { withNoCache } from '~/lib/utils';
-
 export interface SwiperImageItem {
   id: string;
   url: string | undefined;

@@ -141,3 +141,23 @@ export enum CarReportStatusNumber {
   Resolved = 2,
   Rejected = 3,
 }
+
+export enum SchedulePhotoType {
+  ExteriorCar = 'ExteriorCar',
+  FuelGauge = 'FuelGauge',
+  ParkingLocation = 'ParkingLocation',
+  CarKey = 'CarKey',
+  TrunkSpace = 'TrunkSpace',
+  FuelGaugeFinal = 'FuelGaugeFinal',
+  Scratches = 'Scratches',
+  Cleanliness = 'Cleanliness',
+  TollFees = 'TollFees',
+  VehicleInspectionCertificate = 'VehicleInspectionCertificate',
+  Other = 'Other',
+}
+
+export enum ScheduleType {
+  NewCar = 'NewCar',
+  Incident = 'Incident',
+  ChangeGPS = 'ChangeGPS',
+}

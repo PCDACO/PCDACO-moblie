@@ -1,8 +1,7 @@
 import { z } from 'zod';
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;
-const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-// const ACCEPTED_PDF_TYPES = ['application/pdf'];
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 export const carSchema = z.object({
   carImages: z

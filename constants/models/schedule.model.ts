@@ -30,6 +30,11 @@ export interface InspectionScheduleDetailResponse {
   createdAt: Date;
   contractId: string;
   hasGPSDevice: boolean;
+  isTechnicianSigned: boolean;
+  isOwnerSigned: boolean;
+  type: string;
+  status: string;
+  photos: Photo[];
 }
 
 export interface Car {
@@ -52,6 +57,12 @@ export interface Owner {
   name: string;
   avatarUrl: string;
   phone: string;
+}
+
+export interface Photo {
+  id: string;
+  url: string;
+  type: string;
 }
 
 export interface Technician {

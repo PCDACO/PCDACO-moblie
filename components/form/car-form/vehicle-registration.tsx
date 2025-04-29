@@ -26,7 +26,6 @@ const VehicleRegistration: FunctionComponent<VehicleRegistrationProps> = ({ form
       setActive(0);
     }
   };
-  // const [documentSelected, setDocumentSelected] = React.useState<DocumentItemProps[]>([]);
 
   React.useEffect(() => {
     if (form.watch('paperImages')) {

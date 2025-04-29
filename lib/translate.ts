@@ -159,6 +159,26 @@ export const translate = {
       Expired: 'Đã hết hạn',
       Signed: 'Đã ký',
     },
+
+    photo: {
+      ExteriorCar: 'Ảnh ngoài xe',
+      FuelGauge: 'Ảnh đồng hồ nhiên liệu',
+      ParkingLocation: 'Ảnh vị trí đặt xe',
+      CarKey: 'Ảnh khóa xe',
+      TrunkSpace: 'Ảnh khoang hành lý',
+      FuelGaugeFinal: 'Ảnh đồng hồ nhiên liệu cuối',
+      Scratches: 'Ảnh vết xước',
+      Cleanliness: 'Ảnh sạch sẽ',
+      TollFees: 'Ảnh phí cầu đường',
+      VehicleInspectionCertificate: 'Ảnh giấy kiểm tra xe',
+      Other: 'Khác',
+    },
+
+    type: {
+      NewCar: 'Kiểm tra xe mới',
+      Incident: 'Kiểm tra xe sau tai nạn',
+      ChangeGPS: 'Kiểm tra thay đổi GPS',
+    },
   },
 
   user: {
