@@ -53,8 +53,6 @@ const ModalPicker: React.FC<ModalPickerProps> = ({
   const handleClose = React.useCallback(async () => {
     setIsVisible(false);
     onRequestClose?.();
-
-    console.log('request close', await onRequestClose);
   }, [onRequestClose, visible]);
 
   React.useEffect(() => {

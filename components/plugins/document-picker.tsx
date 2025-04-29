@@ -28,25 +28,8 @@ const DocumentPickerButton: React.FC<DocumentPickerButtonProps> = ({
       });
 
       if (result.canceled) {
-        console.log('User canceled document picker');
         return;
       }
-      // const files = await Promise.all(
-      //   result.assets.map(async (file) => {
-      //     // Đọc file dưới dạng base64 nếu cần
-      //     const base64 = await FileSystem.readAsStringAsync(file.uri, {
-      //       encoding: FileSystem.EncodingType.Base64,
-      //     });
-
-      //     return {
-      //       uri: file.uri,
-      //       name: file.name,
-      //       size: file.size ?? 0,
-      //       type: file.mimeType ?? 'application/pdf',
-      //       base64,
-      //     };
-      //   })
-      // );
 
       onChange && onChange(result.assets);
     } catch (error) {

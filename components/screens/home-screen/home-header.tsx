@@ -7,7 +7,6 @@ import Subtitle from '../car-editor/subtitle';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/nativewindui/Avatar';
 import Skeleton from '~/components/nativewindui/Skeleton';
 import { UserResponse } from '~/constants/models/user.model';
-import { withNoCache } from '~/lib/utils';
 
 interface HomeHeaderProps {
   user: UserResponse;
@@ -31,8 +30,6 @@ const HomeHeader: FunctionComponent<HomeHeaderProps> = ({ user }) => {
   if (!user) {
     return <HomeHeaderSkeleton />;
   }
-
-  console.log('user', user);
 
   return (
     <View className="flex-row items-center justify-between rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-slate-300">

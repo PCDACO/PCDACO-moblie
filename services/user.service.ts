@@ -23,8 +23,6 @@ export const UserService = {
   delete: {},
   patch: {
     avatar: async (id: string, avatar: File): Promise<RootResponse<any>> => {
-      console.log(' call avatar', avatar);
-
       const formData = new FormData();
       formData.append('avatar', avatar);
 

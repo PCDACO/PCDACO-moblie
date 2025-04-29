@@ -5,7 +5,6 @@ import Pdf from 'react-native-pdf';
 
 const PdfScreen = () => {
   const { url, name } = useLocalSearchParams();
-  console.log('url', url);
 
   const router = useRouter();
 

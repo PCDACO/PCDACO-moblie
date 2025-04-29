@@ -1,4 +1,3 @@
-import { Feather } from '@expo/vector-icons';
 import Icon from '@expo/vector-icons/Feather';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React from 'react';
@@ -11,51 +10,20 @@ import CardBasic from '~/components/plugins/card-basic';
 import { useLicenseForm } from '~/hooks/license/use-license-form';
 import { cn } from '~/lib/cn';
 import { DateFormat, formatDateToString } from '~/lib/format';
-import { useApiStore } from '~/store/check-endpoint';
 
 interface LicensesUserFormProps {
   form: ReturnType<typeof useLicenseForm>['form'];
-  licenseNumber?: string;
-  expirationDate?: Date;
   id?: string;
+  isEdit?: boolean;
 }
 
-const LicensesUserForm: React.FC<LicensesUserFormProps> = ({
-  form,
-  licenseNumber,
-  expirationDate,
-  id,
-}) => {
+const LicensesUserForm: React.FC<LicensesUserFormProps> = ({ form, id, isEdit = false }) => {
   const [showDatePicker, setShowDatePicker] = React.useState(false);
-  const { addEndpoint, removeEndpoint } = useApiStore();
-  const [isEdit, setIsEdit] = React.useState(false);
-
-  React.useEffect(() => {
-    if (licenseNumber) {
-      form.setValue('licenseNumber', licenseNumber);
-    }
-    if (expirationDate) {
-      form.setValue('expirationDate', new Date(expirationDate));
-    }
-  }, [licenseNumber, expirationDate]);
 
   return (
     <CardBasic className="gap-2">
       <View className="flex-row items-center gap-2">
         <Text className="text-2xl font-bold">Thông tin giấy phép lái xe</Text>
-        {id && (
-          <TouchableOpacity
-            onPress={() => {
-              setIsEdit(!isEdit);
-              if (!isEdit) {
-                addEndpoint('edit-info');
-              } else {
-                removeEndpoint('edit-info');
-              }
-            }}>
-            <Feather name="edit" size={16} color={isEdit ? 'blue' : 'gray'} />
-          </TouchableOpacity>
-        )}
       </View>
       <View className="gap-4">
         <FieldLayout label="Số seri giấy phép">
@@ -78,7 +46,9 @@ const LicensesUserForm: React.FC<LicensesUserFormProps> = ({
           ) : (
             <View className="flex-row items-center gap-2 rounded-lg border border-muted px-2 py-3">
               <Icon name="credit-card" size={20} color={isEdit ? 'black' : 'gray'} />
-              <Text className={cn(isEdit ? 'text-foreground' : 'text-muted')}>{licenseNumber}</Text>
+              <Text className={cn(isEdit ? 'text-foreground' : 'text-muted')}>
+                {form.getValues('licenseNumber')}
+              </Text>
             </View>
           )}
           {form.formState.errors.licenseNumber && (

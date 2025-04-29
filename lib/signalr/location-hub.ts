@@ -28,14 +28,12 @@ class SignalRService {
   public async startConnection(): Promise<void> {
     if (this.connection.state === SignalR.HubConnectionState.Disconnected) {
       await this.connection.start();
-      console.log('🔌 SignalR connection started');
     }
   }
 
   public async stopConnection(): Promise<void> {
     if (this.connection.state === SignalR.HubConnectionState.Connected) {
       await this.connection.stop();
-      console.log('🛑 SignalR connection stopped');
     }
   }
 }

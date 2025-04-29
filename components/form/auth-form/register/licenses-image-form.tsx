@@ -11,7 +11,6 @@ import { useAiMutation } from '~/hooks/ai/use-ai';
 import { useLicenseForm } from '~/hooks/license/use-license-form';
 import { convertAssertToFile } from '~/lib/convert';
 import { withNoCache } from '~/lib/utils';
-import { useApiStore } from '~/store/check-endpoint';
 
 interface RenderLicense {
   image: string;
@@ -35,19 +34,11 @@ const renderLicense: React.FC<RenderLicense> = ({ image, onClear, isEdit = false
 
 interface LicensesImageFormProps {
   form: ReturnType<typeof useLicenseForm>['form'];
-  licenseImageFront?: string;
-  licenseImageBack?: string;
   id?: string;
+  isEdit?: boolean;
 }
 
-const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
-  form,
-  licenseImageFront,
-  licenseImageBack,
-  id,
-}) => {
-  const [isEdit, setIsEdit] = React.useState(false);
-  const { addEndpoint, removeEndpoint } = useApiStore();
+const LicensesImageForm: React.FC<LicensesImageFormProps> = ({ form, id, isEdit = false }) => {
   const [licenseFront, setLicenseFront] = React.useState<string | undefined>();
   const [licenseBack, setLicenseBack] = React.useState<string | undefined>();
   const { mutate: aiMutation } = useAiMutation();
@@ -58,14 +49,15 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
     return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
   };
 
+  // Clear images when entering edit mode
   React.useEffect(() => {
-    if (licenseImageFront) {
-      setLicenseFront(licenseImageFront);
+    if (isEdit && id) {
+      setLicenseFront(undefined);
+      setLicenseBack(undefined);
+      form.setValue('licenseImageFront', undefined);
+      form.setValue('licenseImageBack', undefined);
     }
-    if (licenseImageBack) {
-      setLicenseBack(licenseImageBack);
-    }
-  }, [licenseImageFront, licenseImageBack]);
+  }, [isEdit, id, form]);
 
   const handleCaptureFront = React.useCallback(
     (value: any) => {
@@ -94,19 +86,6 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
     <CardBasic className="gap-2">
       <View className="flex-row items-center gap-2">
         <Text className="text-2xl font-bold">Hình ảnh giấy phép lái xe</Text>
-        {id && (
-          <TouchableOpacity
-            onPress={() => {
-              setIsEdit(!isEdit);
-              if (!isEdit) {
-                addEndpoint('edit-image');
-              } else {
-                removeEndpoint('edit-image');
-              }
-            }}>
-            <Feather name="edit" size={16} color={isEdit ? 'blue' : 'gray'} />
-          </TouchableOpacity>
-        )}
       </View>
       <View className="gap-2">
         <FieldLayout label="Ảnh mặt trước">
@@ -155,7 +134,6 @@ const LicensesImageForm: React.FC<LicensesImageFormProps> = ({
               className="h-32"
               onCapture={(value) => {
                 setLicenseBack(value.uri);
-
                 form.setValue('licenseImageBack', convertAssertToFile(value));
               }}
               contextInput={

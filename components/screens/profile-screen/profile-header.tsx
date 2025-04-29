@@ -9,7 +9,6 @@ import { Text as TextUI } from '~/components/nativewindui/Text';
 import { UserResponse } from '~/constants/models/user.model';
 import { useUserMutation } from '~/hooks/user/use-user';
 import { QueryKey } from '~/lib/query-key';
-import { withNoCache } from '~/lib/utils';
 
 interface ProfileHeaderProps {
   image?: string;
@@ -60,7 +59,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ image, name, role, user }
               alt="avatar"
               className="h-24 w-24 rounded-full border-4"
               accessibilityLabel="Profile">
-              <AvatarImage source={{ uri: withNoCache(avatar) }} />
+              <AvatarImage source={{ uri: avatar }} />
               <AvatarFallback>
                 <TextUI className="text-4xl">{name?.charAt(0).toLocaleUpperCase()}</TextUI>
               </AvatarFallback>

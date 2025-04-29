@@ -39,8 +39,6 @@ export const storage = {
 export const checkAsyncStorageAvailable = async () => {
   try {
     await AsyncStorage.setItem('@test_key', 'test_value');
-    const value = await AsyncStorage.getItem('@test_key');
-    console.log('AsyncStorage is available:', value);
     await AsyncStorage.removeItem('@test_key');
   } catch (error) {
     console.error('AsyncStorage is not available:', error);
