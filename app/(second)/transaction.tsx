@@ -127,7 +127,7 @@ const Transaction = () => {
         contentContainerStyle={{ padding: 16 }}
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListEmptyComponent={
-          <View className="flex-1 items-center justify-center">
+          <View className="h-96 flex-1 items-center justify-center">
             <Feather name="file-text" size={40} color={COLORS.light.grey4} />
             <Text className="text-lg font-bold text-muted">Không có giao dịch nào</Text>
           </View>
