@@ -2,8 +2,8 @@ import { useLocalSearchParams } from 'expo-router';
 import React, { FunctionComponent } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 
-import Loading from '~/components/plugins/loading';
 import ScheduleCarInfo from '~/components/screens/schedule-detail/schedule-car-info';
+import ScheduleDetailSkeleton from '~/components/screens/schedule-detail/schedule-detail-skeleton';
 import ScheduleInfo from '~/components/screens/schedule-detail/schedule-info';
 import SchedulePhoto from '~/components/screens/schedule-detail/schedule-photo';
 import { useScheduleDetailQuery } from '~/hooks/schedule/use-schedule';
@@ -24,7 +24,11 @@ const ScheduleDetailScreen: FunctionComponent = () => {
   };
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <ScrollView>
+        <ScheduleDetailSkeleton />
+      </ScrollView>
+    );
   }
 
   return (
