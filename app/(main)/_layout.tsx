@@ -36,9 +36,6 @@ const MainLayout: FunctionComponent = () => {
             headerShown: true,
             headerTitle: 'Lịch kiểm tra xe',
             headerTitleAlign: 'center',
-            headerStyle: {
-              height: 60,
-            },
             tabBarIcon: ({ color }) => (
               <FontAwesome5
                 name="calendar"

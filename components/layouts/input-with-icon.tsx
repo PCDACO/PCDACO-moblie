@@ -7,21 +7,20 @@ interface InputProps extends TextInputProps {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   className?: string;
-  classNameLayout?: string;
 }
 
 const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
-  ({ className, placeholderClassName, leftIcon, rightIcon, classNameLayout, ...props }, ref) => {
+  ({ className, placeholderClassName, leftIcon, rightIcon, ...props }, ref) => {
     return (
       <View
         className={cn(
-          ' w-full flex-row items-center justify-between gap-2 rounded-lg border border-muted p-2',
+          'w-full flex-row items-center justify-between gap-2 rounded-lg border border-muted p-2',
           className
         )}>
-        <View className="w-72 flex-row items-center gap-2">
+        <View className="flex-1 flex-row items-center gap-2 ">
           {leftIcon && <View>{leftIcon}</View>}
           <TextInput
-            className={cn('w-full placeholder:text-muted ', className)}
+            className={cn('w-full placeholder:text-muted', className)}
             {...props}
             ref={ref}
           />

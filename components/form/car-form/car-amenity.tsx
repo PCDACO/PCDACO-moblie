@@ -29,7 +29,9 @@ const AmenityItem = ({ amenity, selected, onPress }: AmenityItemProps) => {
         selected ? 'bg-primary/10 border-primary' : 'border-gray-200'
       }`}>
       <SvgUri width="24" height="24" uri={amenity.iconUrl} />
-      <Text className={selected ? 'text-primary' : 'text-gray-800'}>{amenity.name}</Text>
+      <Text numberOfLines={1} className={selected ? 'text-primary' : 'text-gray-800'}>
+        {amenity.name}
+      </Text>
     </Pressable>
   );
 };

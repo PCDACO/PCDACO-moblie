@@ -9,7 +9,6 @@ import { CarDetailResponse } from '~/constants/models/car.model';
 import { useCarForm } from '~/hooks/car/use-car-form';
 import { cn } from '~/lib/cn';
 import { convertAssertToFile } from '~/lib/convert';
-import { withNoCache } from '~/lib/utils';
 
 interface CarImageProps {
   form: ReturnType<typeof useCarForm>['form'];
@@ -134,23 +133,29 @@ const CarImage: FunctionComponent<CarImageProps> = ({ form, carImages }) => {
 
       <View className="gap-2">
         <Subtitle title="Mẹo chụp ảnh" />
-        <View className="flex-row items-center gap-2">
+        <View className="flex-row items-start gap-2">
           <Feather name="check-circle" size={20} color="green" />
-          <Description
-            className="text-sm"
-            title="Chụp ảnh xe từ các góc: trước, sau, hai bên và nội thất"
-          />
+          <View className="flex-wrap">
+            <Description
+              className="text-sm"
+              title="Chụp ảnh xe từ các góc: trước, sau, hai bên và nội thất"
+            />
+          </View>
         </View>
-        <View className="flex-row items-center gap-2">
+        <View className="flex-row items-start gap-2">
           <Feather name="check-circle" size={20} color="green" />
-          <Description
-            className="text-sm"
-            title="Chụp trong điều kiện ánh sáng tốt để hình ảnh rõ nét"
-          />
+          <View className="flex-wrap">
+            <Description
+              className="text-sm"
+              title="Chụp trong điều kiện ánh sáng tốt để hình ảnh rõ nét"
+            />
+          </View>
         </View>
-        <View className="flex-row items-center gap-2">
+        <View className="flex-row items-start gap-2">
           <Feather name="check-circle" size={20} color="green" />
-          <Description className="text-sm" title="Đảm bảo xe sạch sẽ trước khi chụp ảnh" />
+          <View className="flex-wrap">
+            <Description className="text-sm" title="Đảm bảo xe sạch sẽ trước khi chụp ảnh" />
+          </View>
         </View>
       </View>
 

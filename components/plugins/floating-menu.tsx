@@ -21,10 +21,11 @@ interface MenuButton {
 
 interface FloatingMenuProps {
   buttons: MenuButton[];
+  area?: 'top' | 'bottom' | 'left' | 'right';
   className?: string;
 }
 
-const FloatingMenu: React.FC<FloatingMenuProps> = ({ buttons, className }) => {
+const FloatingMenu: React.FC<FloatingMenuProps> = ({ buttons, className, area = 'bottom' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null); // Save the index of the pressed button
   const translateY = useSharedValue(100); // Initial hidden button
@@ -48,9 +49,17 @@ const FloatingMenu: React.FC<FloatingMenuProps> = ({ buttons, className }) => {
   }));
 
   return (
-    <View className={cn(className)}>
+    <View className={cn('w-full', className)}>
       {/* Button Menu (hidden/visible with animation, always on top of the menu button) */}
-      <Animated.View style={[animatedStyle]} className="absolute bottom-2 right-0 items-end">
+      <Animated.View
+        style={[animatedStyle]}
+        className={cn(
+          'absolute bottom-12 right-0 items-end',
+          area === 'top' && 'top-12',
+          area === 'bottom' && 'bottom-12',
+          area === 'left' && 'left-12',
+          area === 'right' && 'right-12'
+        )}>
         {buttons.map((button, index) => {
           const isPressed = activeIndex === index; // Check if the button is pressed
 
@@ -59,7 +68,7 @@ const FloatingMenu: React.FC<FloatingMenuProps> = ({ buttons, className }) => {
           return (
             <TouchableOpacity
               key={index}
-              className="mb-2 flex-row items-center gap-2 rounded-full p-3"
+              className="mb-2 flex-row items-center gap-2 rounded-full p-3 "
               disabled={button.disabled}
               style={{
                 backgroundColor: button.color || COLORS.gray,
@@ -77,11 +86,13 @@ const FloatingMenu: React.FC<FloatingMenuProps> = ({ buttons, className }) => {
       </Animated.View>
 
       {/* Menu button */}
-      <TouchableOpacity
-        className="items-center justify-center rounded-full border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-slate-300"
-        onPress={toggleMenu}>
-        <Ionicons name={isOpen ? 'close' : 'options-outline'} size={20} color={COLORS.black} />
-      </TouchableOpacity>
+      <View className="absolute bottom-0 right-0">
+        <TouchableOpacity
+          className="items-center justify-center rounded-full border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-slate-300"
+          onPress={toggleMenu}>
+          <Ionicons name={isOpen ? 'close' : 'options-outline'} size={20} color={COLORS.black} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

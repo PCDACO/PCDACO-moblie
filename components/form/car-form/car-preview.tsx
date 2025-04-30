@@ -10,7 +10,6 @@ import Description from '~/components/screens/car-editor/description';
 import Subtitle from '~/components/screens/car-editor/subtitle';
 import { AmenityResponseList } from '~/constants/models/amenity.model';
 import { FuelResponseList } from '~/constants/models/fuel.model';
-import { ModelsResponse } from '~/constants/models/model.model';
 import { TransmissionResponseList } from '~/constants/models/transmission.model';
 import { useAmenities } from '~/hooks/amentity/use-amentity';
 import { useCarForm } from '~/hooks/car/use-car-form';
@@ -273,11 +272,9 @@ const CarPreview: FunctionComponent<CarPreviewProps> = ({ form }) => {
         </View>
         <View>
           <Subtitle title="Sẵn sàng hoàn tất" />
-          <Description
-            title={`Nhấn nút "Hoàn tất" ở dưới để đăng ký
-xe của bạn.`}
-            numberOfLines={2}
-          />
+          <View className="flex-wrap">
+            <Description title={`Nhấn nút "Hoàn tất" ở dưới để đăng ký xe của bạn.`} />
+          </View>
         </View>
       </CardShadow>
     </View>
