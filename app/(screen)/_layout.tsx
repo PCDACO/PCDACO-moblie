@@ -227,7 +227,7 @@ const ScreenLayout: React.FC = () => {
           headerTitle: 'Chi tiết lịch đặt xe',
           headerTitleAlign: 'center',
           headerRight: () => (
-            <Pressable onPress={() => router.push('/(main)')}>
+            <Pressable onPress={() => router.push('/(main)/home')}>
               <Feather name="home" size={24} color="black" />
             </Pressable>
           ),

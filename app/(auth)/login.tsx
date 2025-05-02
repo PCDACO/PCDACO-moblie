@@ -1,3 +1,4 @@
+import { Feather } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import * as React from 'react';
 import { Text, View } from 'react-native';
@@ -6,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import LoginForm from '~/components/form/auth-form/login-form';
 import { Button } from '~/components/nativewindui/Button';
 import { Text as TextUI } from '~/components/nativewindui/Text';
+import Description from '~/components/screens/car-editor/description';
 import { useAuthForm } from '~/hooks/auth/use-auth-form';
 import { useStepStore } from '~/store/use-step';
 
@@ -16,11 +18,19 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView>
-      <View className="h-screen justify-between px-6 py-10">
+      <View className="relative h-screen justify-between px-6 py-10">
         {/* Header */}
-        <View className="w-60 flex-row items-center gap-2">
-          {/* <Logo width={20} height={20} /> */}
-          <Text className="text-3xl font-semibold text-foreground">Chào mừng đã quay trở lại!</Text>
+        <View className=" gap-2">
+          <Button size="icon" className="bg-background" variant="outline">
+            <Feather name="arrow-left" size={24} />
+          </Button>
+          <View className="mt-4 gap-1">
+            <Text className="text-3xl font-semibold text-foreground">Đăng nhập</Text>
+            <Description
+              className="text-md"
+              title="Truy cập tài khoản để đăng xe và kết nối với người thuê."
+            />
+          </View>
         </View>
 
         <View className="w-full gap-2">

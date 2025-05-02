@@ -24,7 +24,7 @@ type UseAuthFormProps = {
 export const useAuthForm = ({ type }: UseAuthFormProps) => {
   const { loginMutation, registerMutation, sendOtpMutation, verifyOtpMutation } = useAuth();
 
-  const { setTokens, removeTokens, setIsAuthenticated } = useAuthStore();
+  const { setTokens, removeTokens, setIsAuthenticated, setLogout } = useAuthStore();
 
   const { nextStep } = useStepStore();
 
@@ -136,7 +136,8 @@ export const useAuthForm = ({ type }: UseAuthFormProps) => {
                     ToastAndroid.show('Đăng nhập thành công', ToastAndroid.SHORT);
 
                     setIsAuthenticated(true);
-                    router.push('/(main)');
+                    setLogout(false);
+                    router.push('/(main)/home');
                     form.reset();
                   } else {
                     ToastAndroid.show('Đây không là tài khoản chủ xe', ToastAndroid.SHORT);
@@ -164,6 +165,7 @@ export const useAuthForm = ({ type }: UseAuthFormProps) => {
             ToastAndroid.show('Đăng ký thành công', ToastAndroid.SHORT);
             setTimeout(() => {
               nextStep();
+              setLogout(false);
             }, 1000);
           },
           onError: (error: any) => {

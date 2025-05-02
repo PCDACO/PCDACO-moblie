@@ -2,6 +2,7 @@ import { Feather } from '@expo/vector-icons'; // Assuming you're using Expo, oth
 import React, { FunctionComponent, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import SignatureScreen, { SignatureViewRef } from 'react-native-signature-canvas';
+
 import Loading from './loading';
 
 interface InputSignatureProps {

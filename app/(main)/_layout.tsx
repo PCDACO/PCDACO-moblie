@@ -21,7 +21,7 @@ const MainLayout: FunctionComponent = () => {
           },
         }}>
         <Tabs.Screen
-          name="index"
+          name="home"
           options={{
             tabBarIcon: ({ color }) => (
               <FontAwesome5 name="home" color={color} size={20} style={{ alignSelf: 'center' }} />

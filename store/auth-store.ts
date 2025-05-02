@@ -8,9 +8,11 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   isAuthenticated: boolean;
+  isLogout: boolean;
   setTokens: (accessToken: string, refreshToken: string) => Promise<void>;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   removeTokens: () => Promise<void>;
+  setLogout: (isLogout: boolean) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -19,6 +21,7 @@ export const useAuthStore = create<AuthState>()(
       accessToken: null,
       refreshToken: null,
       isAuthenticated: false,
+      isLogout: false,
 
       setTokens: async (accessToken, refreshToken) => {
         await storage.setItem('accessToken', accessToken);
@@ -34,6 +37,10 @@ export const useAuthStore = create<AuthState>()(
         await storage.removeItem('accessToken');
         await storage.removeItem('refreshToken');
         set({ accessToken: null, refreshToken: null, isAuthenticated: false });
+      },
+
+      setLogout: async (isLogout) => {
+        set({ isLogout });
       },
     }),
     {

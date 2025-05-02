@@ -79,7 +79,7 @@ const ResultRegister: React.FC<ResultRegisterProps> = ({ form }) => {
           variant="secondary"
           className="w-full"
           size="lg"
-          onPress={() => router.push('/(main)')}>
+          onPress={() => router.push('/(main)/home')}>
           <Feather name="home" size={18} color="black" />
           <Text>Về trang chủ</Text>
         </Button>

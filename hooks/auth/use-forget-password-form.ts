@@ -11,7 +11,7 @@ import { useStepStore } from '~/store/use-step';
 export const useForgetPasswordForm = () => {
   const { forgetPasswordMutation, verifyOtpMutation, sendOtpMutation } = useAuth();
   const { setTokens, removeTokens } = useAuthStore();
-  const { nextStep } = useStepStore();
+  const { nextStep, step: stepStore } = useStepStore();
 
   const form = useForm<ForgetPasswordPayload>({
     resolver: zodResolver(forgetPasswordSchema),
@@ -41,7 +41,9 @@ export const useForgetPasswordForm = () => {
               onSuccess: () => {
                 ToastAndroid.show('Gửi OTP thành công', ToastAndroid.SHORT);
                 setTimeout(() => {
-                  nextStep();
+                  if (stepStore === 1) {
+                    nextStep();
+                  }
                 }, 1000);
               },
               onError: (error: any) => {

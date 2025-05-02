@@ -4,13 +4,13 @@ import { View } from 'react-native';
 
 import Description from '../car-editor/description';
 import Subtitle from '../car-editor/subtitle';
+import ScheduleBadge from '../schedule/schedule-bagde';
 
 import CardBasic from '~/components/plugins/card-basic';
 import { InspectionScheduleDetailResponse } from '~/constants/models/schedule.model';
 import { DateFormat, formatDateToString } from '~/lib/format';
-import { COLORS } from '~/theme/colors';
 import { translate } from '~/lib/translate';
-import ScheduleBadge from '../schedule/schedule-bagde';
+import { COLORS } from '~/theme/colors';
 
 interface ScheduleInfoProps {
   address?: InspectionScheduleDetailResponse['address'];

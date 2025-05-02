@@ -1,12 +1,12 @@
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
-import { Link, Redirect, router } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
 import { Animated, Dimensions, StyleSheet, View } from 'react-native';
-import { Easing, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { Button } from '~/components/nativewindui/Button';
 import { Text } from '~/components/nativewindui/Text';
 import Subtitle from '~/components/screens/car-editor/subtitle';
+import { ANIMATION_CONFIGS } from '~/configs/animated.config';
 import { useBottomSheet } from '~/hooks/plugins/use-bottom-sheet';
 import { useAuthStore } from '~/store/auth-store';
 
@@ -24,20 +24,36 @@ export default function App() {
   const translateX = useRef(new Animated.Value(-CAR_WIDTH)).current;
   const textOpacity = useRef(new Animated.Value(0)).current;
   const fadeOutOpacity = useRef(new Animated.Value(1)).current;
-  const [animationFinished, setAnimationFinished] = React.useState(false);
+  const hasAnimated = useRef(false);
 
-  const animatedIndex = useSharedValue(0);
   const { isAuthenticated } = useAuthStore();
 
   const snapPoints = React.useMemo(() => ['1%', '45%'], []);
 
   const { sheetRef, handleSnapPress, handleSheetChange } = useBottomSheet({ snapPoints });
   const moveUp = useRef(new Animated.Value(0)).current;
+  const moveRight = useRef(new Animated.Value(0)).current;
+
+  // Reset animation values when auth state changes
+  useEffect(() => {
+    if (!isAuthenticated) {
+      translateX.setValue(-CAR_WIDTH);
+      textOpacity.setValue(0);
+      fadeOutOpacity.setValue(1);
+      moveUp.setValue(0);
+      moveRight.setValue(0);
+      hasAnimated.current = false;
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
+    if (hasAnimated.current) return;
+    hasAnimated.current = true;
+
     const centerX = (screenWidth - CAR_WIDTH) / 2;
 
     Animated.sequence([
+      // Driver move from left to right
       Animated.timing(translateX, {
         toValue: centerX,
         duration: 1200,
@@ -49,39 +65,46 @@ export default function App() {
         duration: 1200,
         useNativeDriver: true,
       }),
-      Animated.timing(textOpacity, {
-        toValue: 1,
-        duration: 600,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      setTimeout(() => {
-        if (isAuthenticated) {
-          Animated.timing(fadeOutOpacity, {
+
+      // header and text fade in
+      Animated.parallel([
+        Animated.timing(textOpacity, {
+          toValue: 1,
+          duration: 600,
+          useNativeDriver: true,
+        }),
+        Animated.timing(moveRight, {
+          toValue: 19,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]),
+      Animated.delay(1000),
+      isAuthenticated
+        ? Animated.timing(fadeOutOpacity, {
             toValue: 0,
             duration: 800,
             useNativeDriver: true,
-          }).start(() => {
-            setAnimationFinished(true);
-          });
+          })
+        : Animated.parallel([
+            Animated.timing(moveUp, {
+              toValue: -150,
+              duration: 800,
+              useNativeDriver: true,
+            }),
+          ]),
+    ]).start(({ finished }) => {
+      if (finished) {
+        if (isAuthenticated) {
+          router.replace('/(main)/home');
         } else {
-          handleSnapPress(1);
-          Animated.timing(moveUp, {
-            toValue: -150,
-            duration: 800,
-            useNativeDriver: true,
-          }).start(() => {
-            setAnimationFinished(true);
-          });
-          animatedIndex.value = withTiming(1, { duration: 5000, easing: Easing.out(Easing.exp) });
+          setTimeout(() => {
+            handleSnapPress(1);
+          }, 100);
         }
-      }, 1000);
+      }
     });
   }, [isAuthenticated]);
-
-  if (animationFinished && isAuthenticated) {
-    return <Redirect href="/(main)" />;
-  }
 
   return (
     <Animated.View style={[styles.container, { opacity: fadeOutOpacity }]}>
@@ -93,15 +116,21 @@ export default function App() {
       <Animated.Image
         source={header}
         resizeMode="contain"
-        style={[styles.header, { opacity: textOpacity, transform: [{ translateY: moveUp }] }]}
+        style={[
+          styles.header,
+          { opacity: textOpacity, transform: [{ translateY: moveUp }, { translateX: moveRight }] },
+        ]}
       />
       <Animated.Text
-        style={[styles.text, { opacity: textOpacity, transform: [{ translateY: moveUp }] }]}>
+        style={[
+          styles.text,
+          { opacity: textOpacity, transform: [{ translateY: moveUp }, { translateX: moveRight }] },
+        ]}>
         FREEDRIVER
       </Animated.Text>
       <BottomSheet
         ref={sheetRef}
-        animatedIndex={animatedIndex}
+        animationConfigs={ANIMATION_CONFIGS}
         snapPoints={snapPoints}
         enableDynamicSizing={false}
         onChange={handleSheetChange}
@@ -117,11 +146,17 @@ export default function App() {
               borderTopRightRadius: 30,
             }}>
             <View className="items-center">
-              <Subtitle className="text-3xl" title="Chào mừng đã quay trở lại" />
+              <Subtitle
+                style={{
+                  fontSize: 26,
+                }}
+                title="Chào mừng đã quay trở lại"
+              />
             </View>
             <View className=" gap-2">
               <Button
-                className="bg-foreground"
+                size="lg"
+                className="bg-foreground py-4"
                 onPress={() => {
                   router.push({
                     pathname: '/(auth)/login',
@@ -130,7 +165,8 @@ export default function App() {
                 <Text className="text-background">Đăng nhập</Text>
               </Button>
               <Button
-                className="bg-background"
+                size="lg"
+                className="bg-background py-4"
                 variant="secondary"
                 onPress={() => {
                   router.push({
@@ -178,10 +214,12 @@ const styles = StyleSheet.create({
     height: HEADER_HEIGHT,
     position: 'absolute',
     top: screenHeight / 2 - 260,
+    right: -90,
   },
   text: {
     position: 'absolute',
     top: screenHeight / 2 + 90,
+    left: 90,
     fontSize: 24,
     fontWeight: 'bold',
     letterSpacing: 5,

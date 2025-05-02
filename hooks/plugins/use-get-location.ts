@@ -21,7 +21,9 @@ export const useGetLocationCar = (
       try {
         await signalR.startConnection();
         await connection.invoke('GetCarLocation', carId);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     start();

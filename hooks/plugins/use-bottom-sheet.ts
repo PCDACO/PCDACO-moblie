@@ -22,15 +22,19 @@ export const useBottomSheet = ({
 
   const handleSnapPress = useCallback(
     (index: number) => {
-      sheetRef.current?.snapToIndex(index);
-      setIsSheetOpen(index === snapPoints.length - 1);
+      if (index >= 0 && index < snapPoints.length) {
+        sheetRef.current?.snapToIndex(index);
+        setIsSheetOpen(index === snapPoints.length - 1);
+      }
     },
     [snapPoints.length]
   );
 
   const handleSheetChange = useCallback(
     (index: number) => {
-      setIsSheetOpen(index === snapPoints.length - 1);
+      if (index >= 0 && index < snapPoints.length) {
+        setIsSheetOpen(index === snapPoints.length - 1);
+      }
     },
     [snapPoints.length]
   );
