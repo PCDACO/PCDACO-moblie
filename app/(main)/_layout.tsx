@@ -2,6 +2,9 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { FunctionComponent } from 'react';
+import { TouchableOpacity } from 'react-native';
+
+import { COLORS } from '~/theme/colors';
 
 const MainLayout: FunctionComponent = () => {
   return (
@@ -11,13 +14,23 @@ const MainLayout: FunctionComponent = () => {
       <Tabs
         screenOptions={{
           headerShown: false,
+          tabBarActiveTintColor: COLORS.light.primary,
           tabBarStyle: {
-            height: 60,
-            paddingTop: 5,
+            backgroundColor: '#fff',
+            elevation: 0,
+            paddingTop: 4,
+            paddingHorizontal: 12,
           },
-          tabBarIconStyle: {
-            justifyContent: 'center',
-            alignItems: 'center',
+          tabBarButton: (props) => {
+            // @ts-ignore toi qua met moi roi
+            const newProps: TouchableOpacityProps = {
+              ...props,
+              delayLongPress: props.delayLongPress ?? undefined,
+              activeOpacity: 1,
+              disabled: props.disabled ?? undefined,
+              onBlur: props.onBlur ?? undefined,
+            };
+            return <TouchableOpacity {...newProps} />;
           },
         }}>
         <Tabs.Screen

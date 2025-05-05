@@ -9,6 +9,8 @@ import { ReportService } from '~/services/report.service';
 import { scheduleService } from '~/services/schedule.service';
 import { UserService } from '~/services/user.service';
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const useHomeQueries = () => {
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
@@ -18,31 +20,47 @@ export const useHomeQueries = () => {
     queries: [
       {
         queryKey: [QueryKey.User.Current],
-        queryFn: () => UserService.get.current(),
+        queryFn: async () => {
+          await delay(2000);
+          return await UserService.get.current();
+        },
       },
       {
         queryKey: [QueryKey.Car.List],
-        queryFn: () =>
-          CarService.get.list({
+        queryFn: async () => {
+          await delay(2000);
+          return await CarService.get.list({
             status: CarStatusNumber.Available,
-          }),
+          });
+        },
       },
       {
         queryKey: [QueryKey.Booking.get.List],
-        queryFn: () =>
-          BookService.get.list({ index: 1, size: 10, status: [BookingStatusNumber.Pending] }),
+        queryFn: async () => {
+          await delay(2000);
+          return await BookService.get.list({
+            index: 1,
+            size: 10,
+            status: [BookingStatusNumber.Pending],
+          });
+        },
       },
       {
         queryKey: [QueryKey.Schedule.List, { month: currentMonth, year: currentYear }],
-        queryFn: () =>
-          scheduleService.get.list({
+        queryFn: async () => {
+          await delay(2000);
+          return await scheduleService.get.list({
             month: currentMonth,
             year: currentYear,
-          }),
+          });
+        },
       },
       {
         queryKey: [QueryKey.Report.List, { params: { index: 1, size: 3 } }],
-        queryFn: () => ReportService.get.list({ index: 1, size: 3 }),
+        queryFn: async () => {
+          await delay(2000);
+          return await ReportService.get.list({ index: 1, size: 3 });
+        },
       },
     ],
   });

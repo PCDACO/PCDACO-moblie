@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import ReportCard from '~/components/card/report/report-card';
 import Backdrop from '~/components/plugins/back-drop';
 import Loading from '~/components/plugins/loading';
+import LoadingAnimation from '~/components/plugins/loading-animation';
 import { SearchInput } from '~/components/plugins/search-input';
 import ReportParams from '~/components/screens/report-list/report-params';
 import { ReportParams as ReportParamsType } from '~/constants/models/report.model';
@@ -77,7 +78,7 @@ const BookReportsScreen = () => {
       <View className="flex-1">
         {isLoading && (
           <View className="flex-1 items-center justify-center">
-            <Loading />
+            <LoadingAnimation />
           </View>
         )}
 

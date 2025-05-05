@@ -101,7 +101,6 @@ const Transaction = () => {
     return (
       <View className="flex-1 items-center justify-center">
         <LoadingAnimation />
-        <Text className="mt-4 text-sm text-gray-500">Đang tải dữ liệu...</Text>
       </View>
     );
   }

@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { AgendaList, CalendarProvider, DateData, ExpandableCalendar } from 'react-native-calendars';
 import XDate from 'xdate';
+import LoadingAnimation from '~/components/plugins/loading-animation';
 
 import AgendaItem from '~/components/screens/schedule/mocks/agenda-item';
 import { getMarkedDates } from '~/components/screens/schedule/mocks/agenda-items';
@@ -160,7 +161,9 @@ const SchedulesScreen = () => {
         refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={handleRefresh} />}
         ListEmptyComponent={
           isLoading ? (
-            <ScheduleSkeleton />
+            <View className="flex-1 items-center justify-center">
+              <LoadingAnimation />
+            </View>
           ) : (
             <View style={styles.emptyContainer}>
               <Feather name="calendar" size={40} color="gray" />

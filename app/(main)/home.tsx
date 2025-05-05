@@ -1,18 +1,19 @@
 import React from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 
+import LoadingAnimation from '~/components/plugins/loading-animation';
 import { BalanceCard } from '~/components/screens/home-screen/cards/balance-card';
-import { BookingCardSkeleton } from '~/components/screens/home-screen/cards/booking-card';
+// import { BookingCardSkeleton } from '~/components/screens/home-screen/cards/booking-card';
 import HomeHeader from '~/components/screens/home-screen/home-header';
 import BookSection from '~/components/screens/home-screen/sections/book-section';
 import CarSection from '~/components/screens/home-screen/sections/car-section';
 import ReportSection from '~/components/screens/home-screen/sections/report-section';
 import ScheduleSection from '~/components/screens/home-screen/sections/schedule-section';
-import { BalanceCardSkeleton } from '~/components/screens/home-screen/skeleton/balance-skeleton';
-import { CarCardSkeleton } from '~/components/screens/home-screen/skeleton/car-skeleton';
-import { HeaderSkeleton } from '~/components/screens/home-screen/skeleton/header-skeleton';
-import { ReportCardSkeleton } from '~/components/screens/home-screen/skeleton/report-skeleton';
-import { ScheduleCardSkeleton } from '~/components/screens/home-screen/skeleton/schedule-skeleton';
+// import { BalanceCardSkeleton } from '~/components/screens/home-screen/skeleton/balance-skeleton';
+// import { CarCardSkeleton } from '~/components/screens/home-screen/skeleton/car-skeleton';
+// import { HeaderSkeleton } from '~/components/screens/home-screen/skeleton/header-skeleton';
+// import { ReportCardSkeleton } from '~/components/screens/home-screen/skeleton/report-skeleton';
+// import { ScheduleCardSkeleton } from '~/components/screens/home-screen/skeleton/schedule-skeleton';
 import { useHomeQueries } from '~/hooks/home-query';
 
 const HomeScreenWrapper = () => {
@@ -34,15 +35,8 @@ const HomeScreenWrapper = () => {
 
   if (isLoading) {
     return (
-      <View className="h-full flex-1">
-        <HeaderSkeleton />
-        <View className="h-full flex-1 gap-4 px-4 py-4">
-          <BalanceCardSkeleton />
-          <BookingCardSkeleton />
-          <CarCardSkeleton />
-          <ScheduleCardSkeleton />
-          <ReportCardSkeleton />
-        </View>
+      <View className="h-full flex-1 items-center justify-center">
+        <LoadingAnimation />
       </View>
     );
   }

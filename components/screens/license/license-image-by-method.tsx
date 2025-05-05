@@ -2,10 +2,9 @@ import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 
-import CardBasic from '../splash/card-basic';
-
 import { useLicenseForm } from '~/hooks/license/use-license-form';
 import { cn } from '~/lib/cn';
+import Show from '~/lib/show';
 import { useStepStore } from '~/store/use-step';
 import { COLORS } from '~/theme/colors';
 
@@ -16,6 +15,7 @@ interface LicenseImageByMethodProps {
   prevLicenseBack?: string;
   prevLicenseFront?: string;
   isApproveLicense?: boolean;
+  hasLicense: boolean;
 }
 
 const LicenseImageByMethod: React.FC<LicenseImageByMethodProps> = ({
@@ -23,6 +23,7 @@ const LicenseImageByMethod: React.FC<LicenseImageByMethodProps> = ({
   prevLicenseBack,
   prevLicenseFront,
   isApproveLicense,
+  hasLicense,
 }) => {
   const { setStep } = useStepStore();
   const [licenseFront, setLicenseFront] = React.useState<string>();
@@ -73,38 +74,61 @@ const LicenseImageByMethod: React.FC<LicenseImageByMethodProps> = ({
       <View
         className={cn(
           'flex-1 items-center justify-start gap-4 px-2 py-4',
-          (!!form.getValues('licenseImageBack') || prevLicenseBack) && 'mb-20'
+          !!form.getValues('licenseImageBack') || prevLicenseBack ? 'mb-20' : 'mb-10'
         )}>
-        <Text className="text-xl font-semibold">Xác nhận bằng lái xe</Text>
-        <CardBasic className="items-center justify-center">
+        {/* <Text className="text-xl font-semibold">Xác nhận bằng lái xe</Text> */}
+        <View className="items-center justify-center">
           {/* Avatar/Illustration */}
           <Image source={image} style={{ width: 124, height: 124 }} resizeMode="contain" />
           {/* Main instruction */}
           <Text className=" mb-4 text-center text-base font-medium text-gray-700">
             Tải lên bản sao bằng lái xe của bạn để hoàn tất quá trình xác thực.
           </Text>
-        </CardBasic>
-        {isApproveLicense ? (
-          <View className="w-full flex-row items-center justify-center gap-2 rounded-lg border border-green-400 bg-green-100 p-4">
-            <FontAwesome name="drivers-license" size={24} color={COLORS.light.grey3} />
-            <Text className="font-semibold text-gray-600">
-              Bằng lái xe của bạn đã được xét duyệt
-            </Text>
-          </View>
-        ) : (
-          <View className="w-full flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-200 p-4">
-            <FontAwesome name="drivers-license" size={24} color={COLORS.light.grey3} />
-            <Text className="font-semibold text-gray-600">
-              Bằng lái xe của bạn chưa được xét duyệt
-            </Text>
-          </View>
-        )}
+        </View>
+
+        <Show>
+          <Show.When isTrue={hasLicense}>
+            <Show.When isTrue={isApproveLicense === true}>
+              <View className="w-full flex-row items-center justify-center gap-2 rounded-lg border border-green-400 bg-green-100 p-4">
+                <FontAwesome name="drivers-license" size={24} color={COLORS.light.grey3} />
+                <Text className="font-semibold text-gray-600">
+                  Bằng lái xe của bạn đã được xét duyệt
+                </Text>
+              </View>
+            </Show.When>
+            <Show.When isTrue={isApproveLicense === false}>
+              <View className="w-full flex-row items-center justify-center gap-2 rounded-lg border border-red-400 bg-red-200 p-4">
+                <FontAwesome name="drivers-license" size={24} color={COLORS.light.grey3} />
+                <Text className="font-semibold text-gray-600">
+                  Bằng lái xe của bạn đã bị từ chối
+                </Text>
+              </View>
+            </Show.When>
+            <Show.When isTrue={isApproveLicense === undefined || isApproveLicense === null}>
+              <View className="w-full flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-200 p-4">
+                <FontAwesome name="drivers-license" size={24} color={COLORS.light.grey3} />
+                <Text className="font-semibold text-gray-600">
+                  Bằng lái xe của bạn chưa được xét duyệt
+                </Text>
+              </View>
+            </Show.When>
+          </Show.When>
+          <Show.When isTrue={!hasLicense}>
+            <View className="w-full flex-row items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-200 p-4">
+              <FontAwesome name="drivers-license" size={24} color={COLORS.light.grey3} />
+              <Text className="font-semibold text-gray-600">
+                Cung cấp bằng lái xe để được xét duyệt
+              </Text>
+            </View>
+          </Show.When>
+        </Show>
+
         {/* Upload card */}
         <View className="w-full gap-2">
           <TouchableOpacity
             className={cn(
               'w-full flex-row items-center rounded-xl  p-4',
-              hasDoneLicenseBackForm
+              hasDoneLicenseFrontForm
                 ? 'border border-green-400 bg-green-100'
                 : 'border border-gray-200 bg-white'
             )}

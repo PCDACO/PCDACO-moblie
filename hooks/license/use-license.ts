@@ -10,15 +10,17 @@ export const useLicensesListQuery = () => {
   const query = useQuery({
     queryKey: [QueryKey.License.List],
     queryFn: async () => {
-      await delay(2000); // Add 2 second delay
+      await delay(1000); // Add 2 second delay
       return await LiccenseService.get.license();
     },
     staleTime: 0,
-    retry: 1,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
   });
 
   return query;
 };
+
 export const useLicenseDetailQuery = () => {};
 export const useLicenseMutation = () => {
   const createLicenseMutation = useMutation({

@@ -11,7 +11,6 @@ import ChooseMethod from '~/components/screens/license/choose-method';
 import LicenseBack from '~/components/screens/license/license-back';
 import LicenseFront from '~/components/screens/license/license-front';
 import LicenseImageByMethod from '~/components/screens/license/license-image-by-method';
-import LicenseFormSkeleton from '~/components/screens/license/license-sekeleton';
 import { useLicensesListQuery } from '~/hooks/license/use-license';
 import { useLicenseForm } from '~/hooks/license/use-license-form';
 import { useStepStore } from '~/store/use-step';
@@ -24,6 +23,7 @@ const LicenseEdit = () => {
   const { step, prevStep, resetStep } = useStepStore();
 
   const licenseData = data && data.value;
+  const hasLicense = !!data;
 
   const {
     form,
@@ -46,7 +46,8 @@ const LicenseEdit = () => {
   useFocusEffect(
     React.useCallback(() => {
       resetStep();
-    }, [resetStep])
+      form.reset();
+    }, [resetStep, form])
   );
 
   const formValues = form.watch();
@@ -63,11 +64,10 @@ const LicenseEdit = () => {
   if (isLoadingList) {
     return (
       <SafeAreaView className="h-full flex-1 bg-slate-50 dark:bg-slate-800">
-        <Header title="Đang tải bằng lái..." />
+        <Header title="" />
         <View className="flex-1 items-center justify-center">
           <LoadingAnimation />
         </View>
-        {/* <LicenseFormSkeleton /> */}
       </SafeAreaView>
     );
   }
@@ -107,6 +107,7 @@ const LicenseEdit = () => {
                 prevLicenseBack={licenseData?.imageBackUrl}
                 prevLicenseFront={licenseData?.imageFrontUrl}
                 isApproveLicense={licenseData?.isApproved}
+                hasLicense={hasLicense}
               />
             )}
             {step === 3 && <LicenseFront form={form} />}

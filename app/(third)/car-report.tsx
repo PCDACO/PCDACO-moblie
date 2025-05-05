@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import CarReportCard from '~/components/card/car-report/car-report-card';
 import Backdrop from '~/components/plugins/back-drop';
 import Loading from '~/components/plugins/loading';
+import LoadingAnimation from '~/components/plugins/loading-animation';
 import { SearchInput } from '~/components/plugins/search-input';
 import CarReportParams from '~/components/screens/car-report-list/car-report-params';
 import { CarReportParams as CarReportParamsType } from '~/constants/models/car-report.model';
@@ -77,7 +78,7 @@ const CarReportScreen = () => {
       <View className="flex-1">
         {isLoading && (
           <View className="flex-1 items-center justify-center">
-            <Loading />
+            <LoadingAnimation />
           </View>
         )}
 

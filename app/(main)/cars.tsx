@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Backdrop from '~/components/plugins/back-drop';
 import FloatingMenu from '~/components/plugins/floating-menu';
+import LoadingAnimation from '~/components/plugins/loading-animation';
 import { SearchInput } from '~/components/plugins/search-input';
 import CarCard from '~/components/screens/car-list/car-card';
 import CarParams from '~/components/screens/car-list/car-params';
@@ -90,13 +91,9 @@ const CarsScreen = () => {
       </View>
       <View className="flex-1">
         {isLoading && (
-          <FlatList
-            data={[1, 2, 3, 4]}
-            keyExtractor={(item) => item.toString()}
-            renderItem={() => <CarCardSkeleton />}
-            contentContainerStyle={{ padding: 16 }}
-            ItemSeparatorComponent={() => <View className="h-2" />}
-          />
+          <View className="flex-1 items-center justify-center">
+            <LoadingAnimation />
+          </View>
         )}
 
         {!isLoading && (

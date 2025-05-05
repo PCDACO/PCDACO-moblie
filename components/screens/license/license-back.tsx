@@ -37,7 +37,11 @@ const LicenseBack: FunctionComponent<LicenseBackProps> = ({ form }) => {
   }, []);
 
   return (
-    <View>
+    <View
+      className="relative flex-1 gap-4 px-2 py-4"
+      style={{
+        height: 730,
+      }}>
       <View>
         {form.formState.errors.licenseImageBack && (
           <Text className="text-destructive">
