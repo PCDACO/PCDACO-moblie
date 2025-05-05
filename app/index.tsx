@@ -1,6 +1,6 @@
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { Link, router } from 'expo-router';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Dimensions, StyleSheet, View } from 'react-native';
 
 import { Button } from '~/components/nativewindui/Button';
@@ -9,6 +9,7 @@ import Subtitle from '~/components/screens/car-editor/subtitle';
 import { ANIMATION_CONFIGS } from '~/configs/animated.config';
 import { useBottomSheet } from '~/hooks/plugins/use-bottom-sheet';
 import { useAuthStore } from '~/store/auth-store';
+import { useStepStore } from '~/store/use-step';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const CAR_WIDTH = 400;
@@ -21,10 +22,12 @@ const driverCar = require('~/assets/image/drive-car.png');
 const header = require('~/assets/image/header.png');
 
 export default function App() {
+  const { resetStep } = useStepStore();
   const translateX = useRef(new Animated.Value(-CAR_WIDTH)).current;
   const textOpacity = useRef(new Animated.Value(0)).current;
   const fadeOutOpacity = useRef(new Animated.Value(1)).current;
   const hasAnimated = useRef(false);
+  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
 
   const { isAuthenticated } = useAuthStore();
 
@@ -43,6 +46,7 @@ export default function App() {
       moveUp.setValue(0);
       moveRight.setValue(0);
       hasAnimated.current = false;
+      setIsAnimationComplete(false);
     }
   }, [isAuthenticated]);
 
@@ -95,6 +99,7 @@ export default function App() {
           ]),
     ]).start(({ finished }) => {
       if (finished) {
+        setIsAnimationComplete(true);
         if (isAuthenticated) {
           router.replace('/(main)/home');
         } else {
@@ -105,6 +110,21 @@ export default function App() {
       }
     });
   }, [isAuthenticated]);
+
+  const handleLogin = () => {
+    if (!isAnimationComplete) return;
+    router.push({
+      pathname: '/(auth)/login',
+    });
+  };
+
+  const handleRegister = () => {
+    if (!isAnimationComplete) return;
+    resetStep();
+    router.push({
+      pathname: '/(auth)/register',
+    });
+  };
 
   return (
     <Animated.View style={[styles.container, { opacity: fadeOutOpacity }]}>
@@ -153,26 +173,20 @@ export default function App() {
                 title="Chào mừng đã quay trở lại"
               />
             </View>
-            <View className=" gap-2">
+            <View className="gap-2">
               <Button
                 size="lg"
                 className="bg-foreground py-4"
-                onPress={() => {
-                  router.push({
-                    pathname: '/(auth)/login',
-                  });
-                }}>
+                onPress={handleLogin}
+                disabled={!isAnimationComplete}>
                 <Text className="text-background">Đăng nhập</Text>
               </Button>
               <Button
                 size="lg"
                 className="bg-background py-4"
                 variant="secondary"
-                onPress={() => {
-                  router.push({
-                    pathname: '/(auth)/register',
-                  });
-                }}>
+                onPress={handleRegister}
+                disabled={!isAnimationComplete}>
                 <Text className="text-foreground">Đăng kí</Text>
               </Button>
             </View>

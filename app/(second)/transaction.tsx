@@ -3,6 +3,7 @@ import React from 'react';
 import { View, FlatList, ActivityIndicator, Text } from 'react-native';
 
 import CardTransaction from '~/components/card/transaction/card-transaction';
+import LoadingAnimation from '~/components/plugins/loading-animation';
 import { useInfiniteTransactions } from '~/hooks/transaction/use-transaction';
 import { COLORS } from '~/theme/colors';
 
@@ -99,7 +100,8 @@ const Transaction = () => {
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" />
+        <LoadingAnimation />
+        <Text className="mt-4 text-sm text-gray-500">Đang tải dữ liệu...</Text>
       </View>
     );
   }

@@ -14,7 +14,7 @@ interface BookingCardProps {
 
 const BookingCardSkeleton = () => {
   return (
-    <View className="mb-4 rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
+    <View className="rounded-lg bg-white p-4 shadow-sm dark:bg-slate-300">
       <View className="flex-row items-center justify-between">
         <View className="flex-1">
           <Skeleton width={128} height={24} />
@@ -33,6 +33,8 @@ const BookingCardSkeleton = () => {
     </View>
   );
 };
+
+export { BookingCardSkeleton };
 
 export const BookingCard = ({ booking }: BookingCardProps) => {
   const router = useRouter();

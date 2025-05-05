@@ -8,6 +8,7 @@ import BookCard from '~/components/card/book/book-card';
 import Backdrop from '~/components/plugins/back-drop';
 import Loading from '~/components/plugins/loading';
 import { SearchInput } from '~/components/plugins/search-input';
+import { BookListSkeleton } from '~/components/screens/book-list/book-list-skeleton';
 import BookListParams from '~/components/screens/book-list/book-params';
 import { BookParams, BookResponseList } from '~/constants/models/book.model';
 import { useBookingListQuery } from '~/hooks/book/use-book';

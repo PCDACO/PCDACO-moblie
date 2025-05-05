@@ -10,12 +10,14 @@ import CardBasic from '~/components/plugins/card-basic';
 import Subtitle from '~/components/screens/car-editor/subtitle';
 import NumberStepNext from '~/components/screens/register/number-step-next';
 import { useAuthForm } from '~/hooks/auth/use-auth-form';
+import { useStepStore } from '~/store/use-step';
 
 interface ResultRegisterProps {
   form: ReturnType<typeof useAuthForm>['form'];
 }
 
 const ResultRegister: React.FC<ResultRegisterProps> = ({ form }) => {
+  const { resetStep } = useStepStore();
   return (
     <CardBasic className="flex-1 justify-center gap-6 px-6">
       <View className="items-center justify-center gap-6">
@@ -71,7 +73,13 @@ const ResultRegister: React.FC<ResultRegisterProps> = ({ form }) => {
       </View>
 
       <View className="gap-1">
-        <Button className="w-full" onPress={() => router.push('/license/license-edit')} size="lg">
+        <Button
+          className="w-full"
+          onPress={() => {
+            router.push('/license/license-edit');
+            resetStep();
+          }}
+          size="lg">
           <Text className="text-white">Hoàn tất thông tin cá nhân</Text>
           <Feather name="chevron-right" size={18} color="white" />
         </Button>

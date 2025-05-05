@@ -1,5 +1,4 @@
 # Car Rental App - Owner Features - Screen Descriptions
-
 This document outlines the features available to car owners who register their vehicles on the car rental application. It details the purpose of each feature and the corresponding screen where it is accessed.
 
 | # | Feature | Screen | Description |

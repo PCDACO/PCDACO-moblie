@@ -9,7 +9,6 @@ import { useLicenseMutation } from './use-license';
 import { LicenseImagesPayload, LicensePayload } from '~/constants/models/license.model';
 import { LicensePayloadSchema, licenseSchema } from '~/constants/schemas/license.schema';
 import { QueryKey } from '~/lib/query-key';
-import { useApiStore } from '~/store/check-endpoint';
 
 interface LicenseFormProps {
   id?: string;
@@ -19,7 +18,6 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
   const queryClient = useQueryClient();
   const { createLicenseMutation, updateLicenseMutation, patchImagesMutation } =
     useLicenseMutation();
-  const { hasEndpoint, resetEndpoints, removeEndpoint } = useApiStore();
 
   const form = useForm<LicensePayloadSchema>({
     resolver: zodResolver(licenseSchema),
@@ -43,85 +41,37 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
     };
 
     if (id) {
-      if (hasEndpoint(['edit-info', 'edit-image'])) {
-        updateLicenseMutation.mutate(
-          { payload: infoPayload },
-          {
-            onSuccess: () => {
-              ToastAndroid.show('Cập nhật thành công giấy phép lái xe', ToastAndroid.SHORT);
-              patchImagesMutation.mutate(
-                { payload: imagePayload },
-                {
-                  onSuccess: () => {
-                    resetEndpoints();
-                    ToastAndroid.show(
-                      'Cập nhật thành công hình ảnh giấy phép lái xe',
-                      ToastAndroid.SHORT
-                    );
-                    queryClient.invalidateQueries({
-                      queryKey: [QueryKey.License.Detail],
-                    });
-                    setTimeout(() => {
-                      router.back();
-                    }, 3000);
-                  },
-                  onError: (error: any) => {
-                    removeEndpoint('edit-image');
-                    ToastAndroid.show(`${error.response.data.message}`, ToastAndroid.SHORT);
-                  },
-                }
-              );
-            },
-            onError: (error: any) => {
-              ToastAndroid.show(`${error.response.data.message}`, ToastAndroid.SHORT);
-            },
-          }
-        );
-      } else if (hasEndpoint(['edit-info'])) {
-        updateLicenseMutation.mutate(
-          { payload: infoPayload },
-          {
-            onSuccess: () => {
-              resetEndpoints();
-              ToastAndroid.show('Cập nhật thành công giấy phép lái xe', ToastAndroid.SHORT);
-              queryClient.invalidateQueries({
-                queryKey: [QueryKey.License.Detail],
-              });
-
-              setTimeout(() => {
-                router.back();
-              }, 3000);
-            },
-            onError: (error: any) => {
-              ToastAndroid.show(`${error.response.data.message}`, ToastAndroid.SHORT);
-            },
-          }
-        );
-      } else if (hasEndpoint(['edit-image'])) {
-        patchImagesMutation.mutate(
-          { payload: imagePayload },
-          {
-            onSuccess: () => {
-              resetEndpoints();
-              ToastAndroid.show(
-                'Cập nhật thành công hình ảnh giấy phép lái xe',
-                ToastAndroid.SHORT
-              );
-
-              queryClient.invalidateQueries({
-                queryKey: [QueryKey.License.Detail],
-              });
-
-              setTimeout(() => {
-                router.back();
-              }, 3000);
-            },
-            onError: (error: any) => {
-              ToastAndroid.show(`${error.response.data.message}`, ToastAndroid.SHORT);
-            },
-          }
-        );
-      }
+      updateLicenseMutation.mutate(
+        { payload: infoPayload },
+        {
+          onSuccess: () => {
+            ToastAndroid.show('Cập nhật thành công giấy phép lái xe', ToastAndroid.SHORT);
+            patchImagesMutation.mutate(
+              { payload: imagePayload },
+              {
+                onSuccess: () => {
+                  ToastAndroid.show(
+                    'Cập nhật thành công hình ảnh giấy phép lái xe',
+                    ToastAndroid.SHORT
+                  );
+                  queryClient.invalidateQueries({
+                    queryKey: [QueryKey.License.Detail],
+                  });
+                  setTimeout(() => {
+                    router.back();
+                  }, 3000);
+                },
+                onError: (error: any) => {
+                  ToastAndroid.show(`${error.response.data.message}`, ToastAndroid.SHORT);
+                },
+              }
+            );
+          },
+          onError: (error: any) => {
+            ToastAndroid.show(`${error.response.data.message}`, ToastAndroid.SHORT);
+          },
+        }
+      );
     } else {
       createLicenseMutation.mutate(infoPayload, {
         onSuccess: () => {
@@ -130,7 +80,6 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
             { payload: imagePayload },
             {
               onSuccess: () => {
-                resetEndpoints();
                 ToastAndroid.show('Tạo thành công hình ảnh giấy phép lái xe', ToastAndroid.SHORT);
                 queryClient.invalidateQueries({
                   queryKey: [QueryKey.License.Detail],
@@ -141,7 +90,6 @@ export const useLicenseForm = ({ id }: LicenseFormProps) => {
                 }, 3000);
               },
               onError: (error: any) => {
-                removeEndpoint('create-image');
                 ToastAndroid.show(`${error.response.data.message}`, ToastAndroid.SHORT);
               },
             }

@@ -4,6 +4,7 @@ import React from 'react';
 import { View } from 'react-native';
 
 import ProfileMenuItem from './profile-menu-item';
+import { useStepStore } from '~/store/use-step';
 
 interface ProfileMenuProps {
   id: string;
@@ -11,6 +12,7 @@ interface ProfileMenuProps {
 
 const ProfileMenu = ({ id }: ProfileMenuProps) => {
   const router = useRouter();
+  const { resetStep } = useStepStore();
 
   return (
     <View className="mx-4 mb-6 overflow-hidden rounded-xl bg-white shadow-sm">
@@ -28,11 +30,12 @@ const ProfileMenu = ({ id }: ProfileMenuProps) => {
       <ProfileMenuItem
         icon={<Ionicons size={20} name="document-text-outline" />}
         text="Chỉnh sửa bằng lái xe"
-        onPress={() =>
+        onPress={() => {
+          resetStep();
           router.push({
             pathname: '/(screen)/license/license-edit',
-          })
-        }
+          });
+        }}
       />
 
       <ProfileMenuItem

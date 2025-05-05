@@ -7,9 +7,10 @@ interface HeaderProps {
   title: string;
   showBack?: boolean;
   children?: React.ReactNode;
+  rightComponent?: React.ReactNode;
 }
 
-const Header = ({ title, showBack = true, children }: HeaderProps) => {
+const Header = ({ title, showBack = true, children, rightComponent }: HeaderProps) => {
   const router = useRouter();
   return (
     <View className="min-h-18 flex-row items-center justify-between bg-white p-4 dark:bg-slate-900  ">
@@ -22,6 +23,7 @@ const Header = ({ title, showBack = true, children }: HeaderProps) => {
         <Text className="text-lg font-bold">{title}</Text>
       </View>
       {children}
+      {rightComponent ?? rightComponent}
     </View>
   );
 };

@@ -133,7 +133,7 @@ const CarsScreen = () => {
             icon: 'add',
             label: 'Thêm xe',
             color: COLORS.light.primary,
-            disabled: licenseDetailData === undefined || licenseDetailData.value.isApproved,
+            disabled: licenseDetailData?.value === undefined || !licenseDetailData.value.isApproved,
             onPress: () => {
               resetStep();
               router.push({

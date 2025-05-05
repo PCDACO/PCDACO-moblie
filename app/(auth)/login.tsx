@@ -21,7 +21,11 @@ const LoginScreen = () => {
       <View className="relative h-screen justify-between px-6 py-10">
         {/* Header */}
         <View className=" gap-2">
-          <Button size="icon" className="bg-background" variant="outline">
+          <Button
+            size="icon"
+            className="bg-background"
+            variant="outline"
+            onPress={() => router.back()}>
             <Feather name="arrow-left" size={24} />
           </Button>
           <View className="mt-4 gap-1">

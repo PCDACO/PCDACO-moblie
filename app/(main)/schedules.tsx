@@ -27,13 +27,17 @@ LogBox.ignoreLogs([
 ]);
 
 const SchedulesScreen = () => {
-  const [month, setMonth] = React.useState<number>(4);
+  const [month, setMonth] = React.useState<number>();
   const [year, setYear] = React.useState<number>(2025);
   const [isRefetching, setIsRefetching] = React.useState<boolean>(false);
   const [selectedDate, setSelectedDate] = React.useState<string>(() => {
     const date = new Date();
-    date.setMonth(month - 1);
-    date.setFullYear(year);
+
+    if (month) {
+      date.setMonth(month - 1);
+      date.setFullYear(year);
+    }
+
     return date.toISOString().split('T')[0];
   });
 
